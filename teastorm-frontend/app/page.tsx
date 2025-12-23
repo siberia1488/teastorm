@@ -1,25 +1,34 @@
 import Link from "next/link";
 import { products } from "@/data/products";
+import Image from "next/image";
 
 export default function HomePage() {
-  const featured = products.slice(0, 3);
-
   return (
     <main>
       {/* HERO */}
       <section
         style={{
-          minHeight: "80vh",
+          minHeight: "85vh",
           display: "flex",
           alignItems: "center",
-          justifyContent: "center",
           padding: "80px 24px",
           background:
             "linear-gradient(180deg, #fafafa 0%, #f4f4f4 100%)",
         }}
       >
-        <div style={{ maxWidth: 1100, width: "100%" }}>
-          <div style={{ maxWidth: 700 }}>
+        <div
+          style={{
+            maxWidth: 1200,
+            margin: "0 auto",
+            width: "100%",
+            display: "grid",
+            gridTemplateColumns: "1.1fr 0.9fr",
+            gap: 60,
+            alignItems: "center",
+          }}
+        >
+          {/* TEXT */}
+          <div>
             <h1
               style={{
                 fontSize: 56,
@@ -39,6 +48,7 @@ export default function HomePage() {
                 color: "#555",
                 marginBottom: 36,
                 lineHeight: 1.6,
+                maxWidth: 520,
               }}
             >
               TeaStorm curates rare Chinese and Taiwanese teas —
@@ -58,6 +68,27 @@ export default function HomePage() {
                 </button>
               </Link>
             </div>
+          </div>
+
+          {/* IMAGE */}
+          <div
+            style={{
+              position: "relative",
+              width: "100%",
+              height: 460,
+              borderRadius: 24,
+              overflow: "hidden",
+              background: "#eaeaea",
+            }}
+          >
+            <Image
+              src="/images/hero-tea.jpg"
+              alt="Tea ritual"
+              fill
+              priority
+              sizes="(max-width: 768px) 100vw, 50vw"
+              style={{ objectFit: "cover" }}
+            />
           </div>
         </div>
       </section>
@@ -89,17 +120,24 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* FEATURED TEAS */}
-      <section style={{ padding: "80px 24px" }}>
+      {/* CHOOSE BY EFFECT */}
+      <section style={{ padding: "80px 24px", background: "#fafafa" }}>
         <div style={{ maxWidth: 1100, margin: "0 auto" }}>
-          <h2
+          <h2 style={{ fontSize: 36, marginBottom: 16 }}>
+            Choose by effect
+          </h2>
+
+          <p
             style={{
-              fontSize: 36,
-              marginBottom: 40,
+              maxWidth: 520,
+              color: "#555",
+              marginBottom: 48,
+              lineHeight: 1.6,
             }}
           >
-            Featured teas
-          </h2>
+            Each tea is curated for a specific state —
+            calm focus, gentle energy, or deep balance.
+          </p>
 
           <div
             style={{
@@ -108,52 +146,79 @@ export default function HomePage() {
               gap: 32,
             }}
           >
-            {featured.map((tea) => (
-              <Link
-                key={tea.id}
-                href={`/product/${tea.slug}`}
-                style={{
-                  border: "1px solid #eee",
-                  borderRadius: 16,
-                  padding: 24,
-                  background: "#fff",
-                  transition: "transform 0.2s ease, box-shadow 0.2s ease",
-                }}
-                className="card-hover"
-              >
-                <div
-                  style={{
-                    height: 200,
-                    background: "#f3f3f3",
-                    borderRadius: 12,
-                    marginBottom: 20,
-                  }}
-                />
+            {[
+              { effect: "Calming", label: "Calm", emoji: "🌙" },
+              { effect: "Focusing", label: "Focus", emoji: "🎯" },
+              { effect: "Energizing", label: "Energy", emoji: "⚡" },
+            ].map(({ effect, label, emoji }) => {
+              const tea = products.find(
+                (p) => p.effect === effect
+              );
+              if (!tea) return null;
 
-                <h3 style={{ marginBottom: 8 }}>
-                  {tea.title}
-                </h3>
-
-                <p
+              return (
+                <Link
+                  key={tea.id}
+                  href={`/product/${tea.slug}`}
+                  className="card-hover"
                   style={{
-                    fontSize: 14,
-                    color: "#555",
-                    marginBottom: 12,
+                    border: "1px solid #eee",
+                    borderRadius: 20,
+                    padding: 28,
+                    background: "#fff",
+                    display: "flex",
+                    flexDirection: "column",
+                    justifyContent: "space-between",
+                    minHeight: 260,
                   }}
                 >
-                  {tea.subtitle}
-                </p>
+                  <div>
+                    <div
+                      style={{
+                        fontSize: 28,
+                        marginBottom: 12,
+                      }}
+                    >
+                      {emoji} {label}
+                    </div>
 
-                <p
-                  style={{
-                    fontSize: 14,
-                    color: "#777",
-                  }}
-                >
-                  {tea.shortDescription}
-                </p>
-              </Link>
-            ))}
+                    <h3 style={{ marginBottom: 8 }}>
+                      {tea.title}
+                    </h3>
+
+                    <p
+                      style={{
+                        fontSize: 14,
+                        color: "#666",
+                        marginBottom: 12,
+                      }}
+                    >
+                      {tea.subtitle}
+                    </p>
+
+                    <p
+                      style={{
+                        fontSize: 14,
+                        color: "#777",
+                        lineHeight: 1.5,
+                      }}
+                    >
+                      {tea.shortDescription}
+                    </p>
+                  </div>
+
+                  <div
+                    style={{
+                      marginTop: 24,
+                      fontSize: 14,
+                      textDecoration: "underline",
+                    }}
+                  >
+                    Explore →
+                  </div>
+                </Link>
+              );
+            })}
           </div>
         </div>
       </section>
