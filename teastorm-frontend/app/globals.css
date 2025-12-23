@@ -282,3 +282,90 @@ button:disabled {
 .nav-link.active {
   color: #000;
 }
+
+/* =========================
+   Micro-animations — TeaStorm
+========================= */
+
+/* --- Global motion defaults --- */
+:root {
+  --ease-soft: cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+/* --- Links --- */
+a {
+  transition: opacity 0.15s ease, transform 0.15s ease;
+}
+
+a:active {
+  transform: translateY(1px);
+}
+
+/* --- Nav links (enhanced) --- */
+.nav-link {
+  transition: color 0.2s ease;
+}
+
+.nav-link::after {
+  transition: width 0.25s var(--ease-soft);
+}
+
+/* --- Buttons --- */
+button,
+.primary-btn,
+.secondary-btn {
+  transition:
+    transform 0.15s var(--ease-soft),
+    box-shadow 0.15s var(--ease-soft),
+    background-color 0.2s ease,
+    color 0.2s ease;
+}
+
+button:hover,
+.primary-btn:hover,
+.secondary-btn:hover {
+  transform: translateY(-1px);
+}
+
+button:active,
+.primary-btn:active,
+.secondary-btn:active {
+  transform: translateY(0) scale(0.98);
+}
+
+/* --- Cards (global) --- */
+.card,
+.product-card {
+  transition:
+    transform 0.2s var(--ease-soft),
+    box-shadow 0.2s var(--ease-soft),
+    border-color 0.2s ease;
+}
+
+.card:hover,
+.product-card:hover {
+  transform: translateY(-3px);
+}
+
+/* --- Page enter (subtle) --- */
+.page-enter {
+  animation: pageEnter 0.25s var(--ease-soft) both;
+}
+
+@keyframes pageEnter {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* --- Focus (accessibility polish) --- */
+:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 2px rgba(0, 0, 0, 0.15);
+  border-radius: 6px;
+}
