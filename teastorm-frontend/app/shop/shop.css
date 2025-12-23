@@ -1,61 +1,118 @@
 .shop {
-max-width: 1100px;
-margin: 0 auto;
-padding: 40px 16px;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 44px 24px;
 }
 
-.shop-title {
-font-size: 32px;
-margin-bottom: 32px;
+/* Header */
+.shop-header {
+  margin-bottom: 28px;
 }
 
+.shop-header h1 {
+  font-size: 38px;
+  margin-bottom: 6px;
+}
+
+.shop-header p {
+  color: #555;
+  max-width: 520px;
+}
+
+/* Filters */
+.filters {
+  display: flex;
+  gap: 14px;
+  margin-bottom: 32px;
+  flex-wrap: wrap;
+}
+
+.filters select {
+  padding: 9px 12px;
+  border-radius: 8px;
+  border: 1px solid #ddd;
+  background: #fff;
+  font-size: 14px;
+}
+
+/* Grid */
 .product-grid {
-list-style: none;
-padding: 0;
-display: grid;
-grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
-gap: 24px;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 22px;
 }
 
+/* Card */
 .product-card {
-border: 1px solid #e5e5e5;
-border-radius: 12px;
-padding: 20px;
-background: #fff;
+  display: block;
+  background: #fff;
+  border: 1px solid #e6e6e6;
+  border-radius: 16px;
+  padding: 16px;
+  text-decoration: none;
+  color: inherit;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
 }
 
-.product-content h2 {
-font-size: 20px;
-margin-bottom: 8px;
+.product-card:hover {
+  border-color: #ccc;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.06);
+}
+
+/* Image placeholder */
+.product-image {
+  height: 180px;
+  background: #f2f2f2;
+  border-radius: 12px;
+  margin-bottom: 14px;
+}
+
+/* Badge */
+.product-badge {
+  display: inline-block;
+  background: #000;
+  color: #fff;
+  font-size: 11px;
+  padding: 3px 9px;
+  border-radius: 999px;
+  margin-bottom: 8px;
+}
+
+/* Content */
+.product-content h3 {
+  font-size: 21px;
+  margin-bottom: 6px;
+}
+
+.subtitle {
+  font-size: 14px;
+  color: #666;
+  margin-bottom: 6px;
 }
 
 .description {
-font-size: 14px;
-color: #555;
-margin-bottom: 16px;
+  font-size: 14px;
+  color: #555;
+  margin-bottom: 12px;
 }
 
-.actions {
-display: flex;
-gap: 12px;
-align-items: center;
+/* Meta row */
+.meta {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 13px;
+  color: #777;
 }
 
-.actions button {
-padding: 8px 14px;
-border-radius: 6px;
-border: none;
-background: black;
-color: white;
-cursor: pointer;
+.meta strong {
+  font-size: 14px;
+  color: #000;
+  font-weight: 500;
 }
 
-.view-link {
-font-size: 14px;
-text-decoration: underline;
-}
-
-.shop-card:hover {
-  transform: translateY(-4px);
-  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.08);
+/* Empty */
+.empty {
+  margin-top: 40px;
+  color: #777;
 }

@@ -3,6 +3,7 @@
 import { useState } from "react";
 import Link from "next/link";
 import { products, getProductMinPrice } from "@/data/products";
+import "./shop.css";
 
 const categories = [
   { id: "all", label: "All teas" },
@@ -26,159 +27,78 @@ export default function ShopPage() {
   const [effect, setEffect] = useState("all");
 
   const filteredProducts = products.filter((p) => {
-    const categoryMatch =
-      category === "all" || p.category === category;
-    const effectMatch =
-      effect === "all" || p.effect === effect;
-
+    const categoryMatch = category === "all" || p.category === category;
+    const effectMatch = effect === "all" || p.effect === effect;
     return categoryMatch && effectMatch;
   });
 
   return (
-    <main style={{ padding: "40px 24px" }}>
-      <div style={{ maxWidth: 1200, margin: "0 auto" }}>
-        {/* HEADER */}
-        <div style={{ marginBottom: 32 }}>
-          <h1 style={{ fontSize: 36, marginBottom: 8 }}>
-            Tea Collection
-          </h1>
-          <p style={{ color: "#555" }}>
-            Premium loose leaf teas selected for balance, clarity and depth.
-          </p>
-        </div>
+    <main className="shop">
+      <header className="shop-header">
+        <h1>Tea Collection</h1>
+        <p>Loose-leaf teas with calm power and clear character.</p>
+      </header>
 
-        {/* FILTERS */}
-        <div
-          style={{
-            display: "flex",
-            gap: 16,
-            flexWrap: "wrap",
-            marginBottom: 32,
-          }}
-        >
-          <select
-            value={category}
-            onChange={(e) => setCategory(e.target.value)}
-            style={selectStyle}
-          >
-            {categories.map((c) => (
-              <option key={c.id} value={c.id}>
-                {c.label}
-              </option>
-            ))}
-          </select>
+      <section className="filters">
+        <select value={category} onChange={(e) => setCategory(e.target.value)}>
+          {categories.map((c) => (
+            <option key={c.id} value={c.id}>
+              {c.label}
+            </option>
+          ))}
+        </select>
 
-          <select
-            value={effect}
-            onChange={(e) => setEffect(e.target.value)}
-            style={selectStyle}
-          >
-            {effects.map((e) => (
-              <option key={e.id} value={e.id}>
-                {e.label}
-              </option>
-            ))}
-          </select>
-        </div>
+        <select value={effect} onChange={(e) => setEffect(e.target.value)}>
+          {effects.map((e) => (
+            <option key={e.id} value={e.id}>
+              {e.label}
+            </option>
+          ))}
+        </select>
+      </section>
 
-        {/* GRID */}
-        <div
-          style={{
-            display: "grid",
-            gridTemplateColumns: "repeat(auto-fill, minmax(260px, 1fr))",
-            gap: 24,
-          }}
-        >
-          {filteredProducts.map((product) => {
-            const minPrice = getProductMinPrice(product);
+      <section className="product-grid">
+        {filteredProducts.map((product) => {
+          const minPrice = getProductMinPrice(product);
 
-            return (
-              <Link
-                key={product.id}
-                href={`/product/${product.slug}`}
-                style={{ textDecoration: "none", color: "inherit" }}
-              >
-                <div style={cardStyle}>
-                  {/* IMAGE */}
-                  <div
-                    style={{
-                      height: 200,
-                      background: "#f3f3f3",
-                      borderRadius: 16,
-                      marginBottom: 16,
-                    }}
-                  />
+          return (
+            <Link
+              key={product.id}
+              href={`/product/${product.slug}`}
+              className="product-card"
+            >
+              <div className="product-image" />
 
-                  {/* BADGE */}
-                  {product.badge && (
-                    <div style={badgeStyle}>
-                      {product.badge}
-                    </div>
-                  )}
+              {product.badge && (
+                <span className="product-badge">{product.badge}</span>
+              )}
 
-                  {/* CONTENT */}
-                  <h3 style={{ fontSize: 20, marginBottom: 6 }}>
-                    {product.title}
-                  </h3>
+              <div className="product-content">
+                <h3>{product.title}</h3>
 
-                  {product.subtitle && (
-                    <div style={{ fontSize: 14, color: "#777", marginBottom: 8 }}>
-                      {product.subtitle}
-                    </div>
-                  )}
+                {product.subtitle && (
+                  <p className="subtitle">{product.subtitle}</p>
+                )}
 
-                  <div style={{ fontSize: 14, color: "#555", marginBottom: 12 }}>
-                    {product.shortDescription}
-                  </div>
+                <p className="description">
+                  {product.shortDescription}
+                </p>
 
-                  <div style={{ fontSize: 13, color: "#777", marginBottom: 12 }}>
+                <div className="meta">
+                  <span>
                     {product.origin.country} · {product.origin.region}
-                  </div>
-
-                  <div style={{ fontWeight: 500 }}>
-                    From ${minPrice.toFixed(2)}
-                  </div>
+                  </span>
+                  <strong>From ${minPrice.toFixed(2)}</strong>
                 </div>
-              </Link>
-            );
-          })}
-        </div>
+              </div>
+            </Link>
+          );
+        })}
+      </section>
 
-        {/* EMPTY */}
-        {filteredProducts.length === 0 && (
-          <p style={{ marginTop: 40, color: "#777" }}>
-            No teas found with selected filters.
-          </p>
-        )}
-      </div>
+      {filteredProducts.length === 0 && (
+        <p className="empty">No teas found with selected filters.</p>
+      )}
     </main>
   );
 }
-
-/* STYLES */
-
-const selectStyle: React.CSSProperties = {
-  padding: "10px 14px",
-  borderRadius: 10,
-  border: "1px solid #ddd",
-  fontSize: 14,
-  background: "#fff",
-};
-
-const cardStyle: React.CSSProperties = {
-  padding: 20,
-  borderRadius: 20,
-  border: "1px solid #eee",
-  background: "#fff",
-  transition: "transform 0.2s ease, box-shadow 0.2s ease",
-};
-
-const badgeStyle: React.CSSProperties = {
-  display: "inline-block",
-  padding: "4px 10px",
-  fontSize: 12,
-  borderRadius: 999,
-  background: "#000",
-  color: "#fff",
-  marginBottom: 12,
-};
