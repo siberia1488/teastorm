@@ -1,0 +1,18 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+}
+
+model Order {
+  id               String   @id @default(cuid())
+  stripeEventId    String   @unique
+  stripeSessionId  String   @unique
+  amountTotal      Int
+  currency         String
+  email            String?
+  status           String
+  createdAt        DateTime @default(now())
+}
