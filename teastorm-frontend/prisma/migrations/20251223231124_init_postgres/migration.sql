@@ -1,13 +1,15 @@
 -- CreateTable
 CREATE TABLE "Order" (
-    "id" TEXT NOT NULL PRIMARY KEY,
+    "id" TEXT NOT NULL,
     "stripeEventId" TEXT NOT NULL,
     "stripeSessionId" TEXT NOT NULL,
     "amountTotal" INTEGER NOT NULL,
     "currency" TEXT NOT NULL,
     "email" TEXT,
     "status" TEXT NOT NULL,
-    "createdAt" DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP
+    "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+
+    CONSTRAINT "Order_pkey" PRIMARY KEY ("id")
 );
 
 -- CreateIndex
