@@ -4,7 +4,6 @@ import { headers } from "next/headers";
 import { prisma } from "@/lib/prisma";
 
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!);
-// ⬆️ apiVersion УБРАЛИ — это правильно
 
 export async function POST(req: Request) {
   const body = await req.text();
@@ -23,7 +22,7 @@ export async function POST(req: Request) {
       process.env.STRIPE_WEBHOOK_SECRET!
     );
   } catch (err) {
-    console.error("❌ Webhook signature verification failed:", err);
+    console.error("❌ Invalid Stripe webhook signature", err);
     return new NextResponse("Invalid signature", { status: 400 });
   }
 
@@ -34,6 +33,11 @@ export async function POST(req: Request) {
       data: {
         stripeEventId: event.id,
         stripeSessionId: session.id,
+        paymentIntentId:
+          typeof session.payment_intent === "string"
+            ? session.payment_intent
+            : null,
+
         amountTotal: session.amount_total ?? 0,
         currency: session.currency ?? "usd",
         email: session.customer_details?.email ?? null,
