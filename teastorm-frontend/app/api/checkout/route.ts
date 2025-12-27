@@ -13,12 +13,21 @@ type CartItem = {
 export async function POST(req: Request) {
   const { items } = (await req.json()) as { items: CartItem[] };
 
-  // 🔑 создаём orderId (пока без базы)
   const orderId = crypto.randomUUID();
 
   const session = await stripe.checkout.sessions.create({
     mode: "payment",
 
+    // ✅ Email + billing
+    customer_creation: "always",
+    billing_address_collection: "required",
+
+    // ✅ Shipping address
+    shipping_address_collection: {
+      allowed_countries: ["US", "CA"],
+    },
+
+    // 🛒 Items
     line_items: items.map((item) => ({
       quantity: item.quantity,
       price_data: {
@@ -30,7 +39,25 @@ export async function POST(req: Request) {
       },
     })),
 
-    // 🔹 ВАЖНО: metadata
+    // 🚚 Shipping
+    shipping_options: [
+      {
+        shipping_rate_data: {
+          type: "fixed_amount",
+          fixed_amount: {
+            amount: 550,
+            currency: "usd",
+          },
+          display_name: "USPS Ground",
+          delivery_estimate: {
+            minimum: { unit: "business_day", value: 3 },
+            maximum: { unit: "business_day", value: 5 },
+          },
+        },
+      },
+    ],
+
+    // 🧾 Metadata
     metadata: {
       orderId,
       items: JSON.stringify(
