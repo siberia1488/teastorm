@@ -18,16 +18,15 @@ export async function POST(req: Request) {
   const session = await stripe.checkout.sessions.create({
     mode: "payment",
 
-    // ✅ Email + billing
     customer_creation: "always",
     billing_address_collection: "required",
 
-    // ✅ Shipping address
     shipping_address_collection: {
       allowed_countries: ["US", "CA"],
     },
 
-    // 🛒 Items
+    automatic_tax: { enabled: true },
+
     line_items: items.map((item) => ({
       quantity: item.quantity,
       price_data: {
@@ -39,15 +38,12 @@ export async function POST(req: Request) {
       },
     })),
 
-    // 🚚 Shipping
+    // 🚚 SHIPPING OPTIONS
     shipping_options: [
       {
         shipping_rate_data: {
           type: "fixed_amount",
-          fixed_amount: {
-            amount: 550,
-            currency: "usd",
-          },
+          fixed_amount: { amount: 550, currency: "usd" },
           display_name: "USPS Ground",
           delivery_estimate: {
             minimum: { unit: "business_day", value: 3 },
@@ -55,9 +51,30 @@ export async function POST(req: Request) {
           },
         },
       },
+      {
+        shipping_rate_data: {
+          type: "fixed_amount",
+          fixed_amount: { amount: 1050, currency: "usd" },
+          display_name: "USPS Priority",
+          delivery_estimate: {
+            minimum: { unit: "business_day", value: 2 },
+            maximum: { unit: "business_day", value: 3 },
+          },
+        },
+      },
+      {
+        shipping_rate_data: {
+          type: "fixed_amount",
+          fixed_amount: { amount: 1800, currency: "usd" },
+          display_name: "USPS Express",
+          delivery_estimate: {
+            minimum: { unit: "business_day", value: 1 },
+            maximum: { unit: "business_day", value: 2 },
+          },
+        },
+      },
     ],
 
-    // 🧾 Metadata
     metadata: {
       orderId,
       items: JSON.stringify(
