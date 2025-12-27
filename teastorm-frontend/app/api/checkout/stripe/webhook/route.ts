@@ -3,6 +3,24 @@ import Stripe from "stripe";
 import { headers } from "next/headers";
 import { prisma } from "@/lib/prisma";
 
+/**
+ * Stripe typings lag behind actual Checkout Session payload.
+ * Extend locally in a type-safe way.
+ */
+type CheckoutSessionWithShipping = Stripe.Checkout.Session & {
+  shipping_details?: {
+    name?: string | null;
+    address?: {
+      line1?: string | null;
+      line2?: string | null;
+      city?: string | null;
+      state?: string | null;
+      postal_code?: string | null;
+      country?: string | null;
+    } | null;
+  } | null;
+};
+
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!);
 
 export async function POST(req: Request) {
@@ -27,7 +45,35 @@ export async function POST(req: Request) {
   }
 
   if (event.type === "checkout.session.completed") {
-    const session = event.data.object as Stripe.Checkout.Session;
+    const session = event.data.object as CheckoutSessionWithShipping;
+
+    const shippingName =
+      session.shipping_details?.name ??
+      session.customer_details?.name ??
+      null;
+
+    const rawAddress =
+      session.shipping_details?.address ??
+      session.customer_details?.address ??
+      null;
+
+    const shippingAddress = rawAddress
+      ? {
+          line1: rawAddress.line1,
+          line2: rawAddress.line2,
+          city: rawAddress.city,
+          state: rawAddress.state,
+          postal_code: rawAddress.postal_code,
+          country: rawAddress.country,
+        }
+      : undefined; // ⬅️ ВАЖНО: undefined, а не null
+
+    const shippingAmount =
+      session.total_details?.amount_shipping ?? 0;
+
+    const subtotalAmount =
+      session.amount_subtotal ??
+      (session.amount_total ?? 0) - shippingAmount;
 
     await prisma.order.create({
       data: {
@@ -38,9 +84,15 @@ export async function POST(req: Request) {
             ? session.payment_intent
             : null,
 
+        subtotalAmount,
+        shippingAmount,
         amountTotal: session.amount_total ?? 0,
         currency: session.currency ?? "usd",
+
         email: session.customer_details?.email ?? null,
+        shippingName,
+        shippingAddress, // ✅ теперь тип корректный
+
         status: "paid",
       },
     });
