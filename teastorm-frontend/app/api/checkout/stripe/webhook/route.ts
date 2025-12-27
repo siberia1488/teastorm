@@ -66,7 +66,7 @@ export async function POST(req: Request) {
           postal_code: rawAddress.postal_code,
           country: rawAddress.country,
         }
-      : undefined; // ⬅️ ВАЖНО: undefined, а не null
+      : undefined; 
 
     const shippingAmount =
       session.total_details?.amount_shipping ?? 0;
@@ -91,7 +91,7 @@ export async function POST(req: Request) {
 
         email: session.customer_details?.email ?? null,
         shippingName,
-        shippingAddress, // ✅ теперь тип корректный
+        shippingAddress, 
 
         status: "paid",
       },
