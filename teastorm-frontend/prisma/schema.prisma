@@ -1,74 +1,30 @@
-generator client {
-  provider = "prisma-client-js"
-}
-
-datasource db {
-  provider = "postgresql"
-}
-
-/* =====================
-   AUTH MODELS
-===================== */
-
-model User {
-  id            String    @id @default(cuid())
-  name          String?
-  email         String?   @unique
-  emailVerified DateTime?
-  image         String?
-
-  accounts      Account[]
-  sessions      Session[]
-  orders        Order[]
-
-  createdAt     DateTime  @default(now())
-}
-
-model Account {
-  id                String  @id @default(cuid())
-  userId            String
-  type              String
-  provider          String
-  providerAccountId String
-
-  refresh_token     String?
-  access_token      String?
-  expires_at        Int?
-  token_type        String?
-  scope             String?
-  id_token          String?
-  session_state     String?
-
-  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
-
-  @@unique([provider, providerAccountId])
-}
-
-model Session {
-  id           String   @id @default(cuid())
-  sessionToken String   @unique
-  userId       String
-  expires      DateTime
-
-  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
-}
-
-/* =====================
-   BUSINESS MODELS
-===================== */
-
 model Order {
-  id              String   @id @default(cuid())
-  stripeEventId   String   @unique
-  stripeSessionId String   @unique
+  id                String   @id @default(cuid())
 
-  amountTotal     Int
-  currency        String
-  email           String?
-  status          String
+  // Stripe
+  stripeEventId     String   @unique
+  stripeSessionId   String   @unique
+  paymentIntentId  String?
 
-  createdAt       DateTime @default(now())
+  // Our system
+  orderId           String   @unique
+  status            String
 
-  userId          String?
-  user            User?    @relation(fields: [userId], references: [id], onDelete: SetNull)
+  // Money (amounts in cents)
+  subtotalAmount    Int
+  shippingAmount    Int
+  totalAmount       Int
+  currency          String
+
+  // Customer
+  email             String?
+  shippingName      String?
+  shippingAddress   Json?
+  items             Json?
+
+  createdAt         DateTime @default(now())
+
+  // Optional auth link (future)
+  userId            String?
+  user              User?    @relation(fields: [userId], references: [id], onDelete: SetNull)
 }
