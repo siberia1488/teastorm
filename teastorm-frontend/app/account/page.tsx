@@ -1,71 +1,65 @@
-"use client";
-
-import { useSession, signOut } from "next-auth/react";
+import { getServerSession } from "next-auth";
+import { authOptions } from "@/app/api/auth/auth-options";
+import { prisma } from "@/lib/prisma";
 import Link from "next/link";
+import LogoutButton from "./logout-button";
 
-export default function AccountPage() {
-  const { data: session, status } = useSession();
 
-  if (status === "loading") {
+export default async function AccountPage() {
+  const session = await getServerSession(authOptions);
+
+  if (!session?.user) {
     return (
       <main style={styles.center}>
-        <p>Loading account…</p>
-      </main>
-    );
-  }
-
-  if (!session) {
-    return (
-      <main style={styles.center}>
-        <h1 style={{ fontSize: 28, marginBottom: 12 }}>
-          Account
-        </h1>
+        <h1 style={{ fontSize: 28, marginBottom: 12 }}>Account</h1>
         <p style={{ color: "#555", marginBottom: 24 }}>
           You need to sign in to view your account.
         </p>
-        <Link
-          href="/api/auth/signin"
-          style={{ textDecoration: "underline" }}
-        >
-          Sign in →
-        </Link>
+        <Link href="/api/auth/signin">Sign in →</Link>
       </main>
     );
   }
 
-  const user = session.user;
+  const orders = await prisma.order.findMany({
+    where: { userId: session.user.id },
+    orderBy: { createdAt: "desc" },
+  });
 
   return (
     <main style={styles.page}>
       <div style={styles.card}>
-        <h1 style={{ fontSize: 28, marginBottom: 16 }}>
-          Account
-        </h1>
-
-        <div style={{ marginBottom: 20 }}>
-          <div style={styles.label}>Email</div>
-          <div>{user?.email}</div>
+        <h1 style={{ fontSize: 28, marginBottom: 8 }}>Account</h1>
+        <div style={{ color: "#666", marginBottom: 24 }}>
+          {session.user.email}
         </div>
 
-        {user?.name && (
-          <div style={{ marginBottom: 20 }}>
-            <div style={styles.label}>Name</div>
-            <div>{user.name}</div>
-          </div>
+        <h2 style={{ fontSize: 18, marginBottom: 12 }}>Orders</h2>
+
+        {orders.length === 0 && (
+          <p style={{ color: "#777" }}>No orders yet.</p>
         )}
 
-        <button
-          onClick={() => signOut({ callbackUrl: "/" })}
-          style={styles.logout}
-        >
-          Log out
-        </button>
+        {orders.map((order) => (
+          <div key={order.id} style={styles.order}>
+            <div>
+              <strong>Order</strong> #{order.id.slice(0, 8)}
+            </div>
+            <div>Status: {order.status}</div>
+            <div>
+              Total: ${(order.amountTotal / 100).toFixed(2)}{" "}
+              {order.currency.toUpperCase()}
+            </div>
+            <div style={{ fontSize: 12, color: "#777" }}>
+              {order.createdAt.toDateString()}
+            </div>
+          </div>
+        ))}
+
+        <LogoutButton />
       </div>
     </main>
   );
 }
-
-/* ---------- styles ---------- */
 
 const styles: Record<string, React.CSSProperties> = {
   page: {
@@ -73,7 +67,6 @@ const styles: Record<string, React.CSSProperties> = {
     display: "flex",
     justifyContent: "center",
     padding: 24,
-    background: "#fff",
   },
   center: {
     minHeight: "100vh",
@@ -81,30 +74,18 @@ const styles: Record<string, React.CSSProperties> = {
     flexDirection: "column",
     alignItems: "center",
     justifyContent: "center",
-    padding: 24,
     textAlign: "center",
   },
   card: {
     width: "100%",
-    maxWidth: 420,
+    maxWidth: 520,
     border: "1px solid #eee",
     borderRadius: 16,
     padding: 24,
-    background: "#fff",
   },
-  label: {
-    fontSize: 13,
-    color: "#777",
-    marginBottom: 4,
-  },
-  logout: {
-    marginTop: 24,
-    width: "100%",
-    padding: "12px 16px",
-    borderRadius: 8,
-    border: "1px solid #000",
-    background: "#fff",
-    cursor: "pointer",
-    fontSize: 15,
+  order: {
+    borderTop: "1px solid #eee",
+    paddingTop: 12,
+    marginTop: 12,
   },
 };

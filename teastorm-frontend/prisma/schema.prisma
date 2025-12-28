@@ -2,6 +2,8 @@ generator client {
   provider = "prisma-client-js"
 }
 
+
+
 datasource db {
   provider = "postgresql"
 }
@@ -63,13 +65,18 @@ model Order {
   stripeSessionId String   @unique
   paymentIntentId String?
 
+  subtotalAmount  Int
+  shippingAmount  Int
   amountTotal     Int
   currency        String
-  email           String?
-  status          String
 
+  email           String?
+  shippingName    String?
+  shippingAddress Json?
+
+  status          String
   createdAt       DateTime @default(now())
 
   userId          String?
-  user            User?    @relation(fields: [userId], references: [id], onDelete: SetNull)
+  user            User? @relation(fields: [userId], references: [id], onDelete: SetNull)
 }
