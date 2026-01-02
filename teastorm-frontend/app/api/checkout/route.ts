@@ -13,8 +13,35 @@ type CartItem = {
   quantity: number;
 };
 
+function isValidCart(items: CartItem[]) {
+  if (!Array.isArray(items) || items.length === 0) return false;
+
+  return items.every(
+    (item) =>
+      typeof item.variantId === "string" &&
+      item.variantId.length > 0 &&
+      typeof item.title === "string" &&
+      item.title.length > 0 &&
+      typeof item.priceUsd === "number" &&
+      item.priceUsd > 0 &&
+      Number.isFinite(item.priceUsd) &&
+      typeof item.quantity === "number" &&
+      item.quantity > 0 &&
+      Number.isInteger(item.quantity)
+  );
+}
+
 export async function POST(req: Request) {
-  const { items } = (await req.json()) as { items: CartItem[] };
+  const body = await req.json().catch(() => null);
+
+  if (!body || !isValidCart(body.items)) {
+    return NextResponse.json(
+      { error: "Invalid or empty cart" },
+      { status: 400 }
+    );
+  }
+
+  const { items } = body as { items: CartItem[] };
 
   const session = await getServerSession(authOptions);
   const userId = session?.user?.id ?? null;
@@ -25,7 +52,13 @@ export async function POST(req: Request) {
     0
   );
 
-  // 1️⃣ Create order + items in a single transaction
+  if (subtotalAmount <= 0) {
+    return NextResponse.json(
+      { error: "Invalid cart total" },
+      { status: 400 }
+    );
+  }
+
   const order = await prisma.$transaction(async (tx) => {
     const order = await tx.order.create({
       data: {
@@ -51,7 +84,6 @@ export async function POST(req: Request) {
     return order;
   });
 
-  // 2️⃣ Create Stripe Checkout Session
   const stripeSession = await stripe.checkout.sessions.create({
     mode: "payment",
     customer_creation: "always",
