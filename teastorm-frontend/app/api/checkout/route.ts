@@ -1,5 +1,8 @@
 import { NextResponse } from "next/server";
 import Stripe from "stripe";
+import { prisma } from "@/lib/prisma";
+import { getServerSession } from "next-auth";
+import { authOptions } from "@/lib/auth";
 
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!);
 
@@ -13,9 +16,31 @@ type CartItem = {
 export async function POST(req: Request) {
   const { items } = (await req.json()) as { items: CartItem[] };
 
-  const orderId = crypto.randomUUID();
+  // 🔐 текущая сессия пользователя (если есть)
+  const session = await getServerSession(authOptions);
+  const userId = session?.user?.id ?? null;
 
-  const session = await stripe.checkout.sessions.create({
+  // 1️⃣ считаем суммы (в центах)
+  const subtotalAmount = items.reduce(
+    (sum, item) =>
+      sum + Math.round(item.priceUsd * 100) * item.quantity,
+    0
+  );
+
+  // 2️⃣ создаём Order ДО Stripe
+  const order = await prisma.order.create({
+    data: {
+      status: "pending",
+      subtotalAmount,
+      shippingAmount: 0,
+      amountTotal: subtotalAmount,
+      currency: "usd",
+      userId, // ← 🔥 ПРИВЯЗКА К ПОЛЬЗОВАТЕЛЮ
+    },
+  });
+
+  // 3️⃣ создаём Stripe Checkout Session
+  const sessionStripe = await stripe.checkout.sessions.create({
     mode: "payment",
 
     customer_creation: "always",
@@ -38,7 +63,6 @@ export async function POST(req: Request) {
       },
     })),
 
-    // 🚚 SHIPPING OPTIONS
     shipping_options: [
       {
         shipping_rate_data: {
@@ -76,7 +100,8 @@ export async function POST(req: Request) {
     ],
 
     metadata: {
-      orderId,
+      orderId: order.id,
+      userId: userId ?? "", // ← дублируем на будущее (support / admin)
       items: JSON.stringify(
         items.map((i) => ({
           id: i.variantId,
@@ -86,9 +111,9 @@ export async function POST(req: Request) {
       ),
     },
 
-    success_url: `${process.env.NEXT_PUBLIC_BASE_URL}/success?orderId=${orderId}`,
+    success_url: `${process.env.NEXT_PUBLIC_BASE_URL}/success?orderId=${order.id}`,
     cancel_url: `${process.env.NEXT_PUBLIC_BASE_URL}/cart`,
   });
 
-  return NextResponse.json({ url: session.url });
+  return NextResponse.json({ url: sessionStripe.url });
 }
