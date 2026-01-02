@@ -47,6 +47,12 @@ export async function POST(req: Request) {
   if (event.type === "checkout.session.completed") {
     const session = event.data.object as CheckoutSessionWithShipping;
 
+    const orderId = session.metadata?.orderId;
+    if (!orderId) {
+      console.error("❌ Missing orderId in Stripe metadata");
+      return new NextResponse("Missing orderId", { status: 400 });
+    }
+
     const shippingName =
       session.shipping_details?.name ??
       session.customer_details?.name ??
@@ -66,7 +72,7 @@ export async function POST(req: Request) {
           postal_code: rawAddress.postal_code,
           country: rawAddress.country,
         }
-      : undefined; 
+      : undefined;
 
     const shippingAmount =
       session.total_details?.amount_shipping ?? 0;
@@ -75,7 +81,10 @@ export async function POST(req: Request) {
       session.amount_subtotal ??
       (session.amount_total ?? 0) - shippingAmount;
 
-    await prisma.order.create({
+    await prisma.order.update({
+      where: {
+        id: orderId,
+      },
       data: {
         stripeEventId: event.id,
         stripeSessionId: session.id,
@@ -91,7 +100,7 @@ export async function POST(req: Request) {
 
         email: session.customer_details?.email ?? null,
         shippingName,
-        shippingAddress, 
+        shippingAddress,
 
         status: "paid",
       },
