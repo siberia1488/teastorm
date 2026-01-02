@@ -3,10 +3,8 @@ import Stripe from "stripe";
 import { headers } from "next/headers";
 import { prisma } from "@/lib/prisma";
 
-/**
- * Stripe typings lag behind actual Checkout Session payload.
- * Extend locally in a type-safe way.
- */
+const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!);
+
 type CheckoutSessionWithShipping = Stripe.Checkout.Session & {
   shipping_details?: {
     name?: string | null;
@@ -20,8 +18,6 @@ type CheckoutSessionWithShipping = Stripe.Checkout.Session & {
     } | null;
   } | null;
 };
-
-const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!);
 
 export async function POST(req: Request) {
   const body = await req.text();
@@ -40,7 +36,7 @@ export async function POST(req: Request) {
       process.env.STRIPE_WEBHOOK_SECRET!
     );
   } catch (err) {
-    console.error("❌ Invalid Stripe webhook signature", err);
+    console.error("Invalid Stripe signature", err);
     return new NextResponse("Invalid signature", { status: 400 });
   }
 
@@ -49,7 +45,7 @@ export async function POST(req: Request) {
 
     const orderId = session.metadata?.orderId;
     if (!orderId) {
-      console.error("❌ Missing orderId in Stripe metadata");
+      console.error("Missing orderId in metadata");
       return new NextResponse("Missing orderId", { status: 400 });
     }
 
@@ -82,9 +78,7 @@ export async function POST(req: Request) {
       (session.amount_total ?? 0) - shippingAmount;
 
     await prisma.order.update({
-      where: {
-        id: orderId,
-      },
+      where: { id: orderId },
       data: {
         stripeEventId: event.id,
         stripeSessionId: session.id,
