@@ -1,90 +1,120 @@
-"use client";
-
+import { prisma } from "@/lib/prisma";
+import { getServerSession } from "next-auth";
+import { authOptions } from "@/lib/auth";
+import { redirect, notFound } from "next/navigation";
 import Link from "next/link";
-import { useEffect } from "react";
-import { useCart } from "@/app/cart-context";
 
-export default function SuccessPage() {
-  const { clear } = useCart();
+type PageProps = {
+  searchParams: {
+    orderId?: string;
+  };
+};
 
-  useEffect(() => {
-    clear();
-  }, [clear]);
+export default async function SuccessPage({ searchParams }: PageProps) {
+  const orderId = searchParams.orderId;
+
+  if (!orderId) {
+    notFound();
+  }
+
+  const session = await getServerSession(authOptions);
+
+  const order = await prisma.order.findFirst({
+    where: {
+      id: orderId,
+      ...(session?.user?.id
+        ? { userId: session.user.id }
+        : {}),
+    },
+  });
+
+  if (!order) {
+    notFound();
+  }
 
   return (
-    <main
-      style={{
-        minHeight: "100vh",
-        display: "flex",
-        alignItems: "center",
-        justifyContent: "center",
-        background: "#fff",
-        padding: 24,
-      }}
-    >
-      <div
-        style={{
-          maxWidth: 420,
-          width: "100%",
-          textAlign: "center",
-          animation: "fadeInUp 0.4s ease forwards",
-        }}
-      >
-        <div
-          style={{
-            width: 56,
-            height: 56,
-            borderRadius: "50%",
-            background: "#000",
-            color: "#fff",
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-            fontSize: 28,
-            margin: "0 auto 24px",
-          }}
-        >
-          ✓
-        </div>
+    <main style={styles.page}>
+      <div style={styles.card}>
+        <h1 style={styles.title}>Thank you for your order 🎉</h1>
 
-        <h1 style={{ fontSize: 28, marginBottom: 12 }}>
-          Payment successful
-        </h1>
-
-        <p style={{ color: "#555", marginBottom: 32 }}>
-          Thank you for your order.  
-          We’ve received your payment and are processing it.
+        <p style={styles.text}>
+          Your payment was successful. We’ve received your order and will start
+          processing it shortly.
         </p>
 
-        <Link
-          href="/shop"
-          style={{
-            display: "inline-block",
-            padding: "12px 20px",
-            borderRadius: 8,
-            border: "1px solid #000",
-            color: "#000",
-            textDecoration: "none",
-            fontWeight: 500,
-          }}
-        >
-          Continue shopping →
-        </Link>
+        <div style={styles.meta}>
+          <div>
+            <strong>Order:</strong> #{order.id.slice(0, 8)}
+          </div>
+          <div>
+            <strong>Total:</strong>{" "}
+            ${(order.amountTotal / 100).toFixed(2)}{" "}
+            {order.currency.toUpperCase()}
+          </div>
+        </div>
 
-        {/* Inline keyframes — zero dependencies */}
-        <style jsx>{`
-          @keyframes fadeInUp {
-            from {
-              opacity: 0;
-              transform: translateY(8px);
-            }
-            to {
-              opacity: 1;
-              transform: translateY(0);
-            }
-          }
-        `}</style>
+        <div style={styles.actions}>
+          <Link href={`/orders/${order.id}`} style={styles.primary}>
+            View order
+          </Link>
+
+          <Link href="/shop" style={styles.secondary}>
+            Continue shopping
+          </Link>
+        </div>
       </div>
     </main>
   );
 }
+
+const styles: Record<string, React.CSSProperties> = {
+  page: {
+    minHeight: "100vh",
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
+    padding: 24,
+  },
+  card: {
+    width: "100%",
+    maxWidth: 520,
+    border: "1px solid #eee",
+    borderRadius: 16,
+    padding: 32,
+    textAlign: "center",
+  },
+  title: {
+    fontSize: 28,
+    marginBottom: 12,
+  },
+  text: {
+    color: "#555",
+    marginBottom: 24,
+    fontSize: 16,
+  },
+  meta: {
+    marginBottom: 32,
+    color: "#333",
+    fontSize: 15,
+  },
+  actions: {
+    display: "flex",
+    flexDirection: "column",
+    gap: 12,
+  },
+  primary: {
+    padding: "12px 16px",
+    borderRadius: 8,
+    background: "#000",
+    color: "#fff",
+    textDecoration: "none",
+    fontWeight: 500,
+  },
+  secondary: {
+    padding: "12px 16px",
+    borderRadius: 8,
+    border: "1px solid #ddd",
+    color: "#000",
+    textDecoration: "none",
+  },
+};
