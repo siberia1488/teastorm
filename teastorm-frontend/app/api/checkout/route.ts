@@ -13,35 +13,8 @@ type CartItem = {
   quantity: number;
 };
 
-function isValidCart(items: CartItem[]) {
-  if (!Array.isArray(items) || items.length === 0) return false;
-
-  return items.every(
-    (item) =>
-      typeof item.variantId === "string" &&
-      item.variantId.length > 0 &&
-      typeof item.title === "string" &&
-      item.title.length > 0 &&
-      typeof item.priceUsd === "number" &&
-      item.priceUsd > 0 &&
-      Number.isFinite(item.priceUsd) &&
-      typeof item.quantity === "number" &&
-      item.quantity > 0 &&
-      Number.isInteger(item.quantity)
-  );
-}
-
 export async function POST(req: Request) {
-  const body = await req.json().catch(() => null);
-
-  if (!body || !isValidCart(body.items)) {
-    return NextResponse.json(
-      { error: "Invalid or empty cart" },
-      { status: 400 }
-    );
-  }
-
-  const { items } = body as { items: CartItem[] };
+  const { items } = (await req.json()) as { items: CartItem[] };
 
   const session = await getServerSession(authOptions);
   const userId = session?.user?.id ?? null;
@@ -52,36 +25,24 @@ export async function POST(req: Request) {
     0
   );
 
-  if (subtotalAmount <= 0) {
-    return NextResponse.json(
-      { error: "Invalid cart total" },
-      { status: 400 }
-    );
-  }
-
-  const order = await prisma.$transaction(async (tx) => {
-    const order = await tx.order.create({
-      data: {
-        status: "pending",
-        subtotalAmount,
-        shippingAmount: 0,
-        amountTotal: subtotalAmount,
-        currency: "usd",
-        userId,
+  // commit: create order with items
+  const order = await prisma.order.create({
+    data: {
+      status: "pending",
+      subtotalAmount,
+      shippingAmount: 0,
+      amountTotal: subtotalAmount,
+      currency: "usd",
+      userId,
+      items: {
+        create: items.map((item) => ({
+          title: item.title,
+          variantId: item.variantId,
+          price: Math.round(item.priceUsd * 100),
+          quantity: item.quantity,
+        })),
       },
-    });
-
-    await tx.orderItem.createMany({
-      data: items.map((item) => ({
-        orderId: order.id,
-        title: item.title,
-        variantId: item.variantId,
-        price: Math.round(item.priceUsd * 100),
-        quantity: item.quantity,
-      })),
-    });
-
-    return order;
+    },
   });
 
   const stripeSession = await stripe.checkout.sessions.create({
