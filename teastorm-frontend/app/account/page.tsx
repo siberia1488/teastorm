@@ -1,23 +1,14 @@
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
-import Link from "next/link";
+import { redirect } from "next/navigation";
 import LogoutButton from "./logout-button";
-
 
 export default async function AccountPage() {
   const session = await getServerSession(authOptions);
 
   if (!session?.user) {
-    return (
-      <main style={styles.center}>
-        <h1 style={{ fontSize: 28, marginBottom: 12 }}>Account</h1>
-        <p style={{ color: "#555", marginBottom: 24 }}>
-          You need to sign in to view your account.
-        </p>
-        <Link href="/api/auth/signin">Sign in →</Link>
-      </main>
-    );
+    redirect("/login");
   }
 
   const orders = await prisma.order.findMany({
@@ -67,14 +58,6 @@ const styles: Record<string, React.CSSProperties> = {
     display: "flex",
     justifyContent: "center",
     padding: 24,
-  },
-  center: {
-    minHeight: "100vh",
-    display: "flex",
-    flexDirection: "column",
-    alignItems: "center",
-    justifyContent: "center",
-    textAlign: "center",
   },
   card: {
     width: "100%",
