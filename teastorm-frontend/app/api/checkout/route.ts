@@ -16,18 +16,16 @@ type CartItem = {
 export async function POST(req: Request) {
   const { items } = (await req.json()) as { items: CartItem[] };
 
-  // 🔐 текущая сессия пользователя (если есть)
   const session = await getServerSession(authOptions);
   const userId = session?.user?.id ?? null;
 
-  // 1️⃣ считаем суммы (в центах)
   const subtotalAmount = items.reduce(
     (sum, item) =>
       sum + Math.round(item.priceUsd * 100) * item.quantity,
     0
   );
 
-  // 2️⃣ создаём Order ДО Stripe
+  // 1️⃣ Create Order
   const order = await prisma.order.create({
     data: {
       status: "pending",
@@ -35,14 +33,24 @@ export async function POST(req: Request) {
       shippingAmount: 0,
       amountTotal: subtotalAmount,
       currency: "usd",
-      userId, // ← 🔥 ПРИВЯЗКА К ПОЛЬЗОВАТЕЛЮ
+      userId,
     },
   });
 
-  // 3️⃣ создаём Stripe Checkout Session
-  const sessionStripe = await stripe.checkout.sessions.create({
-    mode: "payment",
+  // 2️⃣ Create Order Items
+  await prisma.orderItem.createMany({
+    data: items.map((item) => ({
+      orderId: order.id,
+      title: item.title,
+      variantId: item.variantId,
+      price: Math.round(item.priceUsd * 100),
+      quantity: item.quantity,
+    })),
+  });
 
+  // 3️⃣ Create Stripe Checkout Session
+  const stripeSession = await stripe.checkout.sessions.create({
+    mode: "payment",
     customer_creation: "always",
     billing_address_collection: "required",
 
@@ -63,57 +71,14 @@ export async function POST(req: Request) {
       },
     })),
 
-    shipping_options: [
-      {
-        shipping_rate_data: {
-          type: "fixed_amount",
-          fixed_amount: { amount: 550, currency: "usd" },
-          display_name: "USPS Ground",
-          delivery_estimate: {
-            minimum: { unit: "business_day", value: 3 },
-            maximum: { unit: "business_day", value: 5 },
-          },
-        },
-      },
-      {
-        shipping_rate_data: {
-          type: "fixed_amount",
-          fixed_amount: { amount: 1050, currency: "usd" },
-          display_name: "USPS Priority",
-          delivery_estimate: {
-            minimum: { unit: "business_day", value: 2 },
-            maximum: { unit: "business_day", value: 3 },
-          },
-        },
-      },
-      {
-        shipping_rate_data: {
-          type: "fixed_amount",
-          fixed_amount: { amount: 1800, currency: "usd" },
-          display_name: "USPS Express",
-          delivery_estimate: {
-            minimum: { unit: "business_day", value: 1 },
-            maximum: { unit: "business_day", value: 2 },
-          },
-        },
-      },
-    ],
-
     metadata: {
       orderId: order.id,
-      userId: userId ?? "", // ← дублируем на будущее (support / admin)
-      items: JSON.stringify(
-        items.map((i) => ({
-          id: i.variantId,
-          qty: i.quantity,
-          price: i.priceUsd,
-        }))
-      ),
+      userId: userId ?? "",
     },
 
     success_url: `${process.env.NEXT_PUBLIC_BASE_URL}/success?orderId=${order.id}`,
     cancel_url: `${process.env.NEXT_PUBLIC_BASE_URL}/cart`,
   });
 
-  return NextResponse.json({ url: sessionStripe.url });
+  return NextResponse.json({ url: stripeSession.url });
 }
