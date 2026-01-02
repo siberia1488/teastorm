@@ -1,30 +1,16 @@
 import { NextResponse } from "next/server";
 import Stripe from "stripe";
 import { prisma } from "@/lib/prisma";
-import { sendOrderConfirmationEmail } from "@/lib/email";
+import { sendOrderPaidEmail } from "@/lib/email";
 
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!);
-
-type CheckoutSessionWithShipping = Stripe.Checkout.Session & {
-  shipping_details?: {
-    name?: string | null;
-    address?: {
-      line1?: string | null;
-      line2?: string | null;
-      city?: string | null;
-      state?: string | null;
-      postal_code?: string | null;
-      country?: string | null;
-    } | null;
-  } | null;
-};
 
 export async function POST(req: Request) {
   const body = await req.text();
   const signature = req.headers.get("stripe-signature");
 
   if (!signature) {
-    return new NextResponse("Missing Stripe signature", { status: 400 });
+    return new NextResponse("Missing signature", { status: 400 });
   }
 
   let event: Stripe.Event;
@@ -39,62 +25,46 @@ export async function POST(req: Request) {
     return new NextResponse("Invalid signature", { status: 400 });
   }
 
-  if (event.type !== "checkout.session.completed") {
+  // prevent duplicate processing
+  const existing = await prisma.order.findFirst({
+    where: { stripeEventId: event.id },
+  });
+
+  if (existing) {
     return NextResponse.json({ received: true });
   }
 
-  const session = event.data.object as CheckoutSessionWithShipping;
-  const orderId = session.metadata?.orderId;
+  if (event.type === "checkout.session.completed") {
+    const session = event.data.object as Stripe.Checkout.Session;
+    const orderId = session.metadata?.orderId;
 
-  if (!orderId) {
-    return new NextResponse("Missing orderId", { status: 400 });
-  }
+    if (!orderId) {
+      return new NextResponse("Missing orderId", { status: 400 });
+    }
 
-  const order = await prisma.order.findUnique({
-    where: { id: orderId },
-  });
+    const order = await prisma.order.update({
+      where: { id: orderId },
+      data: {
+        status: "paid",
+        stripeEventId: event.id,
+        stripeSessionId: session.id,
+        paymentIntentId: session.payment_intent as string,
+        email: session.customer_details?.email ?? null,
+      },
+      include: { items: true },
+    });
 
-  // ✅ idempotency guard
-  if (!order || order.status === "paid") {
-    return NextResponse.json({ received: true });
-  }
-
-  const shippingAddress = session.shipping_details?.address
-    ? {
-        line1: session.shipping_details.address.line1 ?? null,
-        line2: session.shipping_details.address.line2 ?? null,
-        city: session.shipping_details.address.city ?? null,
-        state: session.shipping_details.address.state ?? null,
-        postal_code:
-          session.shipping_details.address.postal_code ?? null,
-        country: session.shipping_details.address.country ?? null,
-      }
-    : undefined;
-
-  await prisma.order.update({
-    where: { id: orderId },
-    data: {
-      status: "paid",
-      stripeEventId: event.id,
-      stripeSessionId: session.id,
-      paymentIntentId: session.payment_intent as string,
-      email: session.customer_details?.email ?? null,
-      shippingName: session.shipping_details?.name ?? null,
-      shippingAddress,
-    },
-  });
-
-  // ✅ email after successful state transition
-  if (order.email) {
-    try {
-      await sendOrderConfirmationEmail({
+    if (order.email) {
+      await sendOrderPaidEmail({
         to: order.email,
         orderId: order.id,
-        amountTotal: order.amountTotal,
-        currency: order.currency,
+        items: order.items.map((i) => ({
+          title: i.title,
+          quantity: i.quantity,
+          price: i.price,
+        })),
+        total: order.amountTotal,
       });
-    } catch {
-      // email errors must not break Stripe webhook
     }
   }
 
