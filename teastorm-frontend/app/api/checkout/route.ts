@@ -25,33 +25,35 @@ export async function POST(req: Request) {
     0
   );
 
-  // 1️⃣ Create order
-  const order = await prisma.order.create({
-    data: {
-      status: "pending",
-      subtotalAmount,
-      shippingAmount: 0,
-      amountTotal: subtotalAmount,
-      currency: "usd",
-      userId,
-    },
+  // 1️⃣ Create order + items in a single transaction
+  const order = await prisma.$transaction(async (tx) => {
+    const order = await tx.order.create({
+      data: {
+        status: "pending",
+        subtotalAmount,
+        shippingAmount: 0,
+        amountTotal: subtotalAmount,
+        currency: "usd",
+        userId,
+      },
+    });
+
+    await tx.orderItem.createMany({
+      data: items.map((item) => ({
+        orderId: order.id,
+        title: item.title,
+        variantId: item.variantId,
+        price: Math.round(item.priceUsd * 100),
+        quantity: item.quantity,
+      })),
+    });
+
+    return order;
   });
 
-  // 2️⃣ Create order items
-  await prisma.orderItem.createMany({
-    data: items.map((item) => ({
-      orderId: order.id,
-      title: item.title,
-      variantId: item.variantId,
-      price: Math.round(item.priceUsd * 100),
-      quantity: item.quantity,
-    })),
-  });
-
-  // 3️⃣ Create Stripe Checkout Session
+  // 2️⃣ Create Stripe Checkout Session
   const stripeSession = await stripe.checkout.sessions.create({
     mode: "payment",
-
     customer_creation: "always",
     billing_address_collection: "required",
 
