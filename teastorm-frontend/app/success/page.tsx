@@ -1,13 +1,19 @@
 import { prisma } from "@/lib/prisma";
-import { getServerSession } from "next-auth";
-import { authOptions } from "@/lib/auth";
 import { notFound } from "next/navigation";
-import Link from "next/link";
 
 type PageProps = {
   searchParams: {
     orderId?: string;
   };
+};
+
+type ShippingAddress = {
+  line1?: string | null;
+  line2?: string | null;
+  city?: string | null;
+  state?: string | null;
+  postal_code?: string | null;
+  country?: string | null;
 };
 
 export default async function SuccessPage({ searchParams }: PageProps) {
@@ -17,14 +23,10 @@ export default async function SuccessPage({ searchParams }: PageProps) {
     notFound();
   }
 
-  const session = await getServerSession(authOptions);
-
-  const order = await prisma.order.findFirst({
-    where: {
-      id: orderId,
-      ...(session?.user?.id
-        ? { userId: session.user.id }
-        : {}),
+  const order = await prisma.order.findUnique({
+    where: { id: orderId },
+    include: {
+      items: true,
     },
   });
 
@@ -32,39 +34,72 @@ export default async function SuccessPage({ searchParams }: PageProps) {
     notFound();
   }
 
+  const shippingAddress = order.shippingAddress as ShippingAddress | null;
+
   return (
     <main style={styles.page}>
       <div style={styles.card}>
-        <h1 style={styles.title}>Thank you for your order 🎉</h1>
-
-        <p style={styles.text}>
-          Your payment was successful. We’ve received your order and will start
-          processing it shortly.
-        </p>
+        <h1 style={styles.title}>Payment successful</h1>
 
         <div style={styles.meta}>
+          Order #{order.id.slice(0, 8)}
+        </div>
+
+        <section style={styles.section}>
+          <strong>Status</strong>
+          <div>{order.status}</div>
+        </section>
+
+        <section style={styles.section}>
+          <strong>Items</strong>
+
+          {order.items.map((item) => (
+            <div key={item.id} style={styles.item}>
+              <div style={{ fontWeight: 500 }}>{item.title}</div>
+              <div style={styles.itemMeta}>
+                Qty: {item.quantity} · $
+                {(item.price / 100).toFixed(2)}
+              </div>
+            </div>
+          ))}
+        </section>
+
+        <section style={styles.section}>
+          <strong>Total</strong>
           <div>
-            <strong>Order:</strong> #{order.id.slice(0, 8)}
-          </div>
-          <div>
-            <strong>Total:</strong>{" "}
             ${(order.amountTotal / 100).toFixed(2)}{" "}
             {order.currency.toUpperCase()}
           </div>
-        </div>
+        </section>
 
-        <div style={styles.actions}>
-          <Link href={`/orders/${order.id}`} style={styles.primary}>
-            View order
-          </Link>
+        {order.shippingName && (
+          <section style={styles.section}>
+            <strong>Shipping</strong>
+            <div>{order.shippingName}</div>
 
-          <Link href="/shop" style={styles.secondary}>
-            Continue shopping
-          </Link>
-        </div>
+            {shippingAddress && (
+              <div style={styles.address}>
+                {formatAddress(shippingAddress)}
+              </div>
+            )}
+          </section>
+        )}
       </div>
     </main>
   );
+}
+
+function formatAddress(address: ShippingAddress) {
+  return [
+    address.line1,
+    address.line2,
+    address.city && address.state && address.postal_code
+      ? `${address.city}, ${address.state} ${address.postal_code}`
+      : null,
+    address.country,
+  ]
+    .filter(Boolean)
+    .join(", ");
 }
 
 const styles: Record<string, React.CSSProperties> = {
@@ -72,49 +107,38 @@ const styles: Record<string, React.CSSProperties> = {
     minHeight: "100vh",
     display: "flex",
     justifyContent: "center",
-    alignItems: "center",
     padding: 24,
   },
   card: {
     width: "100%",
-    maxWidth: 520,
+    maxWidth: 560,
     border: "1px solid #eee",
     borderRadius: 16,
-    padding: 32,
-    textAlign: "center",
+    padding: 24,
   },
   title: {
     fontSize: 28,
-    marginBottom: 12,
-  },
-  text: {
-    color: "#555",
-    marginBottom: 24,
-    fontSize: 16,
+    marginBottom: 6,
   },
   meta: {
-    marginBottom: 32,
-    color: "#333",
-    fontSize: 15,
+    color: "#666",
+    marginBottom: 24,
   },
-  actions: {
-    display: "flex",
-    flexDirection: "column",
-    gap: 12,
+  section: {
+    marginBottom: 20,
   },
-  primary: {
-    padding: "12px 16px",
-    borderRadius: 8,
-    background: "#000",
-    color: "#fff",
-    textDecoration: "none",
-    fontWeight: 500,
+  item: {
+    borderTop: "1px solid #eee",
+    paddingTop: 12,
+    marginTop: 12,
   },
-  secondary: {
-    padding: "12px 16px",
-    borderRadius: 8,
-    border: "1px solid #ddd",
-    color: "#000",
-    textDecoration: "none",
+  itemMeta: {
+    fontSize: 14,
+    color: "#666",
+  },
+  address: {
+    marginTop: 6,
+    fontSize: 14,
+    color: "#555",
   },
 };
