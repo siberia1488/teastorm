@@ -25,7 +25,7 @@ export async function POST(req: Request) {
     0
   );
 
-  // commit: create order with items
+  // 1️⃣ create order + snapshot items
   const order = await prisma.order.create({
     data: {
       status: "pending",
@@ -45,6 +45,7 @@ export async function POST(req: Request) {
     },
   });
 
+  // 2️⃣ create Stripe session
   const stripeSession = await stripe.checkout.sessions.create({
     mode: "payment",
     customer_creation: "always",
