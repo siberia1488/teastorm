@@ -1,37 +1,34 @@
 import { NextAuthOptions } from "next-auth";
-import EmailProvider from "next-auth/providers/email";
-import { PrismaAdapter } from "@auth/prisma-adapter";
-import { prisma } from "@/lib/prisma";
+import CredentialsProvider from "next-auth/providers/credentials";
 
 export const authOptions: NextAuthOptions = {
-  adapter: PrismaAdapter(prisma),
-
   providers: [
-    EmailProvider({
-      server: {
-        host: "localhost",
-        port: 1025,
-        auth: {
-          user: "",
-          pass: "",
-        },
+    CredentialsProvider({
+      name: "Dev Login",
+      credentials: {
+        email: { label: "Email", type: "email" },
       },
-      from: "no-reply@teastorm.local",
+      async authorize(credentials) {
+        if (!credentials?.email) {
+          return null;
+        }
+
+        return {
+          id: credentials.email,
+          email: credentials.email,
+        };
+      },
     }),
   ],
 
   session: {
-    strategy: "database",
-  },
-
-  pages: {
-    signIn: "/login",
+    strategy: "jwt",
   },
 
   callbacks: {
-    session({ session, user }) {
-      if (session.user) {
-        session.user.id = user.id;
+    async session({ session, token }) {
+      if (session.user && token.sub) {
+        session.user.id = token.sub;
       }
       return session;
     },
