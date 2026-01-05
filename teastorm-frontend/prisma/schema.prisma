@@ -49,6 +49,7 @@ model Order {
   user            User? @relation(fields: [userId], references: [id], onDelete: SetNull)
 
   items           OrderItem[]
+  statusLogs      OrderStatusLog[]
 }
 
 model OrderItem {
@@ -63,4 +64,16 @@ model OrderItem {
   order     Order @relation(fields: [orderId], references: [id], onDelete: Cascade)
 
   createdAt DateTime @default(now())
+}
+
+model OrderStatusLog {
+  id         String   @id @default(cuid())
+  orderId    String
+
+  fromStatus String
+  toStatus   String
+
+  createdAt  DateTime @default(now())
+
+  order      Order @relation(fields: [orderId], references: [id], onDelete: Cascade)
 }
