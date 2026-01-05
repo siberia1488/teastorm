@@ -3,7 +3,7 @@ import { getAdminOrderById } from "@/lib/queries";
 
 /**
  * Admin order details page
- * Allows admin to view order and change status
+ * Shows order info and admin actions
  */
 type PageProps = {
   // Next.js 16: params is async
@@ -38,15 +38,18 @@ export default async function AdminOrderDetailsPage({ params }: PageProps) {
       return;
     }
 
-    await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/admin/orders/${id}`, {
-      method: "PATCH",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ status }),
-    });
+    await fetch(
+      `${process.env.NEXT_PUBLIC_BASE_URL}/api/admin/orders/${id}`,
+      {
+        method: "PATCH",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ status }),
+      }
+    );
 
-    // refresh page after update
+    // refresh page
     redirect(`/admin/orders/${id}`);
   }
 
@@ -87,6 +90,58 @@ export default async function AdminOrderDetailsPage({ params }: PageProps) {
             </dd>
           </div>
         </dl>
+      </section>
+
+      {/* Items */}
+      <section className="rounded-lg border bg-white p-6">
+        <h2 className="mb-4 text-lg font-medium text-gray-900">
+          Items
+        </h2>
+
+        <div className="overflow-x-auto">
+          <table className="w-full text-sm border-collapse">
+            <thead className="border-b bg-gray-50 text-left">
+              <tr>
+                <th className="py-2 px-2">Product</th>
+                <th className="py-2 px-2">Variant</th>
+                <th className="py-2 px-2">Qty</th>
+                <th className="py-2 px-2">Price</th>
+                <th className="py-2 px-2">Subtotal</th>
+              </tr>
+            </thead>
+
+            <tbody>
+              {order.items.map((item) => (
+                <tr
+                  key={item.id}
+                  className="border-b last:border-0"
+                >
+                  <td className="py-2 px-2 font-medium">
+                    {item.title}
+                  </td>
+
+                  <td className="py-2 px-2 text-gray-500">
+                    {item.variantId}
+                  </td>
+
+                  <td className="py-2 px-2">
+                    {item.quantity}
+                  </td>
+
+                  <td className="py-2 px-2">
+                    {(item.price / 100).toFixed(2)}{" "}
+                    {order.currency.toUpperCase()}
+                  </td>
+
+                  <td className="py-2 px-2 font-medium">
+                    {((item.price * item.quantity) / 100).toFixed(2)}{" "}
+                    {order.currency.toUpperCase()}
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
       </section>
 
       {/* Admin actions */}
