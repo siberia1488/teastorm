@@ -3,7 +3,6 @@ import { getAdminOrderById } from "@/lib/queries";
 
 /**
  * Minimal Stripe shipping address type
- * Only fields we actually use
  */
 type ShippingAddress = {
   line1?: string;
@@ -42,8 +41,23 @@ function formatAddress(
 }
 
 /**
+ * Get badge styles for order status
+ */
+function getStatusBadge(status: string) {
+  switch (status) {
+    case "paid":
+      return "bg-green-100 text-green-800";
+    case "shipped":
+      return "bg-blue-100 text-blue-800";
+    case "cancelled":
+      return "bg-red-100 text-red-800";
+    default:
+      return "bg-gray-100 text-gray-800";
+  }
+}
+
+/**
  * Admin order details page
- * Shows order info and admin actions
  */
 type PageProps = {
   // Next.js 16: params is async
@@ -115,19 +129,33 @@ export default async function AdminOrderDetailsPage({
 
         <dl className="grid grid-cols-1 gap-4 sm:grid-cols-2">
           <div>
-            <dt className="text-sm text-gray-500">Status</dt>
-            <dd className="font-medium">{order.status}</dd>
+            <dt className="text-sm text-gray-500">
+              Status
+            </dt>
+            <dd>
+              <span
+                className={`inline-flex rounded-full px-2.5 py-0.5 text-xs font-medium ${getStatusBadge(
+                  order.status
+                )}`}
+              >
+                {order.status}
+              </span>
+            </dd>
           </div>
 
           <div>
-            <dt className="text-sm text-gray-500">Email</dt>
+            <dt className="text-sm text-gray-500">
+              Email
+            </dt>
             <dd className="font-medium">
               {order.email ?? "—"}
             </dd>
           </div>
 
           <div>
-            <dt className="text-sm text-gray-500">Total</dt>
+            <dt className="text-sm text-gray-500">
+              Total
+            </dt>
             <dd className="font-semibold">
               {(order.amountTotal / 100).toFixed(2)}{" "}
               {order.currency.toUpperCase()}
@@ -179,10 +207,18 @@ export default async function AdminOrderDetailsPage({
           <table className="w-full text-sm border-collapse">
             <thead className="border-b bg-gray-50 text-left">
               <tr>
-                <th className="py-2 px-2">Product</th>
-                <th className="py-2 px-2">Variant</th>
-                <th className="py-2 px-2">Qty</th>
-                <th className="py-2 px-2">Price</th>
+                <th className="py-2 px-2">
+                  Product
+                </th>
+                <th className="py-2 px-2">
+                  Variant
+                </th>
+                <th className="py-2 px-2">
+                  Qty
+                </th>
+                <th className="py-2 px-2">
+                  Price
+                </th>
                 <th className="py-2 px-2">
                   Subtotal
                 </th>
@@ -205,12 +241,15 @@ export default async function AdminOrderDetailsPage({
                     {item.quantity}
                   </td>
                   <td className="py-2 px-2">
-                    {(item.price / 100).toFixed(2)}{" "}
+                    {(item.price / 100).toFixed(
+                      2
+                    )}{" "}
                     {order.currency.toUpperCase()}
                   </td>
                   <td className="py-2 px-2 font-medium">
                     {(
-                      (item.price * item.quantity) /
+                      (item.price *
+                        item.quantity) /
                       100
                     ).toFixed(2)}{" "}
                     {order.currency.toUpperCase()}
