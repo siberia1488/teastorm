@@ -16,6 +16,7 @@ export default async function AdminOrderDetailsPage({ params }: PageProps) {
 
   return (
     <div className="space-y-8">
+      {/* Header */}
       <header>
         <h1 className="text-2xl font-semibold text-gray-900">
           Order {order.id}
@@ -82,6 +83,7 @@ export default async function AdminOrderDetailsPage({ params }: PageProps) {
                 <th className="py-2">Variant</th>
                 <th className="py-2">Qty</th>
                 <th className="py-2">Price</th>
+                <th className="py-2">Line total</th>
               </tr>
             </thead>
             <tbody>
@@ -91,11 +93,15 @@ export default async function AdminOrderDetailsPage({ params }: PageProps) {
                     {item.title}
                   </td>
                   <td className="py-2 text-gray-500">
-                    {item.variantId}
+                    Variant ID: {item.variantId}
                   </td>
                   <td className="py-2">{item.quantity}</td>
                   <td className="py-2">
                     {(item.price / 100).toFixed(2)}{" "}
+                    {order.currency.toUpperCase()}
+                  </td>
+                  <td className="py-2 font-medium">
+                    {((item.price * item.quantity) / 100).toFixed(2)}{" "}
                     {order.currency.toUpperCase()}
                   </td>
                 </tr>
