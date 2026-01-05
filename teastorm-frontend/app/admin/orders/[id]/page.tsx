@@ -2,6 +2,46 @@ import { notFound, redirect } from "next/navigation";
 import { getAdminOrderById } from "@/lib/queries";
 
 /**
+ * Minimal Stripe shipping address type
+ * Only fields we actually use
+ */
+type ShippingAddress = {
+  line1?: string;
+  line2?: string;
+  city?: string;
+  state?: string;
+  postal_code?: string;
+  country?: string;
+};
+
+/**
+ * Format shipping address to readable lines
+ */
+function formatAddress(
+  address: ShippingAddress | null
+): string[] {
+  if (!address) return [];
+
+  const lines: string[] = [];
+
+  if (address.line1) lines.push(address.line1);
+  if (address.line2) lines.push(address.line2);
+
+  const cityLine = [
+    address.city,
+    address.state,
+    address.postal_code,
+  ]
+    .filter(Boolean)
+    .join(", ");
+
+  if (cityLine) lines.push(cityLine);
+  if (address.country) lines.push(address.country);
+
+  return lines;
+}
+
+/**
  * Admin order details page
  * Shows order info and admin actions
  */
@@ -12,7 +52,9 @@ type PageProps = {
   }>;
 };
 
-export default async function AdminOrderDetailsPage({ params }: PageProps) {
+export default async function AdminOrderDetailsPage({
+  params,
+}: PageProps) {
   // unwrap params promise
   const { id } = await params;
 
@@ -79,7 +121,9 @@ export default async function AdminOrderDetailsPage({ params }: PageProps) {
 
           <div>
             <dt className="text-sm text-gray-500">Email</dt>
-            <dd className="font-medium">{order.email ?? "—"}</dd>
+            <dd className="font-medium">
+              {order.email ?? "—"}
+            </dd>
           </div>
 
           <div>
@@ -90,6 +134,39 @@ export default async function AdminOrderDetailsPage({ params }: PageProps) {
             </dd>
           </div>
         </dl>
+      </section>
+
+      {/* Shipping */}
+      <section className="rounded-lg border bg-white p-6">
+        <h2 className="mb-4 text-lg font-medium text-gray-900">
+          Shipping
+        </h2>
+
+        {order.shippingName ||
+        order.shippingAddress ? (
+          <div className="space-y-1 text-sm">
+            {order.shippingName && (
+              <div className="font-medium">
+                {order.shippingName}
+              </div>
+            )}
+
+            {formatAddress(
+              order.shippingAddress as ShippingAddress
+            ).map((line, index) => (
+              <div
+                key={index}
+                className="text-gray-700"
+              >
+                {line}
+              </div>
+            ))}
+          </div>
+        ) : (
+          <div className="text-sm text-gray-500">
+            No shipping information
+          </div>
+        )}
       </section>
 
       {/* Items */}
@@ -106,7 +183,9 @@ export default async function AdminOrderDetailsPage({ params }: PageProps) {
                 <th className="py-2 px-2">Variant</th>
                 <th className="py-2 px-2">Qty</th>
                 <th className="py-2 px-2">Price</th>
-                <th className="py-2 px-2">Subtotal</th>
+                <th className="py-2 px-2">
+                  Subtotal
+                </th>
               </tr>
             </thead>
 
@@ -119,22 +198,21 @@ export default async function AdminOrderDetailsPage({ params }: PageProps) {
                   <td className="py-2 px-2 font-medium">
                     {item.title}
                   </td>
-
                   <td className="py-2 px-2 text-gray-500">
                     {item.variantId}
                   </td>
-
                   <td className="py-2 px-2">
                     {item.quantity}
                   </td>
-
                   <td className="py-2 px-2">
                     {(item.price / 100).toFixed(2)}{" "}
                     {order.currency.toUpperCase()}
                   </td>
-
                   <td className="py-2 px-2 font-medium">
-                    {((item.price * item.quantity) / 100).toFixed(2)}{" "}
+                    {(
+                      (item.price * item.quantity) /
+                      100
+                    ).toFixed(2)}{" "}
                     {order.currency.toUpperCase()}
                   </td>
                 </tr>
@@ -152,21 +230,33 @@ export default async function AdminOrderDetailsPage({ params }: PageProps) {
 
         <div className="flex flex-wrap gap-3">
           <form action={updateStatus}>
-            <input type="hidden" name="status" value="paid" />
+            <input
+              type="hidden"
+              name="status"
+              value="paid"
+            />
             <button className="rounded bg-green-600 px-4 py-2 text-sm text-white hover:bg-green-700">
               Mark as paid
             </button>
           </form>
 
           <form action={updateStatus}>
-            <input type="hidden" name="status" value="shipped" />
+            <input
+              type="hidden"
+              name="status"
+              value="shipped"
+            />
             <button className="rounded bg-blue-600 px-4 py-2 text-sm text-white hover:bg-blue-700">
               Mark as shipped
             </button>
           </form>
 
           <form action={updateStatus}>
-            <input type="hidden" name="status" value="cancelled" />
+            <input
+              type="hidden"
+              name="status"
+              value="cancelled"
+            />
             <button className="rounded bg-red-600 px-4 py-2 text-sm text-white hover:bg-red-700">
               Cancel order
             </button>
