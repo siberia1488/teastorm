@@ -3,20 +3,15 @@ import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
 
-const ADMIN_EMAILS = [
-  "ttrushenkova.bisiness@gmail.com",
-];
-
-type Params = {
-  params: {
-    id: string;
-  };
-};
-
+/**
+ * PATCH /api/admin/orders/[id]
+ * Update order status (admin only)
+ */
 export async function PATCH(
-  req: Request,
-  { params }: Params
+  _req: Request,
+  { params }: { params: { id: string } }
 ) {
+  // check auth session
   const session = await getServerSession(authOptions);
 
   if (!session?.user?.email) {
@@ -26,6 +21,11 @@ export async function PATCH(
     );
   }
 
+  // simple admin allowlist
+  const ADMIN_EMAILS = [
+    "ttrushenkova.bisiness@gmail.com",
+  ];
+
   if (!ADMIN_EMAILS.includes(session.user.email)) {
     return NextResponse.json(
       { error: "Forbidden" },
@@ -33,15 +33,18 @@ export async function PATCH(
     );
   }
 
-  const body = await req.json();
-  const { status } = body as { status?: string };
+  const { id } = params;
 
-  if (!status) {
+  if (!id) {
     return NextResponse.json(
-      { error: "Missing status" },
+      { error: "Missing order id" },
       { status: 400 }
     );
   }
+
+  // parse body
+  const body = await _req.json();
+  const { status } = body;
 
   const allowedStatuses = [
     "pending",
@@ -57,19 +60,11 @@ export async function PATCH(
     );
   }
 
-  try {
-    const order = await prisma.order.update({
-      where: { id: params.id },
-      data: { status },
-    });
+  // update order
+  const order = await prisma.order.update({
+    where: { id },
+    data: { status },
+  });
 
-    return NextResponse.json({ order });
-  } catch (error) {
-    console.error("ADMIN ORDER STATUS UPDATE ERROR", error);
-
-    return NextResponse.json(
-      { error: "Order not found" },
-      { status: 404 }
-    );
-  }
+  return NextResponse.json({ success: true, order });
 }
