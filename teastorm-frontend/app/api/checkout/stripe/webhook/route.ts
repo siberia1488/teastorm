@@ -1,7 +1,10 @@
 import { NextResponse } from "next/server";
 import Stripe from "stripe";
 import { prisma } from "@/lib/prisma";
-import { sendOrderPaidEmail } from "@/lib/email";
+import {
+  sendOrderPaidEmail,
+  sendAdminOrderPaidEmail,
+} from "@/lib/email";
 
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!);
 
@@ -25,12 +28,12 @@ export async function POST(req: Request) {
     return new NextResponse("Invalid signature", { status: 400 });
   }
 
-  // prevent duplicate processing
-  const existing = await prisma.order.findFirst({
+  // prevent duplicate Stripe events
+  const alreadyProcessed = await prisma.order.findFirst({
     where: { stripeEventId: event.id },
   });
 
-  if (existing) {
+  if (alreadyProcessed) {
     return NextResponse.json({ received: true });
   }
 
@@ -66,6 +69,17 @@ export async function POST(req: Request) {
         total: order.amountTotal,
       });
     }
+
+    await sendAdminOrderPaidEmail({
+      orderId: order.id,
+      email: order.email,
+      items: order.items.map((i) => ({
+        title: i.title,
+        quantity: i.quantity,
+        price: i.price,
+      })),
+      total: order.amountTotal,
+    });
   }
 
   return NextResponse.json({ received: true });

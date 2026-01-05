@@ -20,6 +20,7 @@ export default async function AccountPage() {
     <main style={styles.page}>
       <div style={styles.card}>
         <h1 style={{ fontSize: 28, marginBottom: 8 }}>Account</h1>
+
         <div style={{ color: "#666", marginBottom: 24 }}>
           {session.user.email}
         </div>
@@ -30,21 +31,32 @@ export default async function AccountPage() {
           <p style={{ color: "#777" }}>No orders yet.</p>
         )}
 
-        {orders.map((order) => (
-          <div key={order.id} style={styles.order}>
-            <div>
-              <strong>Order</strong> #{order.id.slice(0, 8)}
+        {orders.map(
+          (order: {
+            id: string;
+            status: string;
+            amountTotal: number;
+            currency: string;
+            createdAt: Date;
+          }) => (
+            <div key={order.id} style={styles.order}>
+              <div>
+                <strong>Order</strong> #{order.id.slice(0, 8)}
+              </div>
+
+              <div>Status: {order.status}</div>
+
+              <div>
+                Total: ${(order.amountTotal / 100).toFixed(2)}{" "}
+                {order.currency.toUpperCase()}
+              </div>
+
+              <div style={{ fontSize: 12, color: "#777" }}>
+                {order.createdAt.toDateString()}
+              </div>
             </div>
-            <div>Status: {order.status}</div>
-            <div>
-              Total: ${(order.amountTotal / 100).toFixed(2)}{" "}
-              {order.currency.toUpperCase()}
-            </div>
-            <div style={{ fontSize: 12, color: "#777" }}>
-              {order.createdAt.toDateString()}
-            </div>
-          </div>
-        ))}
+          )
+        )}
 
         <LogoutButton />
       </div>
