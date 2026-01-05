@@ -1,6 +1,10 @@
-import { notFound } from "next/navigation";
+import { notFound, redirect } from "next/navigation";
 import { getAdminOrderById } from "@/lib/queries";
 
+/**
+ * Admin order details page
+ * Allows admin to view order and change status
+ */
 type PageProps = {
   // Next.js 16: params is async
   params: Promise<{
@@ -22,17 +26,43 @@ export default async function AdminOrderDetailsPage({ params }: PageProps) {
     notFound();
   }
 
+  /**
+   * Server action: update order status
+   */
+  async function updateStatus(formData: FormData) {
+    "use server";
+
+    const status = formData.get("status");
+
+    if (!status || typeof status !== "string") {
+      return;
+    }
+
+    await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/admin/orders/${id}`, {
+      method: "PATCH",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ status }),
+    });
+
+    // refresh page after update
+    redirect(`/admin/orders/${id}`);
+  }
+
   return (
     <div className="space-y-8">
+      {/* Header */}
       <header>
         <h1 className="text-2xl font-semibold text-gray-900">
-          Order {order.id}
+          Order {order.id.slice(0, 8)}
         </h1>
         <p className="text-sm text-gray-500">
           Created {new Date(order.createdAt).toLocaleString()}
         </p>
       </header>
 
+      {/* Summary */}
       <section className="rounded-lg border bg-white p-6">
         <h2 className="mb-4 text-lg font-medium text-gray-900">
           Summary
@@ -57,6 +87,36 @@ export default async function AdminOrderDetailsPage({ params }: PageProps) {
             </dd>
           </div>
         </dl>
+      </section>
+
+      {/* Admin actions */}
+      <section className="rounded-lg border bg-white p-6">
+        <h2 className="mb-4 text-lg font-medium text-gray-900">
+          Actions
+        </h2>
+
+        <div className="flex flex-wrap gap-3">
+          <form action={updateStatus}>
+            <input type="hidden" name="status" value="paid" />
+            <button className="rounded bg-green-600 px-4 py-2 text-sm text-white hover:bg-green-700">
+              Mark as paid
+            </button>
+          </form>
+
+          <form action={updateStatus}>
+            <input type="hidden" name="status" value="shipped" />
+            <button className="rounded bg-blue-600 px-4 py-2 text-sm text-white hover:bg-blue-700">
+              Mark as shipped
+            </button>
+          </form>
+
+          <form action={updateStatus}>
+            <input type="hidden" name="status" value="cancelled" />
+            <button className="rounded bg-red-600 px-4 py-2 text-sm text-white hover:bg-red-700">
+              Cancel order
+            </button>
+          </form>
+        </div>
       </section>
     </div>
   );
