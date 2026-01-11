@@ -1,9 +1,10 @@
 import { notFound, redirect } from "next/navigation";
-import { getAdminOrderById } from "@/lib/queries";
+import {
+  getAdminOrderById,
+  getAdminOrderStatusLog,
+} from "@/lib/queries";
 
-/**
- * Minimal Stripe shipping address type
- */
+// Stripe address
 type ShippingAddress = {
   line1?: string;
   line2?: string;
@@ -13,12 +14,8 @@ type ShippingAddress = {
   country?: string;
 };
 
-/**
- * Format shipping address to readable lines
- */
-function formatAddress(
-  address: ShippingAddress | null
-): string[] {
+// Format address
+function formatAddress(address: ShippingAddress | null): string[] {
   if (!address) return [];
 
   const lines: string[] = [];
@@ -26,11 +23,7 @@ function formatAddress(
   if (address.line1) lines.push(address.line1);
   if (address.line2) lines.push(address.line2);
 
-  const cityLine = [
-    address.city,
-    address.state,
-    address.postal_code,
-  ]
+  const cityLine = [address.city, address.state, address.postal_code]
     .filter(Boolean)
     .join(", ");
 
@@ -40,9 +33,7 @@ function formatAddress(
   return lines;
 }
 
-/**
- * Get badge styles for order status
- */
+// Status colors
 function getStatusBadge(status: string) {
   switch (status) {
     case "paid":
@@ -56,56 +47,38 @@ function getStatusBadge(status: string) {
   }
 }
 
-/**
- * Admin order details page
- */
+// Page
 type PageProps = {
-  // Next.js 16: params is async
-  params: Promise<{
-    id: string;
-  }>;
+  params: Promise<{ id: string }>;
 };
 
 export default async function AdminOrderDetailsPage({
   params,
 }: PageProps) {
-  // unwrap params promise
   const { id } = await params;
-
-  if (!id) {
-    notFound();
-  }
+  if (!id) notFound();
 
   const order = await getAdminOrderById(id);
+  if (!order) notFound();
 
-  if (!order) {
-    notFound();
-  }
+  const statusLog = await getAdminOrderStatusLog(id);
 
-  /**
-   * Server action: update order status
-   */
+  // Update status
   async function updateStatus(formData: FormData) {
     "use server";
 
     const status = formData.get("status");
-
-    if (!status || typeof status !== "string") {
-      return;
-    }
+    if (!status || typeof status !== "string") return;
 
     await fetch(
       `${process.env.NEXT_PUBLIC_BASE_URL}/api/admin/orders/${id}`,
       {
         method: "PATCH",
-        headers: {
-          "Content-Type": "application/json",
-        },
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ status }),
       }
     );
 
-    // refresh page
     redirect(`/admin/orders/${id}`);
   }
 
@@ -113,65 +86,50 @@ export default async function AdminOrderDetailsPage({
     <div className="space-y-8">
       {/* Header */}
       <header>
-        <h1 className="text-2xl font-semibold text-gray-900">
+        <h1 className="text-2xl font-semibold">
           Order {order.id.slice(0, 8)}
         </h1>
         <p className="text-sm text-gray-500">
-          Created {new Date(order.createdAt).toLocaleString()}
+          {new Date(order.createdAt).toLocaleString()}
         </p>
       </header>
 
       {/* Summary */}
       <section className="rounded-lg border bg-white p-6">
-        <h2 className="mb-4 text-lg font-medium text-gray-900">
-          Summary
-        </h2>
-
-        <dl className="grid grid-cols-1 gap-4 sm:grid-cols-2">
+        <div className="grid grid-cols-2 gap-4">
           <div>
-            <dt className="text-sm text-gray-500">
-              Status
-            </dt>
-            <dd>
-              <span
-                className={`inline-flex rounded-full px-2.5 py-0.5 text-xs font-medium ${getStatusBadge(
-                  order.status
-                )}`}
-              >
-                {order.status}
-              </span>
-            </dd>
+            <div className="text-sm text-gray-500">Status</div>
+            <span
+              className={`inline-flex rounded-full px-2 py-1 text-xs ${getStatusBadge(
+                order.status
+              )}`}
+            >
+              {order.status}
+            </span>
           </div>
 
           <div>
-            <dt className="text-sm text-gray-500">
-              Email
-            </dt>
-            <dd className="font-medium">
+            <div className="text-sm text-gray-500">Email</div>
+            <div className="font-medium">
               {order.email ?? "—"}
-            </dd>
+            </div>
           </div>
 
           <div>
-            <dt className="text-sm text-gray-500">
-              Total
-            </dt>
-            <dd className="font-semibold">
+            <div className="text-sm text-gray-500">Total</div>
+            <div className="font-semibold">
               {(order.amountTotal / 100).toFixed(2)}{" "}
               {order.currency.toUpperCase()}
-            </dd>
+            </div>
           </div>
-        </dl>
+        </div>
       </section>
 
       {/* Shipping */}
       <section className="rounded-lg border bg-white p-6">
-        <h2 className="mb-4 text-lg font-medium text-gray-900">
-          Shipping
-        </h2>
+        <h2 className="mb-4 text-lg font-medium">Shipping</h2>
 
-        {order.shippingName ||
-        order.shippingAddress ? (
+        {order.shippingName || order.shippingAddress ? (
           <div className="space-y-1 text-sm">
             {order.shippingName && (
               <div className="font-medium">
@@ -181,125 +139,89 @@ export default async function AdminOrderDetailsPage({
 
             {formatAddress(
               order.shippingAddress as ShippingAddress
-            ).map((line, index) => (
-              <div
-                key={index}
-                className="text-gray-700"
-              >
+            ).map((line, i) => (
+              <div key={i} className="text-gray-700">
                 {line}
               </div>
             ))}
           </div>
         ) : (
           <div className="text-sm text-gray-500">
-            No shipping information
+            No shipping info
           </div>
+        )}
+      </section>
+
+      {/* Status history */}
+      <section className="rounded-lg border bg-white p-6">
+        <h2 className="mb-4 text-lg font-medium">
+          Status history
+        </h2>
+
+        {statusLog.length === 0 ? (
+          <p className="text-sm text-gray-500">
+            No changes yet
+          </p>
+        ) : (
+          <ul className="space-y-2 text-sm">
+            {statusLog.map((log) => (
+              <li
+                key={log.id}
+                className="flex justify-between border-b pb-1"
+              >
+                <span>
+                  {log.fromStatus} →{" "}
+                  <strong>{log.toStatus}</strong>
+                </span>
+                <span className="text-gray-500">
+                  {new Date(log.createdAt).toLocaleString()}
+                </span>
+              </li>
+            ))}
+          </ul>
         )}
       </section>
 
       {/* Items */}
       <section className="rounded-lg border bg-white p-6">
-        <h2 className="mb-4 text-lg font-medium text-gray-900">
-          Items
-        </h2>
+        <h2 className="mb-4 text-lg font-medium">Items</h2>
 
-        <div className="overflow-x-auto">
-          <table className="w-full text-sm border-collapse">
-            <thead className="border-b bg-gray-50 text-left">
-              <tr>
-                <th className="py-2 px-2">
-                  Product
-                </th>
-                <th className="py-2 px-2">
-                  Variant
-                </th>
-                <th className="py-2 px-2">
-                  Qty
-                </th>
-                <th className="py-2 px-2">
-                  Price
-                </th>
-                <th className="py-2 px-2">
-                  Subtotal
-                </th>
+        <table className="w-full text-sm">
+          <thead className="border-b">
+            <tr>
+              <th>Product</th>
+              <th>Qty</th>
+              <th>Price</th>
+            </tr>
+          </thead>
+          <tbody>
+            {order.items.map((item) => (
+              <tr key={item.id} className="border-b">
+                <td>{item.title}</td>
+                <td>{item.quantity}</td>
+                <td>
+                  {(item.price / 100).toFixed(2)}{" "}
+                  {order.currency.toUpperCase()}
+                </td>
               </tr>
-            </thead>
-
-            <tbody>
-              {order.items.map((item) => (
-                <tr
-                  key={item.id}
-                  className="border-b last:border-0"
-                >
-                  <td className="py-2 px-2 font-medium">
-                    {item.title}
-                  </td>
-                  <td className="py-2 px-2 text-gray-500">
-                    {item.variantId}
-                  </td>
-                  <td className="py-2 px-2">
-                    {item.quantity}
-                  </td>
-                  <td className="py-2 px-2">
-                    {(item.price / 100).toFixed(
-                      2
-                    )}{" "}
-                    {order.currency.toUpperCase()}
-                  </td>
-                  <td className="py-2 px-2 font-medium">
-                    {(
-                      (item.price *
-                        item.quantity) /
-                      100
-                    ).toFixed(2)}{" "}
-                    {order.currency.toUpperCase()}
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
+            ))}
+          </tbody>
+        </table>
       </section>
 
-      {/* Admin actions */}
+      {/* Actions */}
       <section className="rounded-lg border bg-white p-6">
-        <h2 className="mb-4 text-lg font-medium text-gray-900">
-          Actions
-        </h2>
+        <h2 className="mb-4 text-lg font-medium">Actions</h2>
 
-        <div className="flex flex-wrap gap-3">
-          <form action={updateStatus}>
-            <input
-              type="hidden"
-              name="status"
-              value="paid"
-            />
-            <button className="rounded bg-green-600 px-4 py-2 text-sm text-white hover:bg-green-700">
-              Mark as paid
-            </button>
-          </form>
-
-          <form action={updateStatus}>
-            <input
-              type="hidden"
-              name="status"
-              value="shipped"
-            />
-            <button className="rounded bg-blue-600 px-4 py-2 text-sm text-white hover:bg-blue-700">
-              Mark as shipped
-            </button>
-          </form>
-
-          <form action={updateStatus}>
-            <input
-              type="hidden"
-              name="status"
-              value="cancelled"
-            />
-            <button className="rounded bg-red-600 px-4 py-2 text-sm text-white hover:bg-red-700">
-              Cancel order
-            </button>
-          </form>
+        <div className="flex gap-3">
+          {["paid", "shipped", "cancelled"].map((s) => (
+            <form key={s} action={updateStatus}>
+              <input type="hidden" name="status" value={s} />
+              <button className="rounded bg-gray-800 px-4 py-2 text-sm text-white">
+                Mark {s}
+              </button>
+            </form>
+          ))}
         </div>
       </section>
     </div>
