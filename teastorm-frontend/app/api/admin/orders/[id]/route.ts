@@ -5,13 +5,13 @@ import { prisma } from "@/lib/prisma";
 
 /**
  * PATCH /api/admin/orders/[id]
- * Admin-only: update order status and write status log
+ * Update order status and write status log (admin only)
  */
 export async function PATCH(
   req: Request,
   { params }: { params: { id: string } }
 ) {
-  // Check admin session
+  // check auth session
   const session = await getServerSession(authOptions);
 
   if (!session?.user?.email) {
@@ -21,7 +21,7 @@ export async function PATCH(
     );
   }
 
-  // Admin allowlist
+  // simple admin allowlist
   const ADMIN_EMAILS = [
     "ttrushenkova.bisiness@gmail.com",
   ];
@@ -33,16 +33,15 @@ export async function PATCH(
     );
   }
 
-  const orderId = params.id;
+  const { id } = params;
 
-  if (!orderId) {
+  if (!id) {
     return NextResponse.json(
       { error: "Missing order id" },
       { status: 400 }
     );
   }
 
-  // Parse body
   const body = await req.json();
   const { status } = body;
 
@@ -60,46 +59,38 @@ export async function PATCH(
     );
   }
 
-  // Fetch current order
-  const existingOrder = await prisma.order.findUnique({
-    where: { id: orderId },
+  // load current order
+  const order = await prisma.order.findUnique({
+    where: { id },
   });
 
-  if (!existingOrder) {
+  if (!order) {
     return NextResponse.json(
       { error: "Order not found" },
       { status: 404 }
     );
   }
 
-  // No change → do nothing
-  if (existingOrder.status === status) {
-    return NextResponse.json({
-      success: true,
-      order: existingOrder,
-    });
+  // no change → do nothing
+  if (order.status === status) {
+    return NextResponse.json({ success: true });
   }
 
-  // Transaction: update status + write log
-  const updatedOrder = await prisma.$transaction(async (tx) => {
-    const order = await tx.order.update({
-      where: { id: orderId },
+  // update status + log in one transaction
+  await prisma.$transaction([
+    prisma.order.update({
+      where: { id },
       data: { status },
-    });
+    }),
 
-    await tx.orderStatusLog.create({
+    prisma.orderStatusLog.create({
       data: {
-        orderId: orderId,
-        fromStatus: existingOrder.status,
+        orderId: id,
+        fromStatus: order.status,
         toStatus: status,
       },
-    });
+    }),
+  ]);
 
-    return order;
-  });
-
-  return NextResponse.json({
-    success: true,
-    order: updatedOrder,
-  });
+  return NextResponse.json({ success: true });
 }
