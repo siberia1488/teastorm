@@ -11,402 +11,341 @@ export type Product = {
   title: string;
   subtitle?: string;
   shortDescription: string;
-
   category: "oolong" | "green" | "black" | "white" | "puerh";
-
   origin: {
     region: string;
     country: string;
     harvestYear: number;
   };
-
   flavorNotes: string[];
   effect: "Calming" | "Energizing" | "Focusing" | "Balancing";
-
   description: string;
   brewingGuide: string;
-
   variants: ProductVariant[];
-
   image: string;
   badge?: "Calm" | "Energy" | "Focus";
 };
 
 export const products: Product[] = [
-  // 1. Da Hong Pao
+  // 1) Zhang Xiang Green Mark — cake only
   {
-    id: "da-hong-pao",
-    slug: "da-hong-pao",
-    title: "Da Hong Pao",
-    subtitle: "Big Red Robe Oolong",
-    shortDescription:
-      "Legendary Wuyi oolong with deep roasted character and long, warming finish.",
-    category: "oolong",
-    origin: {
-      region: "Wuyi Mountains, Fujian",
-      country: "China",
-      harvestYear: 2025,
-    },
-    flavorNotes: ["roasted nuts", "cocoa", "spice", "mineral"],
+    id: "green-mark-2006",
+    slug: "green-mark-2006",
+    title: "Zhang Xiang Green Mark",
+    subtitle: "Aged Sheng Pu-erh Cake (2006)",
+    shortDescription: "Legendary aged sheng pu-erh with camphor and woody depth.",
+    category: "puerh",
+    origin: { region: "Menghai, Yunnan", country: "China", harvestYear: 2006 },
+    flavorNotes: ["camphor", "aged wood", "sweet earth"],
     effect: "Balancing",
     description:
-      "Da Hong Pao is one of China’s most iconic oolong teas, grown on the rocky cliffs of the Wuyi Mountains. Medium roasting reveals a dense, mineral-rich body with layers of roasted nuts, cocoa, and subtle spice. The finish is long, clean, and grounding.",
+      "A highly sought-after 2006 sheng pu-erh cake with deep camphor notes, smooth woody sweetness, and a long evolving finish.",
     brewingGuide:
-      "Use 5–6g per 100ml. Water temperature 95–100°C (203–212°F). Short infusions with gradual increases. Suitable for 5–6 infusions.",
+      "Use 5–6g per 100ml. Boiling water. Rinse once, then short infusions.",
     variants: [
-      { id: "da-hong-pao-50g", label: "50 g", weightGrams: 50, priceUsd: 24 },
-      { id: "da-hong-pao-100g", label: "100 g", weightGrams: 100, priceUsd: 44 },
+      { id: "green-mark-cake", label: "375 g cake", weightGrams: 375, priceUsd: 148 },
     ],
-    image: "/images/da-hong-pao.jpg",
-    badge: "Focus",
+    image: "/images/green-mark.jpg",
   },
 
-  // 2. Jin Xuan
+  // 2) Bulangshan Peacock — cake only
   {
-    id: "jin-xuan",
-    slug: "jin-xuan",
-    title: "Jin Xuan",
-    subtitle: "Milk Oolong",
-    shortDescription:
-      "Creamy Taiwanese oolong with soft floral notes and natural sweetness.",
-    category: "oolong",
-    origin: {
-      region: "Nantou, Taiwan",
-      country: "Taiwan",
-      harvestYear: 2025,
-    },
-    flavorNotes: ["cream", "butter", "orchid", "caramel"],
-    effect: "Calming",
+    id: "bulangshan-peacock",
+    slug: "bulangshan-peacock",
+    title: "Bulangshan Peacock",
+    subtitle: "Sheng Pu-erh Cake",
+    shortDescription: "Powerful Bulangshan sheng pu-erh with wild mountain character.",
+    category: "puerh",
+    origin: { region: "Bulangshan, Yunnan", country: "China", harvestYear: 2023 },
+    flavorNotes: ["wild herbs", "bitterness", "mineral", "floral"],
+    effect: "Energizing",
     description:
-      "Jin Xuan, often called Milk Oolong, is known for its naturally creamy aroma and smooth, comforting taste. Soft floral notes blend with gentle sweetness, creating a deeply relaxing and approachable tea.",
+      "A bold and expressive Bulangshan sheng pu-erh pressed into a 375 g cake with layered bitterness and mineral depth.",
     brewingGuide:
-      "Use 5g per 100ml. Water temperature 90–95°C (194–203°F). Gentle infusions раскрывают сливочные ноты.",
+      "Use 5–6g per 100ml. Boiling water. Short infusions.",
     variants: [
-      { id: "jin-xuan-50g", label: "50 g", weightGrams: 50, priceUsd: 22 },
-      { id: "jin-xuan-100g", label: "100 g", weightGrams: 100, priceUsd: 40 },
+      {
+        id: "bulangshan-peacock-cake",
+        label: "375 g cake",
+        weightGrams: 375,
+        priceUsd: 116,
+      },
     ],
-    image: "/images/jin-xuan.jpg",
-    badge: "Calm",
+    image: "/images/bulangshan-peacock.jpg",
   },
 
-  // 3. Yue Guang Bai
-  {
-    id: "yue-guang-bai",
-    slug: "yue-guang-bai",
-    title: "Yue Guang Bai",
-    subtitle: "White Moonlight",
-    shortDescription:
-      "Elegant white tea with floral sweetness and silky, clean finish.",
-    category: "white",
-    origin: {
-      region: "Yunnan",
-      country: "China",
-      harvestYear: 2025,
-    },
-    flavorNotes: ["white flowers", "honey", "melon"],
-    effect: "Calming",
-    description:
-      "Yue Guang Bai, also known as White Moonlight, is a refined white tea made from carefully processed leaves dried indoors. The cup is soft, floral, and gently sweet, with a calming and meditative character.",
-    brewingGuide:
-      "Use 4–5g per 100ml. Water temperature 85–90°C (185–194°F). Longer gentle infusions раскрывают сладость.",
-    variants: [
-      { id: "yue-guang-bai-50g", label: "50 g", weightGrams: 50, priceUsd: 22 },
-      { id: "yue-guang-bai-100g", label: "100 g", weightGrams: 100, priceUsd: 38 },
-    ],
-    image: "/images/yue-guang-bai.jpg",
-    badge: "Calm",
-  },
-
-  // 4. Lao Shou Mei 2018
-  {
-    id: "lao-shou-mei-2018",
-    slug: "lao-shou-mei-2018",
-    title: "Lao Shou Mei",
-    subtitle: "Aged White Tea (2018)",
-    shortDescription:
-      "Aged white tea with deep sweetness and warming, comforting body.",
-    category: "white",
-    origin: {
-      region: "Fujian",
-      country: "China",
-      harvestYear: 2018,
-    },
-    flavorNotes: ["dried fruit", "dates", "soft wood"],
-    effect: "Balancing",
-    description:
-      "This aged Shou Mei white tea from 2018 offers a rich, smooth profile with notes of dried fruits and soft wood. Time has rounded the edges, creating a warming and grounding cup.",
-    brewingGuide:
-      "Use 5g per 100ml. Water temperature 90–95°C (194–203°F). выдерживает длительные настои.",
-    variants: [
-      { id: "lao-shou-mei-50g", label: "50 g", weightGrams: 50, priceUsd: 24 },
-      { id: "lao-shou-mei-100g", label: "100 g", weightGrams: 100, priceUsd: 42 },
-    ],
-    image: "/images/lao-shou-mei.jpg",
-  },
-
-  // 5. GABA Nantou
+  // 3) GABA Oolong
   {
     id: "gaba-nantou",
     slug: "gaba-nantou",
     title: "GABA Oolong",
     subtitle: "Nantou, Taiwan",
-    shortDescription:
-      "Relaxing GABA oolong with sweet, baked fruit and spice notes.",
+    shortDescription: "Relaxing GABA oolong with sweet baked-fruit notes.",
     category: "oolong",
-    origin: {
-      region: "Nantou",
-      country: "Taiwan",
-      harvestYear: 2025,
-    },
-    flavorNotes: ["baked fruit", "spice", "honey"],
+    origin: { region: "Nantou", country: "Taiwan", harvestYear: 2025 },
+    flavorNotes: ["baked fruit", "honey", "spice"],
     effect: "Calming",
     description:
-      "Produced using GABA fermentation, this Taiwanese oolong is prized for its calming effect and soft, sweet flavor. Ideal for evening sessions and stress relief.",
-    brewingGuide:
-      "Use 5g per 100ml. Water temperature 95°C (203°F). Подходит для настаивания.",
+      "A smooth and calming GABA-fermented oolong with soft sweetness and warm spice.",
+    brewingGuide: "Use 5g per 100ml. Water at 95°C (203°F).",
     variants: [
-      { id: "gaba-50g", label: "50 g", weightGrams: 50, priceUsd: 28 },
+      { id: "gaba-50g", label: "50 g", weightGrams: 50, priceUsd: 16.99 },
+      { id: "gaba-100g", label: "100 g", weightGrams: 100, priceUsd: 33.99 },
+      { id: "gaba-250g", label: "250 g", weightGrams: 250, priceUsd: 83.99 },
     ],
     image: "/images/gaba.jpg",
     badge: "Calm",
   },
 
-  // 6. Dragon Pearl 2012
+  // 4) Shu Pu-erh Dragon Pearls
   {
     id: "dragon-pearl-2012",
     slug: "dragon-pearl-2012",
-    title: "Dragon Pearl",
-    subtitle: "Shu Pu-erh Pearls (2012)",
-    shortDescription:
-      "Rich aged shu pu-erh rolled into convenient tea pearls.",
+    title: "Dragon Pearls",
+    subtitle: "Shu Pu-erh Pearls",
+    shortDescription: "Rich aged shu pu-erh rolled into convenient pearls.",
     category: "puerh",
-    origin: {
-      region: "Menghai, Yunnan",
-      country: "China",
-      harvestYear: 2012,
-    },
+    origin: { region: "Menghai, Yunnan", country: "China", harvestYear: 2012 },
     flavorNotes: ["earthy", "cocoa", "cream"],
     effect: "Energizing",
     description:
-      "Aged shu pu-erh formed into pearls for convenience. Deep, smooth, and comforting with earthy sweetness and a creamy mouthfeel.",
+      "Deep and smooth shu pu-erh pearls with earthy sweetness and a creamy body.",
     brewingGuide:
-      "1 pearl per 100–120ml. Boiling water. Rinse once, then short infusions.",
+      "1–2 pearls per 120ml. Boiling water. Rinse once, then short infusions.",
     variants: [
-      { id: "dragon-pearl-50g", label: "50 g", weightGrams: 50, priceUsd: 30 },
+      { id: "dragon-pearl-50g", label: "50 g", weightGrams: 50, priceUsd: 15.99 },
+      { id: "dragon-pearl-100g", label: "100 g", weightGrams: 100, priceUsd: 31.99 },
+      { id: "dragon-pearl-250g", label: "250 g", weightGrams: 250, priceUsd: 79.99 },
     ],
     image: "/images/dragon-pearl.jpg",
   },
 
-  // 7. Green Mark 2006
-  {
-    id: "green-mark-2006",
-    slug: "green-mark-2006",
-    title: "Green Mark",
-    subtitle: "Aged Sheng Pu-erh (2006)",
-    shortDescription:
-      "Classic aged sheng pu-erh with camphor and woody depth.",
-    category: "puerh",
-    origin: {
-      region: "Menghai, Yunnan",
-      country: "China",
-      harvestYear: 2006,
-    },
-    flavorNotes: ["camphor", "wood", "sweet earth"],
-    effect: "Balancing",
-    description:
-      "A well-aged sheng pu-erh with evolving layers of camphor, wood, and sweet earth. A meditative tea for experienced drinkers.",
-    brewingGuide:
-      "Use 5–6g per 100ml. Boiling water. Short, attentive infusions.",
-    variants: [
-      { id: "green-mark-cake", label: "357 g cake", priceUsd: 120 },
-    ],
-    image: "/images/green-mark.jpg",
-  },
-
-  // 8. Dian Hong Mao Feng
-  {
-    id: "dian-hong-mao-feng",
-    slug: "dian-hong-mao-feng",
-    title: "Dian Hong Mao Feng",
-    subtitle: "Yunnan Black Tea",
-    shortDescription:
-      "Warm, honeyed black tea with cocoa and baked fruit notes.",
-    category: "black",
-    origin: {
-      region: "Yunnan",
-      country: "China",
-      harvestYear: 2024,
-    },
-    flavorNotes: ["honey", "cocoa", "baked fruit"],
-    effect: "Energizing",
-    description:
-      "Premium Dian Hong made from tender buds. Smooth, warming, and naturally sweet with a rich, comforting body.",
-    brewingGuide:
-      "Use 4–5g per 100ml. Water temperature 90–95°C (194–203°F).",
-    variants: [
-      { id: "dian-hong-50g", label: "50 g", weightGrams: 50, priceUsd: 26 },
-    ],
-    image: "/images/dian-hong.jpg",
-    badge: "Energy",
-  },
-
-  // 9. Longjing 2023
-  {
-    id: "longjing-2023",
-    slug: "longjing-2023",
-    title: "Longjing",
-    subtitle: "Dragon Well Green Tea",
-    shortDescription:
-      "Classic pan-fired green tea with nutty sweetness and freshness.",
-    category: "green",
-    origin: {
-      region: "Hangzhou, Zhejiang",
-      country: "China",
-      harvestYear: 2023,
-    },
-    flavorNotes: ["chestnut", "fresh grass", "sweet finish"],
-    effect: "Focusing",
-    description:
-      "One of China’s most famous green teas. Smooth, nutty, and refreshing with a clean, lingering sweetness.",
-    brewingGuide:
-      "Use 4g per 100ml. Water temperature 75–80°C (167–176°F).",
-    variants: [
-      { id: "longjing-50g", label: "50 g", weightGrams: 50, priceUsd: 39 },
-    ],
-    image: "/images/longjing.jpg",
-    badge: "Focus",
-  },
-
-  // 10. Mao Jian Ye Sheng (Wild)
-  {
-    id: "mao-jian-wild",
-    slug: "mao-jian-wild",
-    title: "Mao Jian Ye Sheng",
-    subtitle: "Wild Green Tea",
-    shortDescription:
-      "Bright wild green tea with floral aroma and fresh acidity.",
-    category: "green",
-    origin: {
-      region: "Fujian",
-      country: "China",
-      harvestYear: 2025,
-    },
-    flavorNotes: ["fresh herbs", "flowers", "light fruit"],
-    effect: "Energizing",
-    description:
-      "Harvested from wild-growing tea trees, offering a lively and refreshing cup with natural complexity.",
-    brewingGuide:
-      "Use 4g per 100ml. Water temperature up to 80°C (176°F).",
-    variants: [
-      { id: "mao-jian-wild-50g", label: "50 g", weightGrams: 50, priceUsd: 20 },
-    ],
-    image: "/images/mao-jian-wild.jpg",
-    badge: "Energy",
-  },
-
-  // 11. Shu Pu-erh Gongting 2018
-  {
-    id: "gongting-shu-2018",
-    slug: "gongting-shu-2018",
-    title: "Gongting Shu Pu-erh",
-    subtitle: "Imperial Grade (2018)",
-    shortDescription:
-      "Smooth shu pu-erh with deep sweetness and clean body.",
-    category: "puerh",
-    origin: {
-      region: "Lincang, Yunnan",
-      country: "China",
-      harvestYear: 2018,
-    },
-    flavorNotes: ["sweet earth", "dark chocolate", "dates"],
-    effect: "Energizing",
-    description:
-      "High-grade shu pu-erh made from tender buds. Dense, smooth, and easy-drinking.",
-    brewingGuide:
-      "Use boiling water. Rinse once. Short infusions.",
-    variants: [
-      { id: "gongting-50g", label: "50 g", weightGrams: 50, priceUsd: 18 },
-    ],
-    image: "/images/gongting.jpg",
-  },
-
-  // 12. Dan Cong Ya Shi Xiang
+  // 5) Shi Xiang Dan Cong
   {
     id: "ya-shi-xiang",
     slug: "ya-shi-xiang",
-    title: "Ya Shi Xiang",
-    subtitle: "Duck Shit Aroma Oolong",
-    shortDescription:
-      "Highly aromatic Dan Cong oolong with floral and fruity depth.",
+    title: "Shi Xiang Dan Cong",
+    subtitle: "Phoenix Oolong",
+    shortDescription: "Highly aromatic Dan Cong with floral and fruity depth.",
     category: "oolong",
-    origin: {
-      region: "Fenghuang, Guangdong",
-      country: "China",
-      harvestYear: 2025,
-    },
+    origin: { region: "Fenghuang, Guangdong", country: "China", harvestYear: 2025 },
     flavorNotes: ["orchid", "stone fruit", "honey"],
     effect: "Focusing",
     description:
-      "A famous Dan Cong oolong with intense aroma and layered flavor. Elegant and expressive.",
-    brewingGuide:
-      "Use 6g per 100ml. Water temperature 95°C (203°F).",
+      "A famous Dan Cong oolong with intense aroma and layered, elegant flavor.",
+    brewingGuide: "Use 6g per 100ml. Water at 95°C (203°F).",
     variants: [
-      { id: "ya-shi-xiang-50g", label: "50 g", weightGrams: 50, priceUsd: 32 },
+      { id: "ya-shi-xiang-50g", label: "50 g", weightGrams: 50, priceUsd: 23.99 },
+      { id: "ya-shi-xiang-100g", label: "100 g", weightGrams: 100, priceUsd: 47.99 },
+      { id: "ya-shi-xiang-250g", label: "250 g", weightGrams: 250, priceUsd: 115.99 },
     ],
     image: "/images/ya-shi-xiang.jpg",
     badge: "Focus",
   },
 
-  // 13. Lincang Sheng Pu-erh 2018
+  // 6) Da Hong Pao
   {
-    id: "lincang-sheng-2018",
-    slug: "lincang-sheng-2018",
-    title: "Lincang Sheng Pu-erh",
-    subtitle: "Raw Pu-erh (2018)",
-    shortDescription:
-      "Bright and structured sheng pu-erh with woody sweetness.",
-    category: "puerh",
-    origin: {
-      region: "Lincang, Yunnan",
-      country: "China",
-      harvestYear: 2018,
-    },
-    flavorNotes: ["wood", "sweet bitterness", "dried fruit"],
-    effect: "Energizing",
-    description:
-      "High-altitude sheng pu-erh with clean structure and evolving character.",
-    brewingGuide:
-      "Use boiling water. Short infusions, increase gradually.",
-    variants: [
-      { id: "lincang-sheng-50g", label: "50 g", weightGrams: 50, priceUsd: 16 },
-    ],
-    image: "/images/lincang-sheng.jpg",
-  },
-
-  // 14. Long Zhu Pearls
-  {
-    id: "long-zhu",
-    slug: "long-zhu",
-    title: "Long Zhu",
-    subtitle: "Dragon Pearl Black Tea",
-    shortDescription:
-      "Rolled black tea pearls with cocoa and creamy sweetness.",
-    category: "black",
-    origin: {
-      region: "Yunnan",
-      country: "China",
-      harvestYear: 2025,
-    },
-    flavorNotes: ["cocoa", "cream", "baked bread"],
+    id: "da-hong-pao",
+    slug: "da-hong-pao",
+    title: "Da Hong Pao",
+    subtitle: "Big Red Robe Oolong",
+    shortDescription: "Legendary Wuyi rock oolong with deep roasted character.",
+    category: "oolong",
+    origin: { region: "Wuyi Mountains, Fujian", country: "China", harvestYear: 2025 },
+    flavorNotes: ["roasted nuts", "cocoa", "mineral"],
     effect: "Balancing",
     description:
-      "Hand-rolled black tea pearls that unfurl slowly, releasing a rich and comforting cup.",
-    brewingGuide:
-      "Use 3–4 pearls per 200ml. Water temperature 95°C (203°F).",
+      "A classic Wuyi rock oolong with mineral depth and long, warming finish.",
+    brewingGuide: "Use 5–6g per 100ml. Water at 95–100°C.",
     variants: [
-      { id: "long-zhu-50g", label: "50 g", weightGrams: 50, priceUsd: 25 },
+      { id: "da-hong-pao-50g", label: "50 g", weightGrams: 50, priceUsd: 11.99 },
+      { id: "da-hong-pao-100g", label: "100 g", weightGrams: 100, priceUsd: 23.99 },
+      { id: "da-hong-pao-250g", label: "250 g", weightGrams: 250, priceUsd: 58.99 },
     ],
-    image: "/images/long-zhu.jpg",
+    image: "/images/da-hong-pao.jpg",
+    badge: "Focus",
+  },
+
+  // 7) Milk Oolong (Jin Xuan)
+  {
+    id: "jin-xuan",
+    slug: "jin-xuan",
+    title: "Milk Oolong",
+    subtitle: "Jin Xuan",
+    shortDescription: "Naturally creamy Taiwanese oolong with floral sweetness.",
+    category: "oolong",
+    origin: { region: "Nantou, Taiwan", country: "Taiwan", harvestYear: 2025 },
+    flavorNotes: ["cream", "butter", "orchid"],
+    effect: "Calming",
+    description:
+      "A smooth and comforting oolong with soft floral aroma and creamy body.",
+    brewingGuide: "Use 5g per 100ml. Water at 90–95°C.",
+    variants: [
+      { id: "jin-xuan-50g", label: "50 g", weightGrams: 50, priceUsd: 14.99 },
+      { id: "jin-xuan-100g", label: "100 g", weightGrams: 100, priceUsd: 29.99 },
+      { id: "jin-xuan-250g", label: "250 g", weightGrams: 250, priceUsd: 71.99 },
+    ],
+    image: "/images/jin-xuan.jpg",
+    badge: "Calm",
+  },
+
+  // 8) Dian Hong Mao Feng
+  {
+    id: "dian-hong-mao-feng",
+    slug: "dian-hong-mao-feng",
+    title: "Dian Hong Mao Feng",
+    subtitle: "Yunnan Black Tea",
+    shortDescription: "Warm, honeyed black tea with cocoa notes.",
+    category: "black",
+    origin: { region: "Yunnan", country: "China", harvestYear: 2024 },
+    flavorNotes: ["honey", "cocoa", "baked fruit"],
+    effect: "Energizing",
+    description:
+      "Premium Yunnan black tea made from tender buds with natural sweetness.",
+    brewingGuide: "Use 4–5g per 100ml. Water at 90–95°C.",
+    variants: [
+      { id: "dian-hong-50g", label: "50 g", weightGrams: 50, priceUsd: 9.99 },
+      { id: "dian-hong-100g", label: "100 g", weightGrams: 100, priceUsd: 19.99 },
+      { id: "dian-hong-250g", label: "250 g", weightGrams: 250, priceUsd: 47.99 },
+    ],
+    image: "/images/dian-hong.jpg",
+    badge: "Energy",
+  },
+
+  // 9) Lincang Gongting Shu
+  {
+    id: "gongting-shu-2018",
+    slug: "gongting-shu-2018",
+    title: "Lincang Gongting Shu",
+    subtitle: "Ripe Pu-erh (2018)",
+    shortDescription: "Smooth ripe pu-erh with deep sweetness.",
+    category: "puerh",
+    origin: { region: "Lincang, Yunnan", country: "China", harvestYear: 2018 },
+    flavorNotes: ["sweet earth", "dark chocolate", "dates"],
+    effect: "Energizing",
+    description:
+      "Imperial-grade ripe pu-erh with dense body and clean, sweet finish.",
+    brewingGuide: "Boiling water. Rinse once. Short infusions.",
+    variants: [
+      { id: "gongting-50g", label: "50 g", weightGrams: 50, priceUsd: 12.99 },
+      { id: "gongting-100g", label: "100 g", weightGrams: 100, priceUsd: 25.99 },
+      { id: "gongting-250g", label: "250 g", weightGrams: 250, priceUsd: 62.99 },
+    ],
+    image: "/images/gongting.jpg",
+  },
+
+  // 10) Mao Jian Green
+  {
+    id: "mao-jian-wild",
+    slug: "mao-jian-wild",
+    title: "Mao Jian Green Tea",
+    subtitle: "Wild Green",
+    shortDescription: "Bright wild green tea with floral aroma.",
+    category: "green",
+    origin: { region: "Fujian", country: "China", harvestYear: 2025 },
+    flavorNotes: ["fresh herbs", "flowers", "light fruit"],
+    effect: "Energizing",
+    description:
+      "Harvested from wild tea trees, offering a lively and refreshing cup.",
+    brewingGuide: "Use 4g per 100ml. Water up to 80°C.",
+    variants: [
+      { id: "mao-jian-wild-50g", label: "50 g", weightGrams: 50, priceUsd: 12.99 },
+      { id: "mao-jian-wild-100g", label: "100 g", weightGrams: 100, priceUsd: 25.99 },
+      { id: "mao-jian-wild-250g", label: "250 g", weightGrams: 250, priceUsd: 64.99 },
+    ],
+    image: "/images/mao-jian-wild.jpg",
+    badge: "Energy",
+  },
+
+  // 11) Lao Shou Mei
+  {
+    id: "lao-shou-mei-2018",
+    slug: "lao-shou-mei-2018",
+    title: "Lao Shou Mei",
+    subtitle: "Aged White Tea (2018)",
+    shortDescription: "Aged white tea with deep sweetness and warmth.",
+    category: "white",
+    origin: { region: "Fujian", country: "China", harvestYear: 2018 },
+    flavorNotes: ["dried fruit", "dates", "soft wood"],
+    effect: "Balancing",
+    description:
+      "An aged white tea with rich sweetness and a smooth, comforting body.",
+    brewingGuide: "Use 5g per 100ml. Water at 90–95°C.",
+    variants: [
+      { id: "lao-shou-mei-50g", label: "50 g", weightGrams: 50, priceUsd: 15.99 },
+      { id: "lao-shou-mei-100g", label: "100 g", weightGrams: 100, priceUsd: 31.99 },
+      { id: "lao-shou-mei-250g", label: "250 g", weightGrams: 250, priceUsd: 77.99 },
+    ],
+    image: "/images/lao-shou-mei.jpg",
+  },
+
+  // 12) Yue Guang Bai
+  {
+    id: "yue-guang-bai",
+    slug: "yue-guang-bai",
+    title: "Yue Guang Bai",
+    subtitle: "White Moonlight",
+    shortDescription: "Elegant white tea with floral sweetness.",
+    category: "white",
+    origin: { region: "Yunnan", country: "China", harvestYear: 2025 },
+    flavorNotes: ["white flowers", "honey"],
+    effect: "Calming",
+    description:
+      "Soft and sweet white tea with floral and honeyed character.",
+    brewingGuide: "Use 4–5g per 100ml. Water at 85–90°C.",
+    variants: [
+      { id: "yue-guang-bai-50g", label: "50 g", weightGrams: 50, priceUsd: 13.99 },
+      { id: "yue-guang-bai-100g", label: "100 g", weightGrams: 100, priceUsd: 27.99 },
+      { id: "yue-guang-bai-250g", label: "250 g", weightGrams: 250, priceUsd: 69.99 },
+    ],
+    image: "/images/yue-guang-bai.jpg",
+    badge: "Calm",
+  },
+
+  // 13) Zhengshan Xiaozhong (Lapsang Souchong)
+  {
+    id: "zhengshan-xiaozhong",
+    slug: "zhengshan-xiaozhong",
+    title: "Zhengshan Xiaozhong",
+    subtitle: "Lapsang Souchong Black Tea",
+    shortDescription: "Classic smoky black tea from Wuyi.",
+    category: "black",
+    origin: { region: "Wuyi Mountains, Fujian", country: "China", harvestYear: 2025 },
+    flavorNotes: ["smoke", "pine", "dark cocoa"],
+    effect: "Energizing",
+    description:
+      "Traditional Lapsang Souchong with pine-smoked aroma and rich black tea body.",
+    brewingGuide: "Use 4–5g per 100ml. Water at 95°C.",
+    variants: [
+      { id: "xiaozhong-50g", label: "50 g", weightGrams: 50, priceUsd: 9.99 },
+      { id: "xiaozhong-100g", label: "100 g", weightGrams: 100, priceUsd: 19.99 },
+      { id: "xiaozhong-250g", label: "250 g", weightGrams: 250, priceUsd: 45.99 },
+    ],
+    image: "/images/zhengshan-xiaozhong.jpg",
+    badge: "Energy",
+  },
+
+  // 14) Longjing
+  {
+    id: "longjing-2023",
+    slug: "longjing-2023",
+    title: "Longjing",
+    subtitle: "Dragon Well Green Tea",
+    shortDescription: "Famous pan-fired green tea with nutty sweetness.",
+    category: "green",
+    origin: { region: "Hangzhou, Zhejiang", country: "China", harvestYear: 2023 },
+    flavorNotes: ["chestnut", "fresh grass", "sweet finish"],
+    effect: "Focusing",
+    description:
+      "One of China’s most famous green teas, smooth and refreshing with a clean finish.",
+    brewingGuide: "Use 4g per 100ml. Water at 75–80°C.",
+    variants: [
+      { id: "longjing-50g", label: "50 g", weightGrams: 50, priceUsd: 26.99 },
+      { id: "longjing-100g", label: "100 g", weightGrams: 100, priceUsd: 53.99 },
+      { id: "longjing-250g", label: "250 g", weightGrams: 250, priceUsd: 130.99 },
+    ],
+    image: "/images/longjing.jpg",
+    badge: "Focus",
   },
 ];
 
