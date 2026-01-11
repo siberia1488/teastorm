@@ -1,20 +1,12 @@
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
-import { redirect, notFound } from "next/navigation";
+import { notFound } from "next/navigation";
 
 type PageProps = {
   params: {
     id: string;
   };
-};
-
-type OrderItemView = {
-  id: string;
-  title: string;
-  variantId: string;
-  price: number;
-  quantity: number;
 };
 
 type ShippingAddress = {
@@ -29,26 +21,20 @@ type ShippingAddress = {
 export default async function OrderPage({ params }: PageProps) {
   const session = await getServerSession(authOptions);
 
-  if (!session?.user) {
-    redirect("/login");
-  }
-
-  const order = await prisma.order.findFirst({
-    where: {
-      id: params.id,
-      userId: session.user.id,
-    },
-    include: {
-      items: true,
-    },
+  const order = await prisma.order.findUnique({
+    where: { id: params.id },
+    include: { items: true },
   });
 
   if (!order) {
     notFound();
   }
 
+  if (order.userId && session?.user?.id !== order.userId) {
+    notFound();
+  }
+
   const shippingAddress = order.shippingAddress as ShippingAddress | null;
-  const items = order.items as OrderItemView[];
 
   return (
     <main style={styles.page}>
@@ -67,11 +53,7 @@ export default async function OrderPage({ params }: PageProps) {
         <section style={styles.section}>
           <strong>Items</strong>
 
-          {items.length === 0 && (
-            <div style={{ color: "#777" }}>No items</div>
-          )}
-
-          {items.map((item) => (
+          {order.items.map((item) => (
             <div key={item.id} style={styles.item}>
               <div style={{ fontWeight: 500 }}>{item.title}</div>
               <div style={styles.itemMeta}>
