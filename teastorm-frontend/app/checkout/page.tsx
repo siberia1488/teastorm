@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import Link from "next/link";
-import { useCart } from "@/app/cart-context";
+import { useCart } from "@/lib/cart-context";
 
 export default function CheckoutPage() {
   const { items } = useCart();
@@ -10,7 +10,7 @@ export default function CheckoutPage() {
   const [error, setError] = useState<string | null>(null);
 
   const total = items.reduce(
-    (sum, i) => sum + i.priceUsd * i.quantity,
+    (sum, i) => sum + i.price * i.quantity,
     0
   );
 
@@ -34,10 +34,7 @@ export default function CheckoutPage() {
           </p>
           <Link
             href="/shop"
-            style={{
-              textDecoration: "underline",
-              color: "#000",
-            }}
+            style={{ textDecoration: "underline", color: "#000" }}
           >
             Go to shop →
           </Link>
@@ -57,21 +54,14 @@ export default function CheckoutPage() {
         body: JSON.stringify({ items }),
       });
 
-      if (!res.ok) {
-        throw new Error("Failed to create checkout session");
-      }
+      if (!res.ok) throw new Error("Failed to create checkout session");
 
       const data = await res.json();
-
-      if (!data.url) {
-        throw new Error("Stripe session URL missing");
-      }
+      if (!data.url) throw new Error("Stripe session URL missing");
 
       window.location.href = data.url;
     } catch (e) {
-      setError(
-        e instanceof Error ? e.message : "Something went wrong"
-      );
+      setError(e instanceof Error ? e.message : "Something went wrong");
       setIsLoading(false);
     }
   };
@@ -86,16 +76,8 @@ export default function CheckoutPage() {
         justifyContent: "center",
       }}
     >
-      <div
-        style={{
-          maxWidth: 480,
-          width: "100%",
-          animation: "fadeIn 0.3s ease forwards",
-        }}
-      >
-        <h1 style={{ fontSize: 28, marginBottom: 24 }}>
-          Checkout
-        </h1>
+      <div style={{ maxWidth: 480, width: "100%" }}>
+        <h1 style={{ fontSize: 28, marginBottom: 24 }}>Checkout</h1>
 
         <ul style={{ listStyle: "none", padding: 0 }}>
           {items.map((item) => (
@@ -109,14 +91,16 @@ export default function CheckoutPage() {
               }}
             >
               <div>
-                <strong>{item.title}</strong>
+                <strong>
+                  {item.title} – {item.variantLabel}
+                </strong>
                 <div style={{ color: "#666", fontSize: 14 }}>
-                  ${item.priceUsd.toFixed(2)} × {item.quantity}
+                  ${(item.price / 100).toFixed(2)} × {item.quantity}
                 </div>
               </div>
 
               <div>
-                ${(item.priceUsd * item.quantity).toFixed(2)}
+                ${((item.price * item.quantity) / 100).toFixed(2)}
               </div>
             </li>
           ))}
@@ -132,13 +116,11 @@ export default function CheckoutPage() {
           }}
         >
           <span>Total</span>
-          <span>${total.toFixed(2)}</span>
+          <span>${(total / 100).toFixed(2)}</span>
         </div>
 
         {error && (
-          <p style={{ color: "red", marginTop: 16 }}>
-            {error}
-          </p>
+          <p style={{ color: "red", marginTop: 16 }}>{error}</p>
         )}
 
         <button
@@ -157,34 +139,8 @@ export default function CheckoutPage() {
             opacity: isLoading ? 0.6 : 1,
           }}
         >
-          {isLoading
-            ? "Redirecting to secure checkout…"
-            : "Pay securely"}
+          {isLoading ? "Redirecting…" : "Pay securely"}
         </button>
-
-        <p
-          style={{
-            marginTop: 16,
-            fontSize: 13,
-            color: "#777",
-            textAlign: "center",
-          }}
-        >
-          Payments are processed securely by Stripe
-        </p>
-
-        <style jsx>{`
-          @keyframes fadeIn {
-            from {
-              opacity: 0;
-              transform: translateY(6px);
-            }
-            to {
-              opacity: 1;
-              transform: translateY(0);
-            }
-          }
-        `}</style>
       </div>
     </main>
   );

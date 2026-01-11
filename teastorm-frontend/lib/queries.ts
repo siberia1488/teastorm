@@ -1,17 +1,9 @@
 import { prisma } from "@/lib/prisma";
 
-/* =====================
-   ADMIN ORDERS
-===================== */
-
-/**
- * List all orders for admin
- */
+// Admin orders
 export async function getAdminOrders() {
   return prisma.order.findMany({
-    orderBy: {
-      createdAt: "desc",
-    },
+    orderBy: { createdAt: "desc" },
     select: {
       id: true,
       createdAt: true,
@@ -23,18 +15,14 @@ export async function getAdminOrders() {
   });
 }
 
-/**
- * Get single order by id
- */
+// Single order with items
 export async function getAdminOrderById(orderId?: string) {
   if (!orderId || typeof orderId !== "string") {
     return null;
   }
 
   return prisma.order.findUnique({
-    where: {
-      id: orderId,
-    },
+    where: { id: orderId },
     include: {
       items: true,
       user: {
@@ -48,27 +36,24 @@ export async function getAdminOrderById(orderId?: string) {
   });
 }
 
-/* =====================
-   ADMIN DASHBOARD
-===================== */
+// Order status history
+export async function getAdminOrderStatusLog(orderId: string) {
+  return prisma.orderStatusLog.findMany({
+    where: { orderId },
+    orderBy: { createdAt: "desc" },
+  });
+}
 
-/**
- * Admin dashboard stats
- */
+// Admin stats
 export async function getAdminDashboardStats() {
-  const [totalOrders, paidOrders, revenue] =
-    await Promise.all([
-      prisma.order.count(),
-      prisma.order.count({
-        where: { status: "paid" },
-      }),
-      prisma.order.aggregate({
-        _sum: {
-          amountTotal: true,
-        },
-        where: { status: "paid" },
-      }),
-    ]);
+  const [totalOrders, paidOrders, revenue] = await Promise.all([
+    prisma.order.count(),
+    prisma.order.count({ where: { status: "paid" } }),
+    prisma.order.aggregate({
+      _sum: { amountTotal: true },
+      where: { status: "paid" },
+    }),
+  ]);
 
   return {
     totalOrders,
@@ -77,9 +62,7 @@ export async function getAdminDashboardStats() {
   };
 }
 
-/**
- * Last admin orders
- */
+// Last orders
 export async function getAdminRecentOrders() {
   return prisma.order.findMany({
     orderBy: { createdAt: "desc" },

@@ -36,22 +36,23 @@ export default function ProductPage() {
 
     addItem({
       variantId: selectedVariant.id,
-      title: `${product.title} – ${selectedVariant.label}`,
+      productId: product.id,
+      slug: product.slug,
+      title: product.title,
+      variantLabel: selectedVariant.label,
+      weightGrams: selectedVariant.weightGrams,
       price: Math.round(selectedVariant.priceUsd * 100),
+      image: product.image,
       quantity: 1,
     });
 
-    open(); // открываем мини-корзину
+    open();
   };
 
+  const isSingleVariant = product.variants.length === 1;
+
   return (
-    <main
-      style={{
-        maxWidth: 1000,
-        margin: "0 auto",
-        padding: "32px 24px",
-      }}
-    >
+    <main style={{ maxWidth: 1000, margin: "0 auto", padding: "32px 24px" }}>
       <Link href="/shop" style={{ display: "inline-block", marginBottom: 24 }}>
         ← Back to shop
       </Link>
@@ -74,37 +75,37 @@ export default function ProductPage() {
             </div>
           )}
 
-          <p style={{ marginBottom: 20 }}>
-            {product.shortDescription}
-          </p>
+          <p style={{ marginBottom: 20 }}>{product.shortDescription}</p>
 
-          <div style={{ marginBottom: 28 }}>
-            <strong>Choose size</strong>
-            <div style={{ display: "flex", gap: 12, marginTop: 10 }}>
-              {product.variants.map((variant) => (
-                <button
-                  key={variant.id}
-                  onClick={() => setSelectedVariantId(variant.id)}
-                  style={{
-                    padding: "12px 16px",
-                    borderRadius: 10,
-                    border:
-                      variant.id === selectedVariantId
-                        ? "2px solid #000"
-                        : "1px solid #ddd",
-                    background: "#fff",
-                    cursor: "pointer",
-                    minWidth: 120,
-                  }}
-                >
-                  <div>{variant.label}</div>
-                  <div style={{ fontSize: 14, color: "#555" }}>
-                    ${variant.priceUsd.toFixed(2)}
-                  </div>
-                </button>
-              ))}
+          {!isSingleVariant && (
+            <div style={{ marginBottom: 28 }}>
+              <strong>Choose size</strong>
+              <div style={{ display: "flex", gap: 12, marginTop: 10 }}>
+                {product.variants.map((variant) => (
+                  <button
+                    key={variant.id}
+                    onClick={() => setSelectedVariantId(variant.id)}
+                    style={{
+                      padding: "12px 16px",
+                      borderRadius: 10,
+                      border:
+                        variant.id === selectedVariantId
+                          ? "2px solid #000"
+                          : "1px solid #ddd",
+                      background: "#fff",
+                      cursor: "pointer",
+                      minWidth: 120,
+                    }}
+                  >
+                    <div>{variant.label}</div>
+                    <div style={{ fontSize: 14, color: "#555" }}>
+                      ${variant.priceUsd.toFixed(2)}
+                    </div>
+                  </button>
+                ))}
+              </div>
             </div>
-          </div>
+          )}
 
           <button
             disabled={!selectedVariant}
@@ -119,8 +120,7 @@ export default function ProductPage() {
               cursor: "pointer",
             }}
           >
-            Add to cart — $
-            {selectedVariant?.priceUsd.toFixed(2)}
+            Add to cart — ${selectedVariant?.priceUsd.toFixed(2)}
           </button>
         </div>
       </div>

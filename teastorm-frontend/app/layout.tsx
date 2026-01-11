@@ -1,13 +1,5 @@
-import type { Metadata } from "next";
-import Providers from "@/app/providers";
-import Header from "@/app/components/Header";
-import "./globals.css";
-
-export const metadata: Metadata = {
-  title: "TeaStorm — Premium Loose Leaf Tea",
-  description:
-    "TeaStorm — premium loose leaf tea sourced directly from China and Taiwan. Crafted for mindful tea rituals.",
-};
+import { CartProvider } from "@/lib/cart-context";
+import CartDrawer from "@/components/cart/CartDrawer";
 
 export default function RootLayout({
   children,
@@ -16,25 +8,11 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body
-        style={{
-          margin: 0,
-          fontFamily:
-            '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif',
-          background: "#fff",
-          color: "#000",
-        }}
-      >
-        <Providers>
-          <Header />
-          <main
-            style={{
-              minHeight: "calc(100vh - 80px)",
-            }}
-          >
-            {children}
-          </main>
-        </Providers>
+      <body>
+        <CartProvider>
+          {children}
+          <CartDrawer />
+        </CartProvider>
       </body>
     </html>
   );
