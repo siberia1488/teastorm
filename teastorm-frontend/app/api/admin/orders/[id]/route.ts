@@ -5,13 +5,13 @@ import { prisma } from "@/lib/prisma";
 
 /**
  * PATCH /api/admin/orders/[id]
- * Update order status (admin only)
+ * Admin-only: update order status and write status log
  */
 export async function PATCH(
-  _req: Request,
+  req: Request,
   { params }: { params: { id: string } }
 ) {
-  // check auth session
+  // Check admin session
   const session = await getServerSession(authOptions);
 
   if (!session?.user?.email) {
@@ -21,7 +21,7 @@ export async function PATCH(
     );
   }
 
-  // simple admin allowlist
+  // Admin allowlist
   const ADMIN_EMAILS = [
     "ttrushenkova.bisiness@gmail.com",
   ];
@@ -33,17 +33,17 @@ export async function PATCH(
     );
   }
 
-  const { id } = params;
+  const orderId = params.id;
 
-  if (!id) {
+  if (!orderId) {
     return NextResponse.json(
       { error: "Missing order id" },
       { status: 400 }
     );
   }
 
-  // parse body
-  const body = await _req.json();
+  // Parse body
+  const body = await req.json();
   const { status } = body;
 
   const allowedStatuses = [
@@ -60,11 +60,46 @@ export async function PATCH(
     );
   }
 
-  // update order
-  const order = await prisma.order.update({
-    where: { id },
-    data: { status },
+  // Fetch current order
+  const existingOrder = await prisma.order.findUnique({
+    where: { id: orderId },
   });
 
-  return NextResponse.json({ success: true, order });
+  if (!existingOrder) {
+    return NextResponse.json(
+      { error: "Order not found" },
+      { status: 404 }
+    );
+  }
+
+  // No change → do nothing
+  if (existingOrder.status === status) {
+    return NextResponse.json({
+      success: true,
+      order: existingOrder,
+    });
+  }
+
+  // Transaction: update status + write log
+  const updatedOrder = await prisma.$transaction(async (tx) => {
+    const order = await tx.order.update({
+      where: { id: orderId },
+      data: { status },
+    });
+
+    await tx.orderStatusLog.create({
+      data: {
+        orderId: orderId,
+        fromStatus: existingOrder.status,
+        toStatus: status,
+      },
+    });
+
+    return order;
+  });
+
+  return NextResponse.json({
+    success: true,
+    order: updatedOrder,
+  });
 }
