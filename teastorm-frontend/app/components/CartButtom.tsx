@@ -1,37 +1,42 @@
 "use client";
 
-import Link from "next/link";
 import { useSyncExternalStore } from "react";
-import { useCart } from "../cart-context";
+import { useCart } from "@/lib/cart-context";
+import { useCartDrawer } from "@/lib/cart-store";
 
 function useMounted() {
   return useSyncExternalStore(
-    () => () => {},          // subscribe (не нужен)
-    () => true,              // client snapshot
-    () => false              // server snapshot
+    () => () => {},
+    () => true,
+    () => false
   );
 }
 
-export default function CartButton() {
+export default function CartButtom() {
   const mounted = useMounted();
   const { items } = useCart();
+  const { open } = useCartDrawer();
 
   if (!mounted) return null;
 
-  const count = items.reduce((sum, item) => sum + item.quantity, 0);
+  const count = items.reduce(
+    (sum: number, item) => sum + item.quantity,
+    0
+  );
 
   return (
-    <Link
-      href="/cart"
+    <button
+      onClick={open}
       style={{
         padding: "6px 12px",
         border: "1px solid #ddd",
         borderRadius: 6,
-        textDecoration: "none",
+        background: "white",
         fontSize: 14,
+        cursor: "pointer",
       }}
     >
       🛒 Cart ({count})
-    </Link>
+    </button>
   );
 }
