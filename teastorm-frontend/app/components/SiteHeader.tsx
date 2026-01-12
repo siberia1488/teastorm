@@ -1,10 +1,12 @@
 "use client";
 
 import Link from "next/link";
-import { useCart } from "@/app/cart-context";
+import { useCart } from "@/lib/cart-context";
+import { useCartDrawer } from "@/lib/cart-store";
 
 export default function SiteHeader() {
   const { items } = useCart();
+  const { open } = useCartDrawer();
 
   const totalItems = items.reduce(
     (sum, item) => sum + item.quantity,
@@ -31,7 +33,6 @@ export default function SiteHeader() {
           justifyContent: "space-between",
         }}
       >
-        {/* LEFT */}
         <Link
           href="/"
           style={{
@@ -43,7 +44,6 @@ export default function SiteHeader() {
           TeaStorm
         </Link>
 
-        {/* RIGHT */}
         <nav
           style={{
             display: "flex",
@@ -52,20 +52,20 @@ export default function SiteHeader() {
             fontSize: 15,
           }}
         >
-          <Link
-            href="/shop"
-            style={{ textDecoration: "none" }}
-          >
+          <Link href="/shop" style={{ textDecoration: "none" }}>
             Shop
           </Link>
 
-          <Link
-            href="/cart"
+          <button
+            onClick={open}
             style={{
-              textDecoration: "none",
               display: "flex",
               alignItems: "center",
               gap: 6,
+              background: "none",
+              border: "none",
+              cursor: "pointer",
+              fontSize: 15,
             }}
           >
             Cart
@@ -87,7 +87,7 @@ export default function SiteHeader() {
                 {totalItems}
               </span>
             )}
-          </Link>
+          </button>
         </nav>
       </div>
     </header>
