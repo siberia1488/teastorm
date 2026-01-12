@@ -2,13 +2,12 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { useCart } from "@/app/cart-context";
+import { useCartDrawer } from "@/lib/cart-store";
+import CartButtom from "./CartButtom";
 
 export default function Header() {
   const pathname = usePathname();
-  const { items } = useCart();
-
-  const itemCount = items.reduce((sum, i) => sum + i.quantity, 0);
+  const { open } = useCartDrawer();
 
   const isActive = (path: string) =>
     pathname === path ? "active" : "";
@@ -16,12 +15,10 @@ export default function Header() {
   return (
     <header className="site-header">
       <div className="header-inner">
-        {/* LOGO */}
         <Link href="/" className="logo">
           TeaStorm
         </Link>
 
-        {/* NAV */}
         <nav className="nav">
           <Link
             href="/shop"
@@ -37,12 +34,18 @@ export default function Header() {
             About
           </Link>
 
-          <Link
-            href="/cart"
-            className={`nav-link ${isActive("/cart")}`}
+          <button
+            onClick={open}
+            className="nav-link"
+            style={{
+              background: "none",
+              border: "none",
+              cursor: "pointer",
+              padding: 0,
+            }}
           >
-            Cart{itemCount > 0 && ` (${itemCount})`}
-          </Link>
+            <CartButtom />
+          </button>
         </nav>
       </div>
     </header>
