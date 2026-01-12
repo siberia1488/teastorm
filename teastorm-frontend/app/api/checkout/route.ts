@@ -72,6 +72,7 @@ export async function POST(req: Request) {
         allowed_countries: ["US", "CA"],
       },
       automatic_tax: { enabled: true },
+
       line_items: items.map((item) => ({
         quantity: item.quantity,
         price_data: {
@@ -82,15 +83,21 @@ export async function POST(req: Request) {
           },
         },
       })),
+
       metadata: {
         orderId: order.id,
       },
+
       success_url: `${process.env.NEXT_PUBLIC_BASE_URL}/success?orderId=${order.id}`,
-      cancel_url: `${process.env.NEXT_PUBLIC_BASE_URL}/cart`,
+      cancel_url: `${process.env.NEXT_PUBLIC_BASE_URL}/shop`,
     });
 
     return NextResponse.json({ url: stripeSession.url });
-  } catch {
-    return NextResponse.json({ error: "Checkout failed" }, { status: 500 });
+  } catch (error) {
+    console.error("Checkout error:", error);
+    return NextResponse.json(
+      { error: "Checkout failed" },
+      { status: 500 }
+    );
   }
 }

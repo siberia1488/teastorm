@@ -1,36 +1,30 @@
 "use client";
 
 import Link from "next/link";
-import { usePathname } from "next/navigation";
 import { useCartDrawer } from "@/lib/cart-store";
-import CartButtom from "./CartButtom";
+import { useCart } from "@/lib/cart-context";
 
 export default function Header() {
-  const pathname = usePathname();
   const { open } = useCartDrawer();
+  const { items } = useCart();
 
-  const isActive = (path: string) =>
-    pathname === path ? "active" : "";
+  const itemCount = items.reduce((sum, i) => sum + i.quantity, 0);
 
   return (
     <header className="site-header">
       <div className="header-inner">
+        {/* LOGO */}
         <Link href="/" className="logo">
           TeaStorm
         </Link>
 
+        {/* NAV */}
         <nav className="nav">
-          <Link
-            href="/shop"
-            className={`nav-link ${isActive("/shop")}`}
-          >
+          <Link href="/shop" className="nav-link">
             Shop
           </Link>
 
-          <Link
-            href="/about"
-            className={`nav-link ${isActive("/about")}`}
-          >
+          <Link href="/about" className="nav-link">
             About
           </Link>
 
@@ -44,7 +38,7 @@ export default function Header() {
               padding: 0,
             }}
           >
-            <CartButtom />
+            Cart{itemCount > 0 && ` (${itemCount})`}
           </button>
         </nav>
       </div>
