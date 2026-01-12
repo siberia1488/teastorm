@@ -6,74 +6,52 @@ datasource db {
   provider = "postgresql"
 }
 
-/* =====================
-   AUTH MODELS
-===================== */
-
 model User {
-  id            String   @id @default(cuid())
-  email         String?  @unique
+  id            String    @id @default(cuid())
   name          String?
+  email         String?   @unique
   emailVerified DateTime?
   image         String?
-
+  createdAt     DateTime  @default(now())
   orders        Order[]
-
-  createdAt     DateTime @default(now())
 }
 
-/* =====================
-   BUSINESS MODELS
-===================== */
-
 model Order {
-  id              String   @id @default(cuid())
-
-  stripeEventId   String?  @unique
-  stripeSessionId String?  @unique
-  paymentIntentId String?
-
-  subtotalAmount  Int
-  shippingAmount  Int
+  id              String           @id @default(cuid())
+  stripeEventId   String?          @unique
+  stripeSessionId String?          @unique
   amountTotal     Int
   currency        String
-
   email           String?
-  shippingName    String?
-  shippingAddress Json?
-
   status          String
-  createdAt       DateTime @default(now())
-
+  createdAt       DateTime         @default(now())
   userId          String?
-  user            User? @relation(fields: [userId], references: [id], onDelete: SetNull)
-
+  paymentIntentId String?
+  shippingAddress Json?
+  shippingAmount  Int
+  shippingName    String?
+  subtotalAmount  Int
+  user            User?            @relation(fields: [userId], references: [id])
   items           OrderItem[]
   statusLogs      OrderStatusLog[]
 }
 
 model OrderItem {
   id        String   @id @default(cuid())
-  orderId  String
-
+  orderId   String
   title     String
   variantId String
   price     Int
   quantity  Int
-
-  order     Order @relation(fields: [orderId], references: [id], onDelete: Cascade)
-
   createdAt DateTime @default(now())
+  order     Order    @relation(fields: [orderId], references: [id], onDelete: Cascade)
 }
 
 model OrderStatusLog {
   id         String   @id @default(cuid())
   orderId    String
-
   fromStatus String
   toStatus   String
-
   createdAt  DateTime @default(now())
-
-  order      Order @relation(fields: [orderId], references: [id], onDelete: Cascade)
+  order      Order    @relation(fields: [orderId], references: [id], onDelete: Cascade)
 }

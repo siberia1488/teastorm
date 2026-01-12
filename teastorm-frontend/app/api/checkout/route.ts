@@ -12,7 +12,6 @@ type CartItem = {
   slug: string;
   title: string;
   variantLabel: string;
-  weightGrams?: number;
   price: number; // cents
   image: string;
   quantity: number;
@@ -35,7 +34,7 @@ export async function POST(req: Request) {
       0
     );
 
-    // 1️⃣ create order + snapshot items
+    // 1️⃣ Create order + snapshot items
     const order = await prisma.order.create({
       data: {
         status: "pending",
@@ -46,34 +45,34 @@ export async function POST(req: Request) {
         userId,
         items: {
           create: items.map((item) => ({
-            title: item.title,
+            title: `${item.title} – ${item.variantLabel}`,
             variantId: item.variantId,
             price: item.price,
             quantity: item.quantity,
-            weightGrams: item.weightGrams ?? null,
           })),
         },
       },
     });
 
-    // 2️⃣ create Stripe session
+    // 2️⃣ Create Stripe Checkout Session
     const stripeSession = await stripe.checkout.sessions.create({
       mode: "payment",
       customer_creation: "always",
       billing_address_collection: "required",
+
       shipping_address_collection: {
         allowed_countries: ["US", "CA"],
       },
+
       automatic_tax: { enabled: true },
 
       line_items: items.map((item) => ({
         quantity: item.quantity,
         price_data: {
           currency: "usd",
-          unit_amount: item.price, // already cents
+          unit_amount: item.price, // already in cents
           product_data: {
             name: `${item.title} – ${item.variantLabel}`,
-            images: item.image ? [item.image] : [],
           },
         },
       })),
@@ -88,8 +87,8 @@ export async function POST(req: Request) {
     });
 
     return NextResponse.json({ url: stripeSession.url });
-  } catch (e) {
-    console.error(e);
+  } catch (err) {
+    console.error("Checkout error:", err);
     return NextResponse.json(
       { error: "Checkout failed" },
       { status: 500 }
