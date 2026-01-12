@@ -12,7 +12,7 @@ type CartItem = {
   slug: string;
   title: string;
   variantLabel: string;
-  price: number; // cents
+  price: number;
   image: string;
   quantity: number;
 };
@@ -26,15 +26,25 @@ export async function POST(req: Request) {
     }
 
     const session = await getServerSession(authOptions);
-    const userId = session?.user?.id ?? null;
 
-    // price already in cents
+    let userId: string | null = null;
+
+    if (session?.user?.email) {
+      const user = await prisma.user.findUnique({
+        where: { email: session.user.email },
+        select: { id: true },
+      });
+
+      if (user) {
+        userId = user.id;
+      }
+    }
+
     const subtotalAmount = items.reduce(
       (sum, item) => sum + item.price * item.quantity,
       0
     );
 
-    // 1️⃣ Create order + snapshot items
     const order = await prisma.order.create({
       data: {
         status: "pending",
@@ -54,44 +64,33 @@ export async function POST(req: Request) {
       },
     });
 
-    // 2️⃣ Create Stripe Checkout Session
     const stripeSession = await stripe.checkout.sessions.create({
       mode: "payment",
       customer_creation: "always",
       billing_address_collection: "required",
-
       shipping_address_collection: {
         allowed_countries: ["US", "CA"],
       },
-
       automatic_tax: { enabled: true },
-
       line_items: items.map((item) => ({
         quantity: item.quantity,
         price_data: {
           currency: "usd",
-          unit_amount: item.price, // already in cents
+          unit_amount: item.price,
           product_data: {
             name: `${item.title} – ${item.variantLabel}`,
           },
         },
       })),
-
       metadata: {
         orderId: order.id,
-        userId: userId ?? "",
       },
-
       success_url: `${process.env.NEXT_PUBLIC_BASE_URL}/success?orderId=${order.id}`,
       cancel_url: `${process.env.NEXT_PUBLIC_BASE_URL}/cart`,
     });
 
     return NextResponse.json({ url: stripeSession.url });
-  } catch (err) {
-    console.error("Checkout error:", err);
-    return NextResponse.json(
-      { error: "Checkout failed" },
-      { status: 500 }
-    );
+  } catch {
+    return NextResponse.json({ error: "Checkout failed" }, { status: 500 });
   }
 }
