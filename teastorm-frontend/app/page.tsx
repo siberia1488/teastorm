@@ -1,194 +1,71 @@
-import { prisma } from "@/lib/prisma";
-import Link from "next/link";
-import { notFound } from "next/navigation";
+import Link from "next/link"
 
-type PageProps = {
-  searchParams: Promise<{
-    orderId?: string;
-  }>;
-};
-
-export default async function SuccessPage({ searchParams }: PageProps) {
-  const params = await searchParams;
-  const orderId = params.orderId;
-
-  if (!orderId) notFound();
-
-  const order = await prisma.order.findUnique({
-    where: { id: orderId },
-    include: { items: true },
-  });
-
-  if (!order) notFound();
-
+export default function HomePage() {
   return (
     <main
       style={{
         minHeight: "100vh",
-        background:
-          "radial-gradient(1200px 600px at 50% -200px, #FFFFFF 0%, #F7F6F3 60%)",
+        background: "#F7F6F3",
         display: "flex",
+        flexDirection: "column",
         alignItems: "center",
         justifyContent: "center",
-        padding: 64,
+        padding: 80,
+        textAlign: "center",
       }}
     >
-      <div style={{ maxWidth: 760, width: "100%", textAlign: "center" }}>
-        {/* Headline */}
-        <h1
+      <h1
+        style={{
+          fontSize: 64,
+          fontWeight: 500,
+          letterSpacing: "-0.03em",
+          marginBottom: 24,
+        }}
+      >
+        TeaStorm
+      </h1>
+
+      <p
+        style={{
+          maxWidth: 520,
+          fontSize: 20,
+          lineHeight: 1.6,
+          color: "#6B6B6B",
+          marginBottom: 48,
+        }}
+      >
+        A premium loose-leaf tea collection sourced from China’s most revered
+        growing regions. Crafted for ritual, clarity, and calm.
+      </p>
+
+      <div style={{ display: "flex", gap: 16 }}>
+        <Link
+          href="/shop"
           style={{
-            fontSize: 56,
+            padding: "16px 40px",
+            borderRadius: 999,
+            background: "#1A1A1A",
+            color: "#FFFFFF",
+            textDecoration: "none",
             fontWeight: 500,
-            letterSpacing: "-0.02em",
-            marginBottom: 16,
+          }}
+        >
+          Shop Teas
+        </Link>
+
+        <Link
+          href="#"
+          style={{
+            padding: "16px 40px",
+            borderRadius: 999,
+            border: "1px solid #D8D6CF",
+            textDecoration: "none",
             color: "#1A1A1A",
           }}
         >
-          Your TeaStorm Ritual Begins
-        </h1>
-
-        <p
-          style={{
-            color: "#6F6F6F",
-            fontSize: 18,
-            marginBottom: 56,
-            maxWidth: 520,
-            marginInline: "auto",
-            lineHeight: 1.6,
-          }}
-        >
-          Thank you for your order. Each leaf is now being prepared, packed, and
-          sent with care — from origin to cup.
-        </p>
-
-        {/* Order Card */}
-        <div
-          style={{
-            background: "#FFFFFF",
-            borderRadius: 28,
-            padding: 40,
-            boxShadow: "0 20px 60px rgba(0,0,0,0.06)",
-            border: "1px solid #E6E4DE",
-            marginBottom: 56,
-            textAlign: "left",
-          }}
-        >
-          <h3
-            style={{
-              fontSize: 22,
-              marginBottom: 28,
-              color: "#1A1A1A",
-              letterSpacing: "-0.01em",
-            }}
-          >
-            Order Summary
-          </h3>
-
-          {order.items.map((item) => (
-            <div
-              key={item.id}
-              style={{
-                display: "flex",
-                justifyContent: "space-between",
-                alignItems: "center",
-                marginBottom: 14,
-                fontSize: 15,
-                color: "#333",
-              }}
-            >
-              <span>
-                {item.title}{" "}
-                <span style={{ color: "#8A8A8A" }}>
-                  × {item.quantity}
-                </span>
-              </span>
-              <span>
-                $
-                {((item.price * item.quantity) / 100).toFixed(2)}
-              </span>
-            </div>
-          ))}
-
-          <div
-            style={{
-              borderTop: "1px solid #E6E4DE",
-              marginTop: 28,
-              paddingTop: 28,
-              display: "flex",
-              justifyContent: "space-between",
-              fontSize: 18,
-              fontWeight: 500,
-              color: "#1A1A1A",
-            }}
-          >
-            <span>Total</span>
-            <span>${(order.amountTotal / 100).toFixed(2)}</span>
-          </div>
-        </div>
-
-        {/* Ritual Line */}
-        <p
-          style={{
-            fontStyle: "italic",
-            color: "#8B8B8B",
-            marginBottom: 48,
-            letterSpacing: "0.02em",
-          }}
-        >
-          Brew slowly. Sip with intention.
-        </p>
-
-        {/* Actions */}
-        <div
-          style={{
-            display: "flex",
-            justifyContent: "center",
-            gap: 16,
-            flexWrap: "wrap",
-          }}
-        >
-          <Link
-            href="/shop"
-            style={{
-              display: "inline-flex",
-              alignItems: "center",
-              justifyContent: "center",
-              padding: "16px 42px",
-              borderRadius: 999,
-              background: "#1A1A1A",
-              color: "#FFFFFF",
-              textDecoration: "none",
-              fontSize: 15,
-              fontWeight: 500,
-              letterSpacing: "0.04em",
-              textTransform: "uppercase",
-            }}
-          >
-            Explore the Collection
-          </Link>
-
-          <Link
-            href="/"
-            style={{
-              display: "inline-flex",
-              alignItems: "center",
-              justifyContent: "center",
-              padding: "16px 42px",
-              borderRadius: 999,
-              border: "1px solid #D8D6CF",
-              background: "transparent",
-              color: "#1A1A1A",
-              textDecoration: "none",
-              fontSize: 15,
-              fontWeight: 500,
-              letterSpacing: "0.04em",
-              textTransform: "uppercase",
-            }}
-          >
-            Return Home
-          </Link>
-        </div>
+          Learn More
+        </Link>
       </div>
     </main>
-  );
+  )
 }
