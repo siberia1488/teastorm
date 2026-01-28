@@ -524,6 +524,331 @@ export default function HomePage() {
     </div>
     </div>
     </section>
+    {/* INSTAGRAM / SOCIAL */}
+<section
+  style={{
+    background: "#ffffff",
+    padding: "160px 80px",
+  }}
+>
+  <div
+    style={{
+      maxWidth: 1400,
+      margin: "0 auto",
+    }}
+  >
+    {/* Header */}
+    <div style={{ textAlign: "center", marginBottom: 96 }}>
+      <p
+        style={{
+          textTransform: "uppercase",
+          letterSpacing: "0.32em",
+          fontSize: 12,
+          marginBottom: 18,
+          color: "#7a776f",
+        }}
+      >
+        Community
+      </p>
+
+      <h2
+        style={{
+          fontSize: 60,
+          fontWeight: 500,
+          letterSpacing: "-0.04em",
+          marginBottom: 24,
+        }}
+      >
+        Follow the Ritual
+      </h2>
+
+      <p
+        style={{
+          maxWidth: 640,
+          margin: "0 auto",
+          fontSize: 20,
+          lineHeight: 1.7,
+          color: "#6b6b65",
+        }}
+      >
+        Behind every cup is a moment of stillness.  
+        Join our growing community and explore daily brewing rituals,
+        origin stories, and seasonal releases.
+      </p>
+    </div>
+
+    {/* Grid */}
+    <div
+      style={{
+        display: "grid",
+        gridTemplateColumns: "repeat(auto-fit, minmax(240px, 1fr))",
+        gap: 28,
+        marginBottom: 80,
+      }}
+    >
+      {[
+        "/images/insta-1.jpg",
+        "/images/insta-2.jpg",
+        "/images/insta-3.jpg",
+        "/images/insta-4.jpg",
+        "/images/insta-5.jpg",
+        "/images/insta-6.jpg",
+      ].map((src, i) => (
+        <div
+          key={i}
+          style={{
+            aspectRatio: "1 / 1",
+            borderRadius: 24,
+            overflow: "hidden",
+            backgroundImage: `url(${src})`,
+            backgroundSize: "cover",
+            backgroundPosition: "center",
+            boxShadow: "0 18px 50px rgba(0,0,0,0.08)",
+          }}
+        />
+      ))}
+    </div>
+
+    {/* CTA */}
+    <div style={{ textAlign: "center" }}>
+      <a
+        href="https://www.instagram.com/_teastorm_/"
+        target="_blank"
+        rel="noopener noreferrer"
+        style={{
+          display: "inline-block",
+          padding: "18px 56px",
+          borderRadius: 999,
+          border: "1px solid #1a1a1a",
+          color: "#1a1a1a",
+          textDecoration: "none",
+          fontSize: 14,
+          letterSpacing: "0.26em",
+          textTransform: "uppercase",
+        }}
+      >
+        Follow @TeaStormUS
+      </a>
+    </div>
+    </div>
+    </section>
+    {/* FOOTER */}
+<footer
+  style={{
+    background: "#1a1a1a",
+    color: "#f4f4f1",
+    padding: "160px 80px 80px",
+  }}
+>
+  <div
+    style={{
+      maxWidth: 1280,
+      margin: "0 auto",
+      display: "grid",
+      gridTemplateColumns: "2fr 1fr 1fr 1fr",
+      gap: 96,
+    }}
+  >
+    {/* BRAND */}
+    <div>
+      <h3
+        style={{
+          fontSize: 40,
+          fontWeight: 500,
+          letterSpacing: "-0.03em",
+          marginBottom: 28,
+        }}
+      >
+        TeaStorm
+      </h3>
+
+      <p
+        style={{
+          maxWidth: 420,
+          lineHeight: 1.7,
+          color: "#cfcfc7",
+          marginBottom: 36,
+        }}
+      >
+        Premium loose-leaf teas sourced from China’s most revered mountains —
+        curated for ritual, clarity, and quiet power in every cup.
+      </p>
+
+      {/* Newsletter */}
+      <form
+        style={{
+          display: "flex",
+          gap: 14,
+          flexWrap: "wrap",
+        }}
+      >
+        <input
+          type="email"
+          placeholder="Enter your email"
+          style={{
+            flex: 1,
+            minWidth: 220,
+            padding: "16px 20px",
+            borderRadius: 999,
+            border: "1px solid #3a3a3a",
+            background: "transparent",
+            color: "#ffffff",
+            outline: "none",
+          }}
+        />
+
+        <button
+          type="submit"
+          style={{
+            padding: "16px 36px",
+            borderRadius: 999,
+            background: "#ffffff",
+            color: "#1a1a1a",
+            border: "none",
+            fontSize: 13,
+            letterSpacing: "0.2em",
+            textTransform: "uppercase",
+            cursor: "pointer",
+          }}
+        >
+          Join
+        </button>
+      </form>
+    </div>
+
+    {/* SHOP */}
+    <div>
+      <p
+        style={{
+          textTransform: "uppercase",
+          letterSpacing: "0.3em",
+          fontSize: 12,
+          marginBottom: 28,
+          color: "#a7a69f",
+        }}
+      >
+        Shop
+      </p>
+
+      <ul style={{ listStyle: "none", padding: 0, margin: 0 }}>
+        {["All Teas", "Green Tea", "Oolong", "Pu-erh", "White Tea", "Black Tea"].map(
+          (item) => (
+            <li key={item} style={{ marginBottom: 14 }}>
+              <Link
+                href="/shop"
+                style={{
+                  color: "#f4f4f1",
+                  textDecoration: "none",
+                  fontSize: 15,
+                }}
+              >
+                {item}
+              </Link>
+            </li>
+          )
+        )}
+      </ul>
+    </div>
+
+    {/* ABOUT */}
+    <div>
+      <p
+        style={{
+          textTransform: "uppercase",
+          letterSpacing: "0.3em",
+          fontSize: 12,
+          marginBottom: 28,
+          color: "#a7a69f",
+        }}
+      >
+        Company
+      </p>
+
+      <ul style={{ listStyle: "none", padding: 0, margin: 0 }}>
+        {["Our Story", "Origins", "Brewing Guide", "Sustainability"].map(
+          (item) => (
+            <li key={item} style={{ marginBottom: 14 }}>
+              <Link
+                href="/"
+                style={{
+                  color: "#f4f4f1",
+                  textDecoration: "none",
+                  fontSize: 15,
+                }}
+              >
+                {item}
+              </Link>
+            </li>
+          )
+        )}
+      </ul>
+    </div>
+
+    {/* SOCIAL */}
+    <div>
+      <p
+        style={{
+          textTransform: "uppercase",
+          letterSpacing: "0.3em",
+          fontSize: 12,
+          marginBottom: 28,
+          color: "#a7a69f",
+        }}
+      >
+        Follow
+      </p>
+
+      <ul style={{ listStyle: "none", padding: 0, margin: 0 }}>
+        <li style={{ marginBottom: 14 }}>
+          <a
+            href="https://www.instagram.com/_teastorm_/"
+            target="_blank"
+            rel="noopener noreferrer"
+            style={{
+              color: "#f4f4f1",
+              textDecoration: "none",
+              fontSize: 15,
+            }}
+          >
+            Instagram
+          </a>
+        </li>
+      </ul>
+    </div>
+  </div>
+
+  {/* Bottom bar */}
+  <div
+    style={{
+      marginTop: 120,
+      paddingTop: 48,
+      borderTop: "1px solid #333",
+      display: "flex",
+      justifyContent: "space-between",
+      flexWrap: "wrap",
+      gap: 20,
+      fontSize: 13,
+      color: "#a7a69f",
+    }}
+  >
+    <p>© {new Date().getFullYear()} TeaStorm. All rights reserved.</p>
+
+    <div style={{ display: "flex", gap: 28 }}>
+      <Link
+        href="/privacy"
+        style={{ color: "#a7a69f", textDecoration: "none" }}
+      >
+        Privacy
+      </Link>
+      <Link
+        href="/terms"
+        style={{ color: "#a7a69f", textDecoration: "none" }}
+      >
+        Terms
+      </Link>
+    </div>
+    </div>
+    </footer>
 
     </main>
   )
