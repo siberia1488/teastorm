@@ -292,6 +292,119 @@ export default function HomePage() {
           </div>
         </div>
       </section>
+      {/* ORIGINS / TERROIR */}
+<section
+  id="origins"
+  style={{
+    background: "#f3f2ee",
+    padding: "180px 80px",
+  }}
+>
+  <div
+    style={{
+      maxWidth: 1280,
+      margin: "0 auto",
+      display: "grid",
+      gridTemplateColumns: "1.1fr 0.9fr",
+      gap: 120,
+      alignItems: "center",
+    }}
+  >
+    {/* TEXT */}
+    <div>
+      <p
+        style={{
+          textTransform: "uppercase",
+          letterSpacing: "0.32em",
+          fontSize: 12,
+          marginBottom: 22,
+          color: "#7a776f",
+        }}
+      >
+        Origins
+      </p>
+
+      <h2
+        style={{
+          fontSize: 64,
+          fontWeight: 500,
+          letterSpacing: "-0.04em",
+          marginBottom: 32,
+        }}
+      >
+        From Legendary
+        <br />
+        Mountain Gardens
+      </h2>
+
+      <p
+        style={{
+          fontSize: 20,
+          lineHeight: 1.75,
+          color: "#5f5d58",
+          maxWidth: 520,
+          marginBottom: 36,
+        }}
+      >
+        TeaStorm sources rare loose-leaf teas from the most revered growing
+        regions of China — where altitude, mist, mineral-rich soil and
+        centuries-old craftsmanship shape every leaf.
+      </p>
+
+      <p
+        style={{
+          fontSize: 18,
+          color: "#6f6d68",
+          marginBottom: 52,
+          maxWidth: 520,
+        }}
+      >
+        From the cliff gardens of Wuyi to the ancient forests of Yunnan, each
+        tea expresses its place of origin with clarity, energy, and depth.
+      </p>
+
+      <Link
+        href="/shop"
+        style={{
+          display: "inline-block",
+          padding: "18px 52px",
+          borderRadius: 999,
+          background: "#1a1a1a",
+          color: "#ffffff",
+          textDecoration: "none",
+          fontSize: 14,
+          letterSpacing: "0.24em",
+          textTransform: "uppercase",
+        }}
+      >
+        Explore the Regions
+      </Link>
+    </div>
+
+    {/* IMAGE / VISUAL */}
+    <div
+      style={{
+        height: 560,
+        borderRadius: 36,
+        background:
+          "linear-gradient(135deg, #cfcac0, #bdb7ad)",
+        position: "relative",
+        overflow: "hidden",
+      }}
+    >
+      {/* overlay */}
+      <div
+        aria-hidden
+        style={{
+          position: "absolute",
+          inset: 0,
+          background:
+            "linear-gradient(180deg, rgba(0,0,0,0.08), rgba(0,0,0,0.25))",
+        }}
+      />
+    </div>
+    </div>
+    </section>
     </main>
   )
 }
