@@ -1,4 +1,5 @@
 import Link from "next/link"
+import { products } from "@/data/products"
 
 export default function HomePage() {
   return (
@@ -23,7 +24,6 @@ export default function HomePage() {
           overflow: "hidden",
         }}
       >
-        {/* subtle texture overlay */}
         <div
           aria-hidden
           style={{
@@ -124,7 +124,6 @@ export default function HomePage() {
           </div>
         </div>
 
-        {/* Scroll cue */}
         <div
           style={{
             position: "absolute",
@@ -141,140 +140,158 @@ export default function HomePage() {
       </section>
 
       {/* FEATURED TEAS */}
-<section
-  style={{
-    background: "#ffffff",
-    padding: "140px 80px",
-  }}
->
-  <div
-    style={{
-      maxWidth: 1200,
-      margin: "0 auto",
-    }}
-  >
-    <div style={{ textAlign: "center", marginBottom: 96 }}>
-      <p
+      <section
         style={{
-          textTransform: "uppercase",
-          letterSpacing: "0.32em",
-          fontSize: 12,
-          marginBottom: 16,
-          color: "#7a776f",
+          background: "#ffffff",
+          padding: "140px 80px",
         }}
       >
-        Curated Selection
-      </p>
-
-      <h2
-        style={{
-          fontSize: 56,
-          fontWeight: 500,
-          letterSpacing: "-0.03em",
-          marginBottom: 24,
-        }}
-      >
-        Featured Teas
-      </h2>
-
-      <p
-        style={{
-          maxWidth: 520,
-          margin: "0 auto",
-          fontSize: 18,
-          color: "#6b6b65",
-        }}
-      >
-        Hand-picked leaves from legendary Chinese terroirs — crafted for daily
-        ritual and extraordinary flavor.
-      </p>
-    </div>
-
-    <div
-      style={{
-        display: "grid",
-        gridTemplateColumns: "repeat(auto-fit, minmax(260px, 1fr))",
-        gap: 48,
-      }}
-    >
-      {[
-        {
-          name: "Dragon Well Green Tea",
-          price: "$28",
-        },
-        {
-          name: "Phoenix Oolong",
-          price: "$34",
-        },
-        {
-          name: "Silver Needle White Tea",
-          price: "$42",
-        },
-        {
-          name: "Aged Pu-erh Reserve",
-          price: "$58",
-        },
-      ].map((tea) => (
         <div
-          key={tea.name}
           style={{
-            background: "#f6f5f2",
-            borderRadius: 24,
-            padding: 32,
-            textAlign: "center",
+            maxWidth: 1200,
+            margin: "0 auto",
           }}
         >
-          {/* IMAGE PLACEHOLDER */}
+          {/* Heading */}
+          <div style={{ textAlign: "center", marginBottom: 96 }}>
+            <p
+              style={{
+                textTransform: "uppercase",
+                letterSpacing: "0.32em",
+                fontSize: 12,
+                marginBottom: 16,
+                color: "#7a776f",
+              }}
+            >
+              Curated Selection
+            </p>
+
+            <h2
+              style={{
+                fontSize: 56,
+                fontWeight: 500,
+                letterSpacing: "-0.03em",
+                marginBottom: 24,
+              }}
+            >
+              Featured Teas
+            </h2>
+
+            <p
+              style={{
+                maxWidth: 520,
+                margin: "0 auto",
+                fontSize: 18,
+                color: "#6b6b65",
+              }}
+            >
+              Hand-picked leaves from legendary Chinese terroirs — crafted for
+              daily ritual and extraordinary flavor.
+            </p>
+          </div>
+
+          {/* Grid */}
           <div
             style={{
-              height: 280,
-              borderRadius: 18,
-              background:
-                "linear-gradient(135deg, #e5e2db, #d8d5cd)",
-              marginBottom: 28,
-            }}
-          />
-
-          <h3
-            style={{
-              fontSize: 22,
-              fontWeight: 500,
-              marginBottom: 8,
+              display: "grid",
+              gridTemplateColumns: "repeat(auto-fit, minmax(260px, 1fr))",
+              gap: 48,
             }}
           >
-            {tea.name}
-          </h3>
+            {products.slice(0, 6).map((tea) => (
+              <div
+                key={tea.id}
+                style={{
+                  background: "#f6f5f2",
+                  borderRadius: 24,
+                  padding: 32,
+                  textAlign: "center",
+                }}
+              >
+                {/* Image */}
+                <div
+                  style={{
+                    height: 280,
+                    borderRadius: 18,
+                    backgroundImage: `url(${tea.image})`,
+                    backgroundSize: "cover",
+                    backgroundPosition: "center",
+                    marginBottom: 28,
+                  }}
+                />
 
-          <p
-            style={{
-              color: "#6f6d68",
-              marginBottom: 24,
-            }}
-          >
-            {tea.price}
-          </p>
+                <h3
+                  style={{
+                    fontSize: 22,
+                    fontWeight: 500,
+                    marginBottom: 8,
+                  }}
+                >
+                  {tea.title}
+                </h3>
 
-          <Link
-            href="/shop"
-            style={{
-              display: "inline-block",
-              padding: "12px 28px",
-              borderRadius: 999,
-              border: "1px solid #1a1a1a",
-              color: "#1a1a1a",
-              textDecoration: "none",
-              fontSize: 13,
-              letterSpacing: "0.18em",
-              textTransform: "uppercase",
-            }}
-          >
-            View Tea
-          </Link>
+                {tea.subtitle && (
+                  <p
+                    style={{
+                      fontSize: 14,
+                      color: "#8a8883",
+                      marginBottom: 10,
+                    }}
+                  >
+                    {tea.subtitle}
+                  </p>
+                )}
+
+                <p
+                  style={{
+                    color: "#6f6d68",
+                    marginBottom: 24,
+                  }}
+                >
+                  {tea.variants[0].label}
+                </p>
+
+                <Link
+                  href={`/product/${tea.slug}`}
+                  style={{
+                    display: "inline-block",
+                    padding: "12px 28px",
+                    borderRadius: 999,
+                    border: "1px solid #1a1a1a",
+                    color: "#1a1a1a",
+                    textDecoration: "none",
+                    fontSize: 13,
+                    letterSpacing: "0.18em",
+                    textTransform: "uppercase",
+                  }}
+                >
+                  View Tea
+                </Link>
+              </div>
+            ))}
+          </div>
+
+          {/* CTA */}
+          <div style={{ textAlign: "center", marginTop: 96 }}>
+            <Link
+              href="/shop"
+              style={{
+                display: "inline-block",
+                padding: "18px 52px",
+                borderRadius: 999,
+                background: "#1a1a1a",
+                color: "#ffffff",
+                textDecoration: "none",
+                fontSize: 14,
+                letterSpacing: "0.24em",
+                textTransform: "uppercase",
+              }}
+            >
+              Explore All 14 Teas
+            </Link>
+          </div>
         </div>
-      ))}
-    </div>
-  </div>
-</section>
-</main>
+      </section>
+    </main>
   )
 }
