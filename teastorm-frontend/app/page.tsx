@@ -1,258 +1,139 @@
+import { prisma } from "@/lib/prisma";
 import Link from "next/link";
-import { products } from "@/data/products";
-import Image from "next/image";
+import { notFound } from "next/navigation";
 
-export default function HomePage() {
+type PageProps = {
+  searchParams: Promise<{
+    orderId?: string;
+  }>;
+};
+
+export default async function SuccessPage({ searchParams }: PageProps) {
+  const params = await searchParams;
+  const orderId = params.orderId;
+
+  if (!orderId) notFound();
+
+  const order = await prisma.order.findUnique({
+    where: { id: orderId },
+    include: { items: true },
+  });
+
+  if (!order) notFound();
+
   return (
-    <main>
-      {/* HERO */}
-      <section
-        style={{
-          minHeight: "85vh",
-          display: "flex",
-          alignItems: "center",
-          padding: "80px 24px",
-          background:
-            "linear-gradient(180deg, #fafafa 0%, #f4f4f4 100%)",
-        }}
-      >
-        <div
+    <main
+      style={{
+        minHeight: "100vh",
+        background: "#F7F6F3",
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
+        padding: 48,
+      }}
+    >
+      <div style={{ maxWidth: 720, width: "100%" }}>
+        <h1
           style={{
-            maxWidth: 1200,
-            margin: "0 auto",
-            width: "100%",
-            display: "grid",
-            gridTemplateColumns: "1.1fr 0.9fr",
-            gap: 60,
-            alignItems: "center",
+            fontSize: 48,
+            fontWeight: 500,
+            letterSpacing: -1,
+            marginBottom: 12,
+            color: "#1A1A1A",
           }}
         >
-          {/* TEXT */}
-          <div>
-            <h1
+          Thank you for your order
+        </h1>
+
+        <p style={{ color: "#6B6B6B", fontSize: 18, marginBottom: 48 }}>
+          Your TeaStorm ritual is being prepared.
+        </p>
+
+        <div
+          style={{
+            background: "#FFFFFF",
+            borderRadius: 20,
+            padding: 32,
+            boxShadow: "0 10px 40px rgba(0,0,0,0.05)",
+            border: "1px solid #E5E3DD",
+            marginBottom: 48,
+          }}
+        >
+          <h3
+            style={{
+              fontSize: 20,
+              marginBottom: 24,
+              color: "#1A1A1A",
+            }}
+          >
+            Order summary
+          </h3>
+
+          {order.items.map((item) => (
+            <div
+              key={item.id}
               style={{
-                fontSize: 56,
-                lineHeight: 1.1,
-                marginBottom: 24,
-                letterSpacing: -1,
+                display: "flex",
+                justifyContent: "space-between",
+                marginBottom: 14,
+                color: "#333",
               }}
             >
-              Premium loose-leaf tea
-              <br />
-              for focus, calm & ritual
-            </h1>
-
-            <p
-              style={{
-                fontSize: 18,
-                color: "#555",
-                marginBottom: 36,
-                lineHeight: 1.6,
-                maxWidth: 520,
-              }}
-            >
-              TeaStorm curates rare Chinese and Taiwanese teas —
-              crafted for mindful mornings, deep focus, and slow evenings.
-            </p>
-
-            <div style={{ display: "flex", gap: 16 }}>
-              <Link href="/shop">
-                <button className="primary-btn">
-                  Shop teas
-                </button>
-              </Link>
-
-              <Link href="/about">
-                <button className="secondary-btn">
-                  Our philosophy
-                </button>
-              </Link>
+              <span>
+                {item.title} × {item.quantity}
+              </span>
+              <span>
+                ${(item.price * item.quantity / 100).toFixed(2)}
+              </span>
             </div>
-          </div>
-
-          {/* IMAGE */}
-          <div
-            style={{
-              position: "relative",
-              width: "100%",
-              height: 460,
-              borderRadius: 24,
-              overflow: "hidden",
-              background: "#eaeaea",
-            }}
-          >
-            <Image
-              src="/images/hero-tea.jpg"
-              alt="Tea ritual"
-              fill
-              priority
-              sizes="(max-width: 768px) 100vw, 50vw"
-              style={{ objectFit: "cover" }}
-            />
-          </div>
-        </div>
-      </section>
-
-      {/* TRUST STRIP */}
-      <section
-        style={{
-          borderTop: "1px solid #eee",
-          borderBottom: "1px solid #eee",
-          padding: "24px",
-          background: "#fff",
-        }}
-      >
-        <div
-          style={{
-            maxWidth: 1100,
-            margin: "0 auto",
-            display: "grid",
-            gridTemplateColumns: "repeat(3, 1fr)",
-            gap: 24,
-            textAlign: "center",
-            fontSize: 14,
-            color: "#555",
-          }}
-        >
-          <div>🌱 Direct sourcing</div>
-          <div>🍃 Small-batch quality</div>
-          <div>🌍 Worldwide shipping</div>
-        </div>
-      </section>
-
-      {/* CHOOSE BY EFFECT */}
-      <section style={{ padding: "80px 24px", background: "#fafafa" }}>
-        <div style={{ maxWidth: 1100, margin: "0 auto" }}>
-          <h2 style={{ fontSize: 36, marginBottom: 16 }}>
-            Choose by effect
-          </h2>
-
-          <p
-            style={{
-              maxWidth: 520,
-              color: "#555",
-              marginBottom: 48,
-              lineHeight: 1.6,
-            }}
-          >
-            Each tea is curated for a specific state —
-            calm focus, gentle energy, or deep balance.
-          </p>
+          ))}
 
           <div
             style={{
-              display: "grid",
-              gridTemplateColumns: "repeat(3, 1fr)",
-              gap: 32,
+              borderTop: "1px solid #E5E3DD",
+              marginTop: 24,
+              paddingTop: 24,
+              display: "flex",
+              justifyContent: "space-between",
+              fontSize: 18,
+              fontWeight: 500,
+              color: "#1A1A1A",
             }}
           >
-            {[
-              { effect: "Calming", label: "Calm", emoji: "🌙" },
-              { effect: "Focusing", label: "Focus", emoji: "🎯" },
-              { effect: "Energizing", label: "Energy", emoji: "⚡" },
-            ].map(({ effect, label, emoji }) => {
-              const tea = products.find(
-                (p) => p.effect === effect
-              );
-              if (!tea) return null;
-
-              return (
-                <Link
-                  key={tea.id}
-                  href={`/product/${tea.slug}`}
-                  className="card-hover"
-                  style={{
-                    border: "1px solid #eee",
-                    borderRadius: 20,
-                    padding: 28,
-                    background: "#fff",
-                    display: "flex",
-                    flexDirection: "column",
-                    justifyContent: "space-between",
-                    minHeight: 260,
-                  }}
-                >
-                  <div>
-                    <div
-                      style={{
-                        fontSize: 28,
-                        marginBottom: 12,
-                      }}
-                    >
-                      {emoji} {label}
-                    </div>
-
-                    <h3 style={{ marginBottom: 8 }}>
-                      {tea.title}
-                    </h3>
-
-                    <p
-                      style={{
-                        fontSize: 14,
-                        color: "#666",
-                        marginBottom: 12,
-                      }}
-                    >
-                      {tea.subtitle}
-                    </p>
-
-                    <p
-                      style={{
-                        fontSize: 14,
-                        color: "#777",
-                        lineHeight: 1.5,
-                      }}
-                    >
-                      {tea.shortDescription}
-                    </p>
-                  </div>
-
-                  <div
-                    style={{
-                      marginTop: 24,
-                      fontSize: 14,
-                      textDecoration: "underline",
-                    }}
-                  >
-                    Explore →
-                  </div>
-                </Link>
-              );
-            })}
+            <span>Total</span>
+            <span>
+              ${(order.amountTotal / 100).toFixed(2)}
+            </span>
           </div>
         </div>
-      </section>
-
-      {/* CTA */}
-      <section
-        style={{
-          padding: "80px 24px",
-          background: "#111",
-          color: "#fff",
-          textAlign: "center",
-        }}
-      >
-        <h2 style={{ fontSize: 36, marginBottom: 20 }}>
-          Build your daily tea ritual
-        </h2>
 
         <p
           style={{
-            maxWidth: 600,
-            margin: "0 auto 32px",
-            color: "#ccc",
+            fontStyle: "italic",
+            color: "#8A8A8A",
+            marginBottom: 40,
           }}
         >
-          Choose teas designed for how you want to feel —
-          energized, calm, or deeply focused.
+          Brew slowly. Sip with intention.
         </p>
 
-        <Link href="/shop">
-          <button className="primary-btn invert">
-            Explore the collection
-          </button>
+        <Link
+          href="/shop"
+          style={{
+            display: "inline-block",
+            padding: "14px 36px",
+            borderRadius: 999,
+            background: "#1A1A1A",
+            color: "#FFFFFF",
+            textDecoration: "none",
+            fontSize: 16,
+            fontWeight: 500,
+          }}
+        >
+          Continue shopping
         </Link>
-      </section>
+      </div>
     </main>
   );
 }
+

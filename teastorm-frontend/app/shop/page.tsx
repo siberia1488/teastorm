@@ -1,9 +1,10 @@
-"use client";
+"use client"
 
-import { useState } from "react";
-import Link from "next/link";
-import { products, getProductMinPrice } from "@/data/products";
-import "./shop.css";
+import { useState } from "react"
+import Link from "next/link"
+import { products } from "@/data/products"
+import { teaContent } from "@/data/teaContent"
+import "./shop.css"
 
 const categories = [
   { id: "all", label: "All teas" },
@@ -12,31 +13,20 @@ const categories = [
   { id: "black", label: "Black" },
   { id: "white", label: "White" },
   { id: "puerh", label: "Pu-erh" },
-];
-
-const effects = [
-  { id: "all", label: "All effects" },
-  { id: "Calming", label: "Calm" },
-  { id: "Energizing", label: "Energy" },
-  { id: "Focusing", label: "Focus" },
-  { id: "Balancing", label: "Balance" },
-];
+]
 
 export default function ShopPage() {
-  const [category, setCategory] = useState("all");
-  const [effect, setEffect] = useState("all");
+  const [category, setCategory] = useState("all")
 
-  const filteredProducts = products.filter((p) => {
-    const categoryMatch = category === "all" || p.category === category;
-    const effectMatch = effect === "all" || p.effect === effect;
-    return categoryMatch && effectMatch;
-  });
+  const filteredProducts = products.filter(
+    (p) => category === "all" || p.category === category
+  )
 
   return (
     <main className="shop">
       <header className="shop-header">
         <h1>Tea Collection</h1>
-        <p>Loose-leaf teas with calm power and clear character.</p>
+        <p>Whole-leaf Chinese teas, curated by TeaStorm.</p>
       </header>
 
       <section className="filters">
@@ -47,19 +37,11 @@ export default function ShopPage() {
             </option>
           ))}
         </select>
-
-        <select value={effect} onChange={(e) => setEffect(e.target.value)}>
-          {effects.map((e) => (
-            <option key={e.id} value={e.id}>
-              {e.label}
-            </option>
-          ))}
-        </select>
       </section>
 
       <section className="product-grid">
         {filteredProducts.map((product) => {
-          const minPrice = getProductMinPrice(product);
+          const content = teaContent[product.slug]
 
           return (
             <Link
@@ -69,36 +51,31 @@ export default function ShopPage() {
             >
               <div className="product-image" />
 
-              {product.badge && (
-                <span className="product-badge">{product.badge}</span>
-              )}
-
               <div className="product-content">
-                <h3>{product.title}</h3>
+                <h3>{content?.displayName || product.title}</h3>
 
-                {product.subtitle && (
-                  <p className="subtitle">{product.subtitle}</p>
+                {content?.tagline && (
+                  <p className="subtitle">{content.tagline}</p>
                 )}
 
                 <p className="description">
-                  {product.shortDescription}
+                {content?.description}
                 </p>
 
+
                 <div className="meta">
-                  <span>
-                    {product.origin.country} · {product.origin.region}
-                  </span>
-                  <strong>From ${minPrice.toFixed(2)}</strong>
+                  <span>{product.variants.length} sizes</span>
+                  <strong>View options</strong>
                 </div>
               </div>
             </Link>
-          );
+          )
         })}
       </section>
 
       {filteredProducts.length === 0 && (
-        <p className="empty">No teas found with selected filters.</p>
+        <p className="empty">No teas found.</p>
       )}
     </main>
-  );
+  )
 }
