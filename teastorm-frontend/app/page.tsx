@@ -374,6 +374,157 @@ export default function HomePage() {
           />
         </div>
       </section>
+      {/* SUSTAINABILITY / TRUST */}
+<section
+  style={{
+    background: "#f3f2ee",
+    padding: "180px 80px",
+  }}
+>
+  <div
+    style={{
+      maxWidth: 1280,
+      margin: "0 auto",
+    }}
+  >
+    {/* Header */}
+    <div style={{ textAlign: "center", marginBottom: 120 }}>
+      <p
+        style={{
+          textTransform: "uppercase",
+          letterSpacing: "0.32em",
+          fontSize: 12,
+          marginBottom: 18,
+          color: "#7a776f",
+        }}
+      >
+        Our Philosophy
+      </p>
+
+      <h2
+        style={{
+          fontSize: 60,
+          fontWeight: 500,
+          letterSpacing: "-0.04em",
+          marginBottom: 28,
+        }}
+      >
+        Sourced With Intention.
+        <br />
+        Crafted With Respect.
+      </h2>
+
+      <p
+        style={{
+          maxWidth: 680,
+          margin: "0 auto",
+          fontSize: 20,
+          lineHeight: 1.7,
+          color: "#6b6b65",
+        }}
+      >
+        TeaStorm works directly with small gardens and artisan producers across
+        China. Every tea is selected for purity, seasonality, and expressive
+        terroir — then packed fresh in small batches for peak vitality.
+      </p>
+    </div>
+
+    {/* Grid */}
+    <div
+      style={{
+        display: "grid",
+        gridTemplateColumns: "repeat(auto-fit, minmax(300px, 1fr))",
+        gap: 56,
+        marginBottom: 120,
+      }}
+    >
+      {[
+        {
+          title: "Direct Garden Sourcing",
+          text:
+            "We collaborate with independent tea gardens and family producers in Yunnan, Fujian, Zhejiang, and Guangdong — prioritizing craftsmanship over commodity scale.",
+        },
+        {
+          title: "Leaf-First Selection",
+          text:
+            "Whole leaves, intact buds, and careful post-harvest handling ensure depth of flavor, longevity across infusions, and a clean energetic profile.",
+        },
+        {
+          title: "Small-Batch Packing",
+          text:
+            "Teas are packed in limited runs to preserve freshness, aroma, and texture — never sitting in warehouses for months.",
+        },
+        {
+          title: "Respect for Nature",
+          text:
+            "We favor gardens that avoid heavy chemicals, protect biodiversity, and maintain soil vitality through traditional cultivation practices.",
+        },
+        {
+          title: "Transparent Craft",
+          text:
+            "From cultivar to harvest season to processing style — we share the story behind every tea so you know exactly what is in your cup.",
+        },
+        {
+          title: "Designed for Ritual",
+          text:
+            "Our packaging and brewing guidance are created to slow you down — inviting intention, calm, and appreciation into everyday tea moments.",
+        },
+      ].map((item) => (
+        <div
+          key={item.title}
+          style={{
+            background: "#ffffff",
+            borderRadius: 32,
+            padding: 48,
+            boxShadow: "0 18px 60px rgba(0,0,0,0.05)",
+            border: "1px solid #e4e2dc",
+          }}
+        >
+          <h3
+            style={{
+              fontSize: 24,
+              fontWeight: 500,
+              marginBottom: 16,
+            }}
+          >
+            {item.title}
+          </h3>
+
+          <p
+            style={{
+              fontSize: 17,
+              lineHeight: 1.7,
+              color: "#6b6b65",
+            }}
+          >
+            {item.text}
+          </p>
+        </div>
+      ))}
+    </div>
+
+    {/* CTA */}
+    <div style={{ textAlign: "center" }}>
+      <Link
+        href="/shop"
+        style={{
+          display: "inline-block",
+          padding: "20px 56px",
+          borderRadius: 999,
+          background: "#1a1a1a",
+          color: "#ffffff",
+          textDecoration: "none",
+          fontSize: 14,
+          letterSpacing: "0.26em",
+          textTransform: "uppercase",
+        }}
+      >
+        Explore the Collection
+      </Link>
+    </div>
+    </div>
+    </section>
+
     </main>
   )
 }
