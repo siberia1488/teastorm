@@ -1,23 +1,22 @@
-export const teaContent: Record<
-  string,
-  {
-    displayName: string
-    tagline: string
-    description: string
-    flavorProfile: string[]
-    liquor: string
-    effect: string
-    brewing: {
-      gongfu: string
-      western: string
-    }
+export type TeaContent = {
+  displayName: string
+  tagline: string
+  description: string
+  flavorProfile?: string[]
+  liquor?: string
+  effect?: string
+  brewing?: {
+    gongfu?: string
+    western?: string
   }
-> = {
-  "ya-shi-xiang": {
+}
+
+export const teaContent: Record<string, TeaContent> = {
+  "shi-xiang": {
     displayName: "Shi Xiang Dan Cong (Phoenix Oolong)",
     tagline: "Stone Aroma — Whole Leaf Phoenix Oolong",
     description:
-      "Shi Xiang Dan Cong is a refined Phoenix Mountain oolong known for its clean mineral structure and elegant natural aroma. The name Shi Xiang means 'Stone Aroma', reflecting its fresh rocky character and crystalline clarity in the cup.",
+      "Shi Xiang Dan Cong is a refined Phoenix Mountain oolong known for its clean mineral structure and elegant natural aroma.",
     flavorProfile: [
       "gentle natural sweetness",
       "floral and honey notes",
@@ -26,14 +25,14 @@ export const teaContent: Record<
       "long refreshing finish",
     ],
     liquor:
-      "Clear light amber liquor with a delicate, evolving floral-mineral aroma.",
+      "Clear light amber liquor with a delicate floral-mineral aroma.",
     effect:
-      "Clean focused energy with calm alertness. Ideal for morning and daytime sessions.",
+      "Clean focused energy with calm alertness.",
     brewing: {
       gongfu:
-        "5–7 g per 100 ml, 95–98°C. Quick rinse, then 5–8s infusions, gradually increasing. 10–15+ infusions.",
+        "5–7 g per 100 ml, 95–98°C. 10–15+ infusions.",
       western:
-        "2–3 g per 250 ml, 90–95°C. Steep 2–3 minutes. Re-steep 2–3 times.",
+        "2–3 g per 250 ml, 90–95°C. Steep 2–3 minutes.",
     },
   },
 
@@ -41,22 +40,13 @@ export const teaContent: Record<
     displayName: "GABA Oolong",
     tagline: "Calming Taiwanese Oolong",
     description:
-      "GABA Oolong is produced through anaerobic fermentation, naturally increasing gamma-aminobutyric acid, giving the tea its relaxing and comforting character.",
-    flavorProfile: [
-      "baked fruit",
-      "honey",
-      "warm spice",
-      "soft sweetness",
-    ],
-    liquor:
-      "Warm amber liquor with a soft, soothing aroma of fruit and honey.",
-    effect:
-      "Deeply calming with gentle mental clarity. Perfect for evening or stress relief.",
+      "Anaerobically oxidized Taiwanese oolong with soothing sweetness.",
+    flavorProfile: ["baked fruit", "honey", "warm spice"],
+    liquor: "Warm amber liquor.",
+    effect: "Deeply calming.",
     brewing: {
-      gongfu:
-        "5–6 g per 100 ml, 95°C. Rinse, then 8–12s infusions.",
-      western:
-        "3 g per 250 ml, 90–95°C. Steep 3 minutes.",
+      gongfu: "5–6 g / 100 ml, 95°C.",
+      western: "3 g / 250 ml, 3 min.",
     },
   },
 
@@ -64,45 +54,27 @@ export const teaContent: Record<
     displayName: "Da Hong Pao",
     tagline: "Wuyi Rock Oolong",
     description:
-      "A legendary Wuyi Mountain oolong known for its deep roasted aroma and mineral backbone.",
-    flavorProfile: [
-      "roasted nuts",
-      "cocoa",
-      "mineral",
-      "long warming finish",
-    ],
-    liquor:
-      "Deep amber with rich roasted fragrance.",
-    effect:
-      "Grounding and balancing with steady energy.",
+      "Legendary roasted cliff tea from the Wuyi Mountains.",
+    flavorProfile: ["roasted nuts", "cocoa", "minerality"],
+    liquor: "Deep amber.",
+    effect: "Grounding.",
     brewing: {
-      gongfu:
-        "6 g per 100 ml, boiling water. Short infusions.",
-      western:
-        "3 g per 250 ml, 95°C. Steep 2–3 minutes.",
+      gongfu: "6 g / 100 ml.",
+      western: "3 g / 250 ml.",
     },
   },
 
-  "dragon-pearl-2012": {
+  "dragon-pearls": {
     displayName: "Dragon Pearls Shu Pu-erh",
-    tagline: "Aged Ripe Pu-erh Pearls",
+    tagline: "Hand-Rolled Ripe Pu-erh",
     description:
-      "Hand-rolled shu pu-erh pearls offering deep earthy sweetness and creamy body.",
-    flavorProfile: [
-      "earthy",
-      "dark cocoa",
-      "cream",
-      "smooth sweetness",
-    ],
-    liquor:
-      "Dark ruby liquor with velvety mouthfeel.",
-    effect:
-      "Comforting and grounding. Great after meals.",
+      "Velvety shu pu-erh pearls with deep sweetness.",
+    flavorProfile: ["earthy", "dark cocoa", "cream"],
+    liquor: "Dark ruby.",
+    effect: "Comforting.",
     brewing: {
-      gongfu:
-        "1–2 pearls per 120 ml, boiling water.",
-      western:
-        "3 pearls per 300 ml, boiling water, 3–4 min.",
+      gongfu: "2 pearls / 120 ml.",
+      western: "3 pearls / 300 ml.",
     },
   },
 
@@ -110,22 +82,13 @@ export const teaContent: Record<
     displayName: "Zhang Xiang Green Mark (2006)",
     tagline: "Aged Sheng Pu-erh Cake",
     description:
-      "A legendary aged sheng pu-erh with camphor, wood, and evolving sweetness.",
-    flavorProfile: [
-      "camphor",
-      "aged wood",
-      "sweet earth",
-      "cooling finish",
-    ],
-    liquor:
-      "Golden amber with layered aged aroma.",
-    effect:
-      "Deep clarity and meditative focus.",
+      "Legendary aged sheng with camphor and forest depth.",
+    flavorProfile: ["camphor", "aged wood", "sweet earth"],
+    liquor: "Golden amber.",
+    effect: "Meditative clarity.",
     brewing: {
-      gongfu:
-        "5–6 g per 100 ml, boiling water.",
-      western:
-        "4 g per 300 ml, boiling water, 3–4 min.",
+      gongfu: "5–6 g / 100 ml.",
+      western: "4 g / 300 ml.",
     },
   },
 
@@ -133,78 +96,69 @@ export const teaContent: Record<
     displayName: "Bulangshan Peacock",
     tagline: "Wild Mountain Sheng Pu-erh",
     description:
-      "Powerful young sheng pu-erh with bold bitterness, wild herbs, and mineral depth.",
-    flavorProfile: [
-      "wild herbs",
-      "bitterness",
-      "minerality",
-      "long sweet aftertaste",
-    ],
-    liquor:
-      "Bright golden liquor with strong aroma.",
-    effect:
-      "Highly energizing and stimulating.",
+      "Powerful young sheng with herbal bitterness.",
+    flavorProfile: ["wild herbs", "minerality", "sweet aftertaste"],
+    liquor: "Bright gold.",
+    effect: "Highly energizing.",
     brewing: {
-      gongfu:
-        "5 g per 100 ml, boiling water.",
-      western:
-        "4 g per 300 ml, boiling water, 3 min.",
+      gongfu: "5 g / 100 ml.",
+      western: "4 g / 300 ml.",
     },
   },
 
-  "dian-hong-mao-feng": {
+  "dian-hong": {
     displayName: "Dian Hong Mao Feng",
-    tagline: "Yunnan Black Tea",
+    tagline: "Golden Tip Black Tea",
     description:
-      "Golden-tipped black tea with natural sweetness and cocoa depth.",
+      "Cocoa-sweet Yunnan black tea.",
     flavorProfile: ["honey", "cocoa", "baked fruit"],
-    liquor: "Deep amber with sweet aroma.",
-    effect: "Warm, energizing, comforting.",
+    liquor: "Deep amber.",
+    effect: "Warming.",
     brewing: {
-      gongfu: "5 g per 100 ml, 90–95°C.",
-      western: "3 g per 250 ml, 3 minutes.",
+      gongfu: "5 g / 100 ml.",
+      western: "3 g / 250 ml.",
     },
   },
 
-  "gongting-shu-2018": {
+  "gongting": {
     displayName: "Lincang Gongting Shu",
     tagline: "Imperial Grade Ripe Pu-erh",
     description:
-      "Dense, smooth ripe pu-erh with dark chocolate sweetness.",
-    flavorProfile: ["dark chocolate", "dates", "sweet earth"],
-    liquor: "Dark red, thick and glossy.",
-    effect: "Grounding and deeply warming.",
+      "Dense and chocolate-rich ripe pu-erh.",
+    flavorProfile: ["dark chocolate", "dates"],
+    liquor: "Dark red.",
+    effect: "Grounding.",
     brewing: {
-      gongfu: "6 g per 100 ml, boiling water.",
-      western: "4 g per 300 ml, 3–4 min.",
+      gongfu: "6 g / 100 ml.",
+      western: "4 g / 300 ml.",
     },
   },
 
-  "mao-jian-wild": {
-    displayName: "Mao Jian Wild Green Tea",
-    tagline: "Wild Chinese Green Tea",
+  "mao-jian": {
+    displayName: "Mao Jian Wild",
+    tagline: "Wild Green Tea",
     description:
-      "Fresh wild green tea with floral aroma and vibrant energy.",
-    flavorProfile: ["fresh herbs", "flowers", "light fruit"],
-    liquor: "Pale green with fresh aroma.",
-    effect: "Bright and uplifting.",
+      "Bright green tea with floral lift.",
+    flavorProfile: ["fresh herbs", "flowers"],
+    liquor: "Pale green.",
+    effect: "Uplifting.",
     brewing: {
-      gongfu: "5 g per 100 ml, 80°C.",
-      western: "3 g per 250 ml, 2–3 min.",
+      gongfu: "5 g / 100 ml.",
+      western: "3 g / 250 ml.",
     },
   },
 
-  "lao-shou-mei-2018": {
-    displayName: "Lao Shou Mei",
+  "lao-shou-mei": {
+    displayName: "Lao Shou Mei (2018)",
     tagline: "Aged White Tea",
     description:
-      "Aged white tea with dried fruit sweetness and woody warmth.",
-    flavorProfile: ["dried fruit", "dates", "soft wood"],
-    liquor: "Warm golden.",
-    effect: "Calming and nourishing.",
+      "Aged white tea with dried-fruit sweetness.",
+    flavorProfile: ["dried fruit", "soft wood"],
+    liquor: "Warm gold.",
+    effect: "Calming.",
     brewing: {
-      gongfu: "6 g per 100 ml, 90–95°C.",
-      western: "4 g per 300 ml, 3 min.",
+      gongfu: "6 g / 100 ml.",
+      western: "4 g / 300 ml.",
     },
   },
 
@@ -212,41 +166,41 @@ export const teaContent: Record<
     displayName: "Yue Guang Bai",
     tagline: "White Moonlight Tea",
     description:
-      "Elegant white tea with floral sweetness and gentle body.",
+      "Elegant white tea with floral honey notes.",
     flavorProfile: ["white flowers", "honey"],
-    liquor: "Clear pale gold.",
-    effect: "Soft calming energy.",
+    liquor: "Pale gold.",
+    effect: "Soft calming.",
     brewing: {
-      gongfu: "5 g per 100 ml, 85–90°C.",
-      western: "3 g per 250 ml, 2–3 min.",
+      gongfu: "5 g / 100 ml.",
+      western: "3 g / 250 ml.",
     },
   },
 
-  "zhengshan-xiaozhong": {
+  "zhengshan": {
     displayName: "Zhengshan Xiaozhong",
     tagline: "Lapsang Souchong",
     description:
-      "Traditional smoked black tea from Wuyi Mountains.",
-    flavorProfile: ["smoke", "pine", "dark cocoa"],
+      "Classic pine-smoked black tea.",
+    flavorProfile: ["smoke", "pine", "cocoa"],
     liquor: "Dark amber.",
-    effect: "Bold and warming.",
+    effect: "Bold.",
     brewing: {
-      gongfu: "5 g per 100 ml, 95°C.",
-      western: "3 g per 250 ml, 3 min.",
+      gongfu: "5 g / 100 ml.",
+      western: "3 g / 250 ml.",
     },
   },
 
-  "longjing-2023": {
+  "longjing": {
     displayName: "Longjing",
     tagline: "Dragon Well Green Tea",
     description:
-      "Famous pan-fired green tea with nutty sweetness and clarity.",
-    flavorProfile: ["chestnut", "fresh grass", "sweet finish"],
+      "Pan-fried green tea with chestnut sweetness.",
+    flavorProfile: ["chestnut", "fresh grass"],
     liquor: "Light green.",
-    effect: "Clean and focusing.",
+    effect: "Clean focus.",
     brewing: {
-      gongfu: "5 g per 100 ml, 75–80°C.",
-      western: "3 g per 250 ml, 2 min.",
+      gongfu: "5 g / 100 ml.",
+      western: "3 g / 250 ml.",
     },
   },
 }
