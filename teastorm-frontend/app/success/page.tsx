@@ -1,58 +1,151 @@
-import { prisma } from "@/lib/prisma";
-import { notFound } from "next/navigation";
+import { prisma } from "@/lib/prisma"
+import Link from "next/link"
 
 type PageProps = {
   searchParams: {
-    orderId?: string;
-  };
-};
+    orderId?: string
+    session_id?: string
+  }
+}
 
 export default async function SuccessPage({ searchParams }: PageProps) {
-  const orderId = searchParams.orderId;
+  const orderId = searchParams.orderId
 
   if (!orderId) {
-    notFound();
+    return (
+      <div style={{ padding: 40 }}>
+        <h1>Order not found</h1>
+        <Link href="/shop">Back to shop</Link>
+      </div>
+    )
   }
 
   const order = await prisma.order.findUnique({
     where: { id: orderId },
-    include: {
-      items: true,
-    },
-  });
+    include: { items: true },
+  })
 
   if (!order) {
-    notFound();
-  }
-
-  if (order.status !== "paid") {
     return (
-      <main style={{ padding: 40, textAlign: "center" }}>
-        <h1>Payment processing</h1>
-        <p>Your payment is being confirmed. Please refresh this page in a moment.</p>
-      </main>
-    );
+      <div style={{ padding: 40 }}>
+        <h1>Processing your payment…</h1>
+        <p>Please wait a moment and refresh this page.</p>
+      </div>
+    )
   }
 
   return (
-    <main style={{ maxWidth: 720, margin: "0 auto", padding: 40 }}>
-      <h1>Thank you for your order</h1>
+    <main
+      style={{
+        minHeight: "100vh",
+        background: "#F7F6F3",
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
+        padding: 48,
+      }}
+    >
+      <div style={{ maxWidth: 720, width: "100%" }}>
+        <h1
+          style={{
+            fontSize: 48,
+            fontWeight: 500,
+            letterSpacing: -1,
+            marginBottom: 12,
+            color: "#1A1A1A",
+          }}
+        >
+          Thank you for your order
+        </h1>
 
-      <p>
-        Order <strong>{order.id}</strong> has been successfully paid.
-      </p>
+        <p style={{ color: "#6B6B6B", fontSize: 18, marginBottom: 48 }}>
+          Your TeaStorm ritual is being prepared.
+        </p>
 
-      <ul style={{ marginTop: 24 }}>
-        {order.items.map((item) => (
-          <li key={item.id} style={{ marginBottom: 8 }}>
-            {item.title} × {item.quantity}
-          </li>
-        ))}
-      </ul>
+        <div
+          style={{
+            background: "#FFFFFF",
+            borderRadius: 20,
+            padding: 32,
+            boxShadow: "0 10px 40px rgba(0,0,0,0.05)",
+            border: "1px solid #E5E3DD",
+            marginBottom: 48,
+          }}
+        >
+          <h3
+            style={{
+              fontSize: 20,
+              marginBottom: 24,
+              color: "#1A1A1A",
+            }}
+          >
+            Order summary
+          </h3>
 
-      <p style={{ marginTop: 32 }}>
-        We will send you a confirmation email with tracking information once your order ships.
-      </p>
+          {order.items.map((item) => (
+            <div
+              key={item.id}
+              style={{
+                display: "flex",
+                justifyContent: "space-between",
+                marginBottom: 14,
+                color: "#333",
+              }}
+            >
+              <span>
+                {item.title} × {item.quantity}
+              </span>
+              <span>
+                ${((item.price * item.quantity) / 100).toFixed(2)}
+              </span>
+            </div>
+          ))}
+
+          <div
+            style={{
+              borderTop: "1px solid #E5E3DD",
+              marginTop: 24,
+              paddingTop: 24,
+              display: "flex",
+              justifyContent: "space-between",
+              fontSize: 18,
+              fontWeight: 500,
+              color: "#1A1A1A",
+            }}
+          >
+            <span>Total</span>
+            <span>
+              ${(order.amountTotal / 100).toFixed(2)}
+            </span>
+          </div>
+        </div>
+
+        <p
+          style={{
+            fontStyle: "italic",
+            color: "#8A8A8A",
+            marginBottom: 40,
+          }}
+        >
+          Brew slowly. Sip with intention.
+        </p>
+
+        <Link
+          href="/shop"
+          style={{
+            display: "inline-block",
+            padding: "14px 36px",
+            borderRadius: 999,
+            background: "#1A1A1A",
+            color: "#FFFFFF",
+            textDecoration: "none",
+            fontSize: 16,
+            fontWeight: 500,
+          }}
+        >
+          Continue shopping
+        </Link>
+      </div>
     </main>
-  );
+  )
 }

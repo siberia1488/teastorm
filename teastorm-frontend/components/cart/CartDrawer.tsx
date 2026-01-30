@@ -1,39 +1,34 @@
-"use client";
+"use client"
 
-import { useCartDrawer } from "@/lib/cart-store";
-import { useCart } from "@/lib/cart-context";
+import { useCartDrawer } from "@/lib/cart-store"
+import { useCart } from "@/lib/cart-context"
 
 export default function CartDrawer() {
-  const { isOpen, close } = useCartDrawer();
-  const { items, subtotal } = useCart();
+  const { isOpen, close } = useCartDrawer()
+  const { items, removeItem } = useCart()
 
-  if (!isOpen) return null;
+  if (!isOpen) return null
 
   const handleCheckout = async () => {
     const res = await fetch("/api/checkout", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ items }),
-    });
+    })
 
-    const data = await res.json();
+    const data = await res.json()
 
     if (data.url) {
-      window.location.href = data.url; // redirect to Stripe
+      window.location.href = data.url
     } else {
-      alert("Checkout failed");
+      alert("Checkout failed")
     }
-  };
+  }
 
   return (
     <div className="fixed inset-0 z-50">
-      {/* overlay */}
-      <div
-        className="absolute inset-0 bg-black/30"
-        onClick={close}
-      />
+      <div className="absolute inset-0 bg-black/30" onClick={close} />
 
-      {/* drawer */}
       <div className="absolute right-0 top-0 h-full w-full max-w-md bg-white shadow-xl flex flex-col">
         <div className="flex items-center justify-between p-4 border-b">
           <h2 className="text-lg font-semibold">Your cart</h2>
@@ -46,44 +41,38 @@ export default function CartDrawer() {
           )}
 
           {items.map((item) => (
-            <div
-              key={item.variantId}
-              className="flex justify-between text-sm"
-            >
+            <div key={item.variantId} className="flex justify-between text-sm">
               <div>
                 <div className="font-medium">{item.title}</div>
                 <div className="text-gray-500">
-                  {item.quantity} × ${(item.price / 100).toFixed(2)}
+                  {item.variantLabel} × {item.quantity}
                 </div>
               </div>
-              <div className="font-medium">
-                ${((item.price * item.quantity) / 100).toFixed(2)}
-              </div>
+
+              <button
+                onClick={() => removeItem(item.variantId)}
+                className="text-xs text-red-500"
+              >
+                Remove
+              </button>
             </div>
           ))}
         </div>
 
         <div className="border-t p-4 space-y-3">
-          <div className="flex justify-between font-medium">
-            <span>Subtotal</span>
-            <span>${(subtotal / 100).toFixed(2)}</span>
-          </div>
-
           <button
             onClick={handleCheckout}
-            className="block w-full bg-black text-white py-3 rounded"
+            disabled={items.length === 0}
+            className="block w-full bg-black text-white py-3 rounded disabled:opacity-50"
           >
             Checkout
           </button>
 
-          <button
-            onClick={close}
-            className="block w-full text-sm text-gray-500"
-          >
+          <button onClick={close} className="block w-full text-sm text-gray-500">
             Continue shopping
           </button>
         </div>
       </div>
     </div>
-  );
+  )
 }
