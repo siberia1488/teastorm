@@ -13,7 +13,7 @@ export const teaContent: Record<
     }
   }
 > = {
-  "ya-shi-xiang": {
+  "shi-xiang": {
     displayName: "Shi Xiang Dan Cong (Phoenix Oolong)",
     tagline: "Stone Aroma — Whole Leaf Phoenix Oolong",
     description:
@@ -83,7 +83,7 @@ export const teaContent: Record<
     },
   },
 
-  "dragon-pearl-2012": {
+  "dragon-pearls": {
     displayName: "Dragon Pearls Shu Pu-erh",
     tagline: "Aged Ripe Pu-erh Pearls",
     description:
@@ -152,7 +152,7 @@ export const teaContent: Record<
     },
   },
 
-  "dian-hong-mao-feng": {
+  "dian-hong": {
     displayName: "Dian Hong Mao Feng",
     tagline: "Yunnan Black Tea",
     description:
@@ -166,7 +166,7 @@ export const teaContent: Record<
     },
   },
 
-  "gongting-shu-2018": {
+  "gongting": {
     displayName: "Lincang Gongting Shu",
     tagline: "Imperial Grade Ripe Pu-erh",
     description:
@@ -180,7 +180,7 @@ export const teaContent: Record<
     },
   },
 
-  "mao-jian-wild": {
+  "mao-jian": {
     displayName: "Mao Jian Wild Green Tea",
     tagline: "Wild Chinese Green Tea",
     description:
@@ -194,7 +194,7 @@ export const teaContent: Record<
     },
   },
 
-  "lao-shou-mei-2018": {
+  "lao-shou-mei": {
     displayName: "Lao Shou Mei",
     tagline: "Aged White Tea",
     description:
@@ -222,7 +222,7 @@ export const teaContent: Record<
     },
   },
 
-  "zhengshan-xiaozhong": {
+  "zhengshan": {
     displayName: "Zhengshan Xiaozhong",
     tagline: "Lapsang Souchong",
     description:
@@ -236,7 +236,7 @@ export const teaContent: Record<
     },
   },
 
-  "longjing-2023": {
+  "longjing": {
     displayName: "Longjing",
     tagline: "Dragon Well Green Tea",
     description:
@@ -247,6 +247,25 @@ export const teaContent: Record<
     brewing: {
       gongfu: "5 g per 100 ml, 75–80°C.",
       western: "3 g per 250 ml, 2 min.",
+    },
+  },
+
+  "jin-xuan": {
+    displayName: "Milk Oolong (Jin Xuan)",
+    tagline: "Naturally Creamy Taiwanese Oolong",
+    description:
+      "Jin Xuan is a famous Taiwanese cultivar known for its naturally milky texture and soft floral sweetness, even without flavoring. Smooth, comforting, and deeply aromatic.",
+    flavorProfile: [
+      "natural creaminess",
+      "orchid florals",
+      "butter",
+      "sweet finish",
+    ],
+    liquor: "Pale golden with silky body.",
+    effect: "Relaxing yet gently uplifting.",
+    brewing: {
+      gongfu: "5–6 g per 100 ml, 90–95°C.",
+      western: "3 g per 250 ml, 3 min.",
     },
   },
 }
