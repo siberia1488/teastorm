@@ -8,14 +8,15 @@ import { useCartDrawer } from "@/lib/cart-store"
 import Link from "next/link"
 import { useEffect, useState } from "react"
 
-type PriceMap = Record<string, number> // stripePriceId → cents
+type PriceMap = Record<string, number>
 
 export default function ProductPage() {
   const params = useParams<{ id: string }>()
+
   const { addItem } = useCart()
   const { open } = useCartDrawer()
 
-  const product = products.find(p => p.slug === params.id)
+  const product = products.find((p) => p.slug === params.id)
   const content = teaContent[params.id]
 
   const [selectedVariantId, setSelectedVariantId] = useState<string | null>(
@@ -28,15 +29,15 @@ export default function ProductPage() {
   useEffect(() => {
     if (!product) return
 
-    const priceIds = product.variants.map(v => v.stripePriceId)
+    const priceIds = product.variants.map((v) => v.stripePriceId)
 
     fetch("/api/prices", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ priceIds }),
     })
-      .then(res => res.json())
-      .then(data => setPrices(data))
+      .then((res) => res.json())
+      .then((data) => setPrices(data))
       .finally(() => setLoadingPrices(false))
   }, [product])
 
@@ -49,9 +50,12 @@ export default function ProductPage() {
     )
   }
 
-  const selectedVariant = product.variants.find(v => v.id === selectedVariantId)
+  const selectedVariant = product.variants.find(
+    (v) => v.id === selectedVariantId
+  )
+
   const selectedPrice =
-    selectedVariant ? prices[selectedVariant.stripePriceId] : null
+    selectedVariant && prices[selectedVariant.stripePriceId]
 
   const handleAdd = () => {
     if (!selectedVariant || !selectedPrice) return
@@ -63,7 +67,7 @@ export default function ProductPage() {
       title: content.displayName,
       variantLabel: selectedVariant.label,
       weightGrams: selectedVariant.weightGrams,
-      price: selectedPrice, 
+      price: selectedPrice,
       stripePriceId: selectedVariant.stripePriceId,
       image: product.image,
       quantity: 1,
@@ -72,30 +76,90 @@ export default function ProductPage() {
     open()
   }
 
-  const isSingleVariant = product.variants.length === 1
-
   return (
-    <main style={{ maxWidth: 1000, margin: "0 auto", padding: "32px 24px" }}>
-      <Link href="/shop" style={{ display: "inline-block", marginBottom: 24 }}>
+    <main style={{ maxWidth: 1120, margin: "0 auto", padding: "64px 24px" }}>
+      <Link
+        href="/shop"
+        style={{
+          display: "inline-block",
+          marginBottom: 48,
+          fontSize: 14,
+          color: "#777",
+        }}
+      >
         ← Back to shop
       </Link>
 
-      <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 40 }}>
-        <div style={{ background: "#f4f4f4", borderRadius: 16, height: 420 }} />
+      {/* TOP */}
+      <div
+        style={{
+          display: "grid",
+          gridTemplateColumns: "1fr 1fr",
+          gap: 96,
+          marginBottom: 140,
+        }}
+      >
+        <div
+          style={{
+            background:
+              "radial-gradient(800px 400px at 20% -20%, #f5f4f0 0%, #efede7 60%, #e8e6df 100%)",
+            borderRadius: 32,
+            height: 520,
+          }}
+        />
 
         <div>
-          <h1 style={{ fontSize: 34 }}>{content.displayName}</h1>
-          <div style={{ color: "#666", marginBottom: 12 }}>
+          <p
+            style={{
+              textTransform: "uppercase",
+              letterSpacing: "0.32em",
+              fontSize: 12,
+              color: "#8a8883",
+              marginBottom: 14,
+            }}
+          >
+            {product.category}
+          </p>
+
+          <h1
+            style={{
+              fontSize: 48,
+              fontWeight: 500,
+              marginBottom: 14,
+            }}
+          >
+            {content.displayName}
+          </h1>
+
+          <p
+            style={{
+              fontSize: 18,
+              color: "#777",
+              marginBottom: 24,
+            }}
+          >
             {content.tagline}
-          </div>
+          </p>
 
-          <p style={{ marginBottom: 20 }}>{content.description}</p>
+          <p
+            style={{
+              fontSize: 17,
+              lineHeight: 1.75,
+              color: "#555",
+              marginBottom: 42,
+              maxWidth: 520,
+            }}
+          >
+            {content.description}
+          </p>
 
-          {!isSingleVariant && (
-            <div style={{ marginBottom: 28 }}>
-              <strong>Choose size</strong>
-              <div style={{ display: "flex", gap: 12, marginTop: 10 }}>
-                {product.variants.map(variant => {
+          {/* VARIANTS */}
+          {product.variants.length > 1 && (
+            <div style={{ marginBottom: 42 }}>
+              <strong>Select Size</strong>
+
+              <div style={{ display: "flex", gap: 14, marginTop: 14 }}>
+                {product.variants.map((variant) => {
                   const price = prices[variant.stripePriceId]
 
                   return (
@@ -103,19 +167,19 @@ export default function ProductPage() {
                       key={variant.id}
                       onClick={() => setSelectedVariantId(variant.id)}
                       style={{
-                        padding: "12px 16px",
-                        borderRadius: 10,
+                        padding: "14px 22px",
+                        borderRadius: 999,
                         border:
                           variant.id === selectedVariantId
                             ? "2px solid #000"
                             : "1px solid #ddd",
                         background: "#fff",
                         cursor: "pointer",
-                        minWidth: 120,
+                        minWidth: 130,
                       }}
                     >
                       <div>{variant.label}</div>
-                      <div style={{ fontSize: 14, color: "#555" }}>
+                      <div style={{ fontSize: 14, color: "#777" }}>
                         {loadingPrices || !price
                           ? "—"
                           : `$${(price / 100).toFixed(2)}`}
@@ -127,25 +191,139 @@ export default function ProductPage() {
             </div>
           )}
 
+          {/* ADD */}
           <button
             disabled={!selectedVariant || !selectedPrice || loadingPrices}
             onClick={handleAdd}
             style={{
               width: "100%",
-              padding: "16px",
-              borderRadius: 12,
+              padding: "20px",
+              borderRadius: 999,
               background: "#000",
               color: "#fff",
-              fontSize: 16,
+              fontSize: 14,
+              letterSpacing: "0.24em",
+              textTransform: "uppercase",
               cursor: "pointer",
             }}
           >
             {loadingPrices || !selectedPrice
-              ? "Loading price…"
+              ? "Loading…"
               : `Add to cart — $${(selectedPrice / 100).toFixed(2)}`}
           </button>
         </div>
       </div>
+
+      {/* INFO CARDS */}
+      <section
+        style={{
+          display: "grid",
+          gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))",
+          gap: 64,
+        }}
+      >
+        {[
+          {
+            label: "Flavor Profile",
+            title: "Flavor Notes",
+            icon: "🍃",
+            content: (
+              <ul
+                style={{
+                  listStyle: "none",
+                  padding: 0,
+                  margin: 0,
+                  display: "grid",
+                  gap: 6,
+                }}
+              >
+                {content.flavorProfile.map((note: string) => (
+                  <li key={note}>• {note}</li>
+                ))}
+              </ul>
+            ),
+          },
+          {
+            label: "Effect",
+            title: "How It Feels",
+            icon: "☁️",
+            content: <p>{content.effect}</p>,
+          },
+          {
+            label: "Brewing",
+            title: "How to Brew",
+            icon: "🍵",
+            content: (
+              <>
+                <p>
+                  <strong>Gongfu:</strong> {content.brewing.gongfu}
+                </p>
+                <p>
+                  <strong>Western:</strong> {content.brewing.western}
+                </p>
+              </>
+            ),
+          },
+        ].map((item) => (
+          <div
+            key={item.title}
+            style={{
+              background:
+                "radial-gradient(900px 480px at 20% -30%, #ffffff 0%, #f6f4ef 60%, #efede7 100%)",
+              borderRadius: 36,
+              padding: "64px 52px",
+              textAlign: "center",
+              transition:
+                "transform 0.45s cubic-bezier(.22,1,.36,1), box-shadow 0.45s cubic-bezier(.22,1,.36,1)",
+              boxShadow: "0 10px 32px rgba(0,0,0,0.04)",
+            }}
+            onMouseEnter={(e) => {
+              e.currentTarget.style.transform = "translateY(-12px)"
+              e.currentTarget.style.boxShadow =
+                "0 28px 72px rgba(0,0,0,0.08)"
+            }}
+            onMouseLeave={(e) => {
+              e.currentTarget.style.transform = "translateY(0)"
+              e.currentTarget.style.boxShadow =
+                "0 10px 32px rgba(0,0,0,0.04)"
+            }}
+          >
+            <div style={{ fontSize: 34, marginBottom: 18 }}>{item.icon}</div>
+
+            <p
+              style={{
+                textTransform: "uppercase",
+                letterSpacing: "0.32em",
+                fontSize: 11,
+                marginBottom: 12,
+                color: "#9b978e",
+              }}
+            >
+              {item.label}
+            </p>
+
+            <h3
+              style={{
+                fontSize: 26,
+                fontWeight: 500,
+                marginBottom: 20,
+              }}
+            >
+              {item.title}
+            </h3>
+
+            <div
+              style={{
+                fontSize: 16,
+                lineHeight: 1.7,
+                color: "#6b6b65",
+              }}
+            >
+              {item.content}
+            </div>
+          </div>
+        ))}
+      </section>
     </main>
   )
 }
