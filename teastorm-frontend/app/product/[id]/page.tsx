@@ -17,7 +17,7 @@ export default function ProductPage() {
   const { open } = useCartDrawer()
 
   const product = products.find((p) => p.slug === params.id)
-  const content = teaContent[params.id]
+  const content = product ? teaContent[product.slug] : null
 
   const [selectedVariantId, setSelectedVariantId] = useState<string | null>(
     product?.variants[0]?.id ?? null
@@ -50,9 +50,9 @@ export default function ProductPage() {
     )
   }
 
-  const selectedVariant = product.variants.find(
-    (v) => v.id === selectedVariantId
-  )
+  const selectedVariant =
+    product.variants.find((v) => v.id === selectedVariantId) ??
+    product.variants[0]
 
   const selectedPrice =
     selectedVariant && prices[selectedVariant.stripePriceId]
@@ -75,6 +75,14 @@ export default function ProductPage() {
 
     open()
   }
+
+  const hasFlavor =
+    Array.isArray(content.flavorProfile) &&
+    content.flavorProfile.length > 0
+
+  const hasEffect = Boolean(content.effect)
+
+  const hasBrewing = Boolean(content.brewing)
 
   return (
     <main style={{ maxWidth: 1120, margin: "0 auto", padding: "64px 24px" }}>
@@ -222,108 +230,120 @@ export default function ProductPage() {
           gap: 64,
         }}
       >
-        {[
-          {
-            label: "Flavor Profile",
-            title: "Flavor Notes",
-            icon: "🍃",
-            content: (
-              <ul
-                style={{
-                  listStyle: "none",
-                  padding: 0,
-                  margin: 0,
-                  display: "grid",
-                  gap: 6,
-                }}
-              >
-                {content.flavorProfile.map((note: string) => (
-                  <li key={note}>• {note}</li>
-                ))}
-              </ul>
-            ),
-          },
-          {
-            label: "Effect",
-            title: "How It Feels",
-            icon: "☁️",
-            content: <p>{content.effect}</p>,
-          },
-          {
-            label: "Brewing",
-            title: "How to Brew",
-            icon: "🍵",
-            content: (
-              <>
-                <p>
-                  <strong>Gongfu:</strong> {content.brewing.gongfu}
-                </p>
-                <p>
-                  <strong>Western:</strong> {content.brewing.western}
-                </p>
-              </>
-            ),
-          },
-        ].map((item) => (
-          <div
-            key={item.title}
-            style={{
-              background:
-                "radial-gradient(900px 480px at 20% -30%, #ffffff 0%, #f6f4ef 60%, #efede7 100%)",
-              borderRadius: 36,
-              padding: "64px 52px",
-              textAlign: "center",
-              transition:
-                "transform 0.45s cubic-bezier(.22,1,.36,1), box-shadow 0.45s cubic-bezier(.22,1,.36,1)",
-              boxShadow: "0 10px 32px rgba(0,0,0,0.04)",
-            }}
-            onMouseEnter={(e) => {
-              e.currentTarget.style.transform = "translateY(-12px)"
-              e.currentTarget.style.boxShadow =
-                "0 28px 72px rgba(0,0,0,0.08)"
-            }}
-            onMouseLeave={(e) => {
-              e.currentTarget.style.transform = "translateY(0)"
-              e.currentTarget.style.boxShadow =
-                "0 10px 32px rgba(0,0,0,0.04)"
-            }}
-          >
-            <div style={{ fontSize: 34, marginBottom: 18 }}>{item.icon}</div>
-
-            <p
+        {/* FLAVOR */}
+        {hasFlavor && (
+          <InfoCard icon="🍃" label="Flavor Profile" title="Flavor Notes">
+            <ul
               style={{
-                textTransform: "uppercase",
-                letterSpacing: "0.32em",
-                fontSize: 11,
-                marginBottom: 12,
-                color: "#9b978e",
+                listStyle: "none",
+                padding: 0,
+                margin: 0,
+                display: "grid",
+                gap: 6,
               }}
             >
-              {item.label}
-            </p>
+              {content.flavorProfile!.map((note) => (
+                <li key={note}>• {note}</li>
+              ))}
+            </ul>
+          </InfoCard>
+        )}
 
-            <h3
-              style={{
-                fontSize: 26,
-                fontWeight: 500,
-                marginBottom: 20,
-              }}
-            >
-              {item.title}
-            </h3>
+        {/* EFFECT */}
+        {hasEffect && (
+          <InfoCard icon="☁️" label="Effect" title="How It Feels">
+            <p>{content.effect}</p>
+          </InfoCard>
+        )}
 
-            <div
-              style={{
-                fontSize: 16,
-                lineHeight: 1.7,
-                color: "#6b6b65",
-              }}
-            >
-              {item.content}
-            </div>
-          </div>
-        ))}
+        {/* BREWING */}
+        {hasBrewing && (
+          <InfoCard icon="🍵" label="Brewing" title="How to Brew">
+            {content.brewing?.gongfu && (
+              <p>
+                <strong>Gongfu:</strong> {content.brewing.gongfu}
+              </p>
+            )}
+
+            {content.brewing?.western && (
+              <p>
+                <strong>Western:</strong> {content.brewing.western}
+              </p>
+            )}
+          </InfoCard>
+        )}
       </section>
     </main>
+  )
+}
+
+function InfoCard({
+  icon,
+  label,
+  title,
+  children,
+}: {
+  icon: string
+  label: string
+  title: string
+  children: React.ReactNode
+}) {
+  return (
+    <div
+      style={{
+        background:
+          "radial-gradient(900px 480px at 20% -30%, #ffffff 0%, #f6f4ef 60%, #efede7 100%)",
+        borderRadius: 36,
+        padding: "64px 52px",
+        textAlign: "center",
+        transition:
+          "transform 0.45s cubic-bezier(.22,1,.36,1), box-shadow 0.45s cubic-bezier(.22,1,.36,1)",
+        boxShadow: "0 10px 32px rgba(0,0,0,0.04)",
+      }}
+      onMouseEnter={(e) => {
+        e.currentTarget.style.transform = "translateY(-12px)"
+        e.currentTarget.style.boxShadow =
+          "0 28px 72px rgba(0,0,0,0.08)"
+      }}
+      onMouseLeave={(e) => {
+        e.currentTarget.style.transform = "translateY(0)"
+        e.currentTarget.style.boxShadow =
+          "0 10px 32px rgba(0,0,0,0.04)"
+      }}
+    >
+      <div style={{ fontSize: 34, marginBottom: 18 }}>{icon}</div>
+
+      <p
+        style={{
+          textTransform: "uppercase",
+          letterSpacing: "0.32em",
+          fontSize: 11,
+          marginBottom: 12,
+          color: "#9b978e",
+        }}
+      >
+        {label}
+      </p>
+
+      <h3
+        style={{
+          fontSize: 26,
+          fontWeight: 500,
+          marginBottom: 20,
+        }}
+      >
+        {title}
+      </h3>
+
+      <div
+        style={{
+          fontSize: 16,
+          lineHeight: 1.7,
+          color: "#6b6b65",
+        }}
+      >
+        {children}
+      </div>
+    </div>
   )
 }
