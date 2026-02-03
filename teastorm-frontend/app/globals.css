@@ -7,6 +7,19 @@
   --z-index-drawer: 1001;
 }
 
+/* Safe area utilities for notched devices */
+.pt-safe {
+  padding-top: env(safe-area-inset-top);
+}
+
+.pb-safe {
+  padding-bottom: env(safe-area-inset-bottom);
+}
+
+.pr-safe {
+  padding-right: env(safe-area-inset-right);
+}
+
 
 
 

@@ -121,7 +121,7 @@ export default function CartDrawer() {
         aria-modal="true"
         aria-label="Shopping cart"
         className={cn(
-          "fixed right-0 top-0 z-drawer h-screen w-full sm:w-[440px]",
+          "fixed right-0 top-0 z-drawer h-dvh w-full sm:w-[440px]",
           "bg-white shadow-2xl",
           "flex flex-col",
           "transition-transform duration-300 ease-out",
@@ -129,27 +129,27 @@ export default function CartDrawer() {
         )}
       >
         {/* Header */}
-        <div className="flex items-center justify-between border-b border-gray-200 px-6 py-5">
+        <div className="flex items-center justify-between border-b border-gray-200 px-5 sm:px-6 py-4 sm:py-5 pt-safe">
           <h2 className="text-xl font-semibold text-gray-900">Your cart</h2>
           <button
             type="button"
             onClick={close}
-            className="rounded-full p-2 hover:bg-gray-100 transition-colors"
+            className="rounded-full p-2.5 sm:p-2 hover:bg-gray-100 transition-colors -mr-1"
             aria-label="Close cart"
           >
-            <X className="h-5 w-5 text-gray-600" />
+            <X className="h-6 w-6 sm:h-5 sm:w-5 text-gray-600" />
           </button>
         </div>
 
         {/* Items - Scrollable */}
         <div className="flex-1 overflow-y-auto">
           {items.length === 0 ? (
-            <div className="flex h-full flex-col items-center justify-center px-6 py-12">
+            <div className="flex h-full flex-col items-center justify-center px-5 sm:px-6 py-12">
               <p className="text-gray-500 text-center">Your cart is empty.</p>
               <button
                 type="button"
                 onClick={close}
-                className="mt-4 text-sm font-medium text-gray-900 underline underline-offset-4 hover:no-underline"
+                className="mt-4 py-2 px-4 text-sm font-medium text-gray-900 underline underline-offset-4 hover:no-underline"
               >
                 Continue shopping
               </button>
@@ -157,7 +157,7 @@ export default function CartDrawer() {
           ) : (
             <ul className="divide-y divide-gray-100">
               {items.map((item) => (
-                <li key={item.variantId} className="flex gap-4 px-6 py-5">
+                <li key={item.variantId} className="flex gap-3 sm:gap-4 px-5 sm:px-6 py-4 sm:py-5">
                   {/* Product Image */}
                   <div className="h-20 w-20 shrink-0 overflow-hidden rounded-lg bg-gray-100">
                     <Image
@@ -188,13 +188,13 @@ export default function CartDrawer() {
                           onClick={() =>
                             handleQuantityChange(item.variantId, item.quantity - 1)
                           }
-                          className="p-2 hover:bg-gray-50 transition-colors rounded-l-lg"
+                          className="p-2.5 sm:p-2 hover:bg-gray-50 active:bg-gray-100 transition-colors rounded-l-lg"
                           aria-label="Decrease quantity"
                         >
                           <Minus size={14} className="text-gray-600" />
                         </button>
 
-                        <span className="text-sm font-medium w-8 text-center">
+                        <span className="text-sm font-medium w-8 text-center tabular-nums">
                           {item.quantity}
                         </span>
 
@@ -203,7 +203,7 @@ export default function CartDrawer() {
                           onClick={() =>
                             handleQuantityChange(item.variantId, item.quantity + 1)
                           }
-                          className="p-2 hover:bg-gray-50 transition-colors rounded-r-lg"
+                          className="p-2.5 sm:p-2 hover:bg-gray-50 active:bg-gray-100 transition-colors rounded-r-lg"
                           aria-label="Increase quantity"
                         >
                           <Plus size={14} className="text-gray-600" />
@@ -213,7 +213,7 @@ export default function CartDrawer() {
                       <button
                         type="button"
                         onClick={() => removeItem(item.variantId)}
-                        className="p-2 text-gray-400 hover:text-red-500 transition-colors"
+                        className="p-2.5 sm:p-2 text-gray-400 hover:text-red-500 active:text-red-600 transition-colors"
                         aria-label="Remove item"
                       >
                         <Trash2 size={16} />
@@ -240,7 +240,7 @@ export default function CartDrawer() {
 
         {/* Footer */}
         {items.length > 0 && (
-          <div className="border-t border-gray-200 bg-white px-6 py-5">
+          <div className="border-t border-gray-200 bg-white px-5 sm:px-6 py-5 pb-safe">
             {/* Subtotal */}
             <div className="flex justify-between items-baseline mb-5">
               <span className="text-base text-gray-600">Subtotal</span>
