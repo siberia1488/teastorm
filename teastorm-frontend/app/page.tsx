@@ -1,4 +1,5 @@
 import Link from "next/link"
+import Image from "next/image"
 import { products } from "@/data/products"
 
 export default function HomePage() {
@@ -206,16 +207,17 @@ export default function HomePage() {
                   textAlign: "center",
                 }}
               >
-                <div
-                  style={{
-                    height: 280,
-                    borderRadius: 18,
-                    backgroundImage: `url(${tea.image})`,
-                    backgroundSize: "cover",
-                    backgroundPosition: "center",
-                    marginBottom: 28,
-                  }}
-                />
+                <div style={{ height: 280, borderRadius: 18, marginBottom: 28, position: "relative", overflow: "hidden" }}>
+                  {tea.images?.preview && (
+                    <Image
+                      src={tea.images.preview}
+                      alt={tea.title}
+                      fill
+                      sizes="(max-width: 768px) 100vw, 280px"
+                      style={{ objectFit: "cover", objectPosition: "center" }}
+                    />
+                  )}
+                </div>
 
                 <h3
                   style={{
@@ -247,6 +249,23 @@ export default function HomePage() {
                 >
                   {tea.variants.length > 0 ? tea.variants[0].label : "Coming Soon"}
                 </p>
+
+                {/* Cached price (hybrid) */}
+                {(() => {
+                  try {
+                    // eslint-disable-next-line @typescript-eslint/no-var-requires
+                    const cachedPrices = require("@/data/prices.json") as Record<string, { unit_amount: number | null }>
+                    const priceId = tea.variants[0]?.stripePriceId
+                    const amount = priceId ? cachedPrices[priceId]?.unit_amount ?? null : null
+                    return amount ? (
+                      <p style={{ fontSize: 14, color: "#222", marginBottom: 12 }}>
+                        {`$${(amount / 100).toFixed(2)}`}
+                      </p>
+                    ) : null
+                  } catch (e) {
+                    return null
+                  }
+                })()}
 
                 <Link
                   href={`/product/${tea.slug}`}

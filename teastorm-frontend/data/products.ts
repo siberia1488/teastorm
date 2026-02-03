@@ -85,7 +85,10 @@ export const products: Product[] = [
       preview: "/tea/dragon-pearls/preview.PNG",
       gallery: [],
     },
-    variants: []
+    variants: [
+      { id: "dragon-pearls-50", label: "50 g", weightGrams: 50, stripePriceId: "" },
+      { id: "dragon-pearls-100", label: "100 g", weightGrams: 100, stripePriceId: "" },
+    ]
   },
 
   {
@@ -99,7 +102,10 @@ export const products: Product[] = [
         "/tea/shi-xiang/3.PNG",
       ],
     },
-    variants: []
+    variants: [
+      { id: "shi-xiang-30", label: "30 g", weightGrams: 30, stripePriceId: "" },
+      { id: "shi-xiang-100", label: "100 g", weightGrams: 100, stripePriceId: "" },
+    ]
   },
 
   {
@@ -115,7 +121,10 @@ export const products: Product[] = [
         "/tea/da-hong-pao/4.png",
       ],
     },
-    variants: []
+    variants: [
+      { id: "da-hong-pao-25", label: "25 g", weightGrams: 25, stripePriceId: "" },
+      { id: "da-hong-pao-50", label: "50 g", weightGrams: 50, stripePriceId: "" },
+    ]
   },
 
   {
@@ -129,7 +138,10 @@ export const products: Product[] = [
         "/tea/jin-xuan/2.PNG",
       ],
     },
-    variants: []
+    variants: [
+      { id: "jin-xuan-25", label: "25 g", weightGrams: 25, stripePriceId: "" },
+      { id: "jin-xuan-50", label: "50 g", weightGrams: 50, stripePriceId: "" },
+    ]
   },
 
   {
@@ -143,7 +155,10 @@ export const products: Product[] = [
         "/tea/dian-hong/3.PNG",
       ],
     },
-    variants: []
+    variants: [
+      { id: "dian-hong-50", label: "50 g", weightGrams: 50, stripePriceId: "" },
+      { id: "dian-hong-100", label: "100 g", weightGrams: 100, stripePriceId: "" },
+    ]
   },
 
   {
@@ -157,7 +172,10 @@ export const products: Product[] = [
         "/tea/gongting/3.PNG",
       ],
     },
-    variants: []
+    variants: [
+      { id: "gongting-50", label: "50 g", weightGrams: 50, stripePriceId: "" },
+      { id: "gongting-100", label: "100 g", weightGrams: 100, stripePriceId: "" },
+    ]
   },
 
   {
@@ -173,7 +191,10 @@ export const products: Product[] = [
         "/tea/mao-jian/4.png",
       ],
     },
-    variants: []
+    variants: [
+      { id: "mao-jian-25", label: "25 g", weightGrams: 25, stripePriceId: "" },
+      { id: "mao-jian-50", label: "50 g", weightGrams: 50, stripePriceId: "" },
+    ]
   },
 
   {
@@ -187,7 +208,10 @@ export const products: Product[] = [
         "/tea/lao-shou-mei/2.PNG",
       ],
     },
-    variants: []
+    variants: [
+      { id: "lao-shou-mei-25", label: "25 g", weightGrams: 25, stripePriceId: "" },
+      { id: "lao-shou-mei-50", label: "50 g", weightGrams: 50, stripePriceId: "" },
+    ]
   },
 
   {
@@ -201,7 +225,10 @@ export const products: Product[] = [
         "/tea/yue-guang-bai/2.PNG",
       ],
     },
-    variants: []
+    variants: [
+      { id: "yue-guang-bai-25", label: "25 g", weightGrams: 25, stripePriceId: "" },
+      { id: "yue-guang-bai-50", label: "50 g", weightGrams: 50, stripePriceId: "" },
+    ]
   },
 
   {
@@ -216,7 +243,10 @@ export const products: Product[] = [
         "/tea/zhengshan/3.PNG",
       ],
     },
-    variants: []
+    variants: [
+      { id: "zhengshan-50", label: "50 g", weightGrams: 50, stripePriceId: "" },
+      { id: "zhengshan-100", label: "100 g", weightGrams: 100, stripePriceId: "" },
+    ]
   },
 
   {
@@ -231,6 +261,9 @@ export const products: Product[] = [
         "/tea/longjing/3.PNG",
       ],
     },
-    variants: []
+    variants: [
+      { id: "longjing-25", label: "25 g", weightGrams: 25, stripePriceId: "" },
+      { id: "longjing-50", label: "50 g", weightGrams: 50, stripePriceId: "" },
+    ]
   },
 ]
