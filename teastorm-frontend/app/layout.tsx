@@ -1,18 +1,16 @@
-import { CartProvider } from "@/lib/cart-context";
-import CartDrawer from "@/components/cart/CartDrawer";
+import type { ReactNode } from "react";
+import "./globals.css";
 
-export default function RootLayout({
-  children,
-}: {
-  children: React.ReactNode;
-}) {
+import Providers from "./providers";
+import ClientShell from "./ClientShell";
+
+export default function RootLayout({ children }: { children: ReactNode }) {
   return (
     <html lang="en">
       <body>
-        <CartProvider>
-          {children}
-          <CartDrawer />
-        </CartProvider>
+        <Providers>
+          <ClientShell>{children}</ClientShell>
+        </Providers>
       </body>
     </html>
   );

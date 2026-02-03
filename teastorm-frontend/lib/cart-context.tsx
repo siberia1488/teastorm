@@ -15,7 +15,7 @@ export type CartItem = {
   title: string
   variantLabel: string
   weightGrams?: number
-  price: number           // ← цена в центах
+  price: number // cents
   stripePriceId: string
   image: string
   quantity: number
@@ -25,6 +25,7 @@ type CartContextType = {
   items: CartItem[]
   addItem: (item: CartItem) => void
   removeItem: (variantId: string) => void
+  updateQuantity: (variantId: string, qty: number) => void
   clear: () => void
   subtotal: number
 }
@@ -54,14 +55,38 @@ export function CartProvider({ children }: { children: ReactNode }) {
     setItems((prev) => prev.filter((i) => i.variantId !== variantId))
   }
 
+  const updateQuantity = (variantId: string, qty: number) => {
+    setItems((prev) =>
+      prev
+        .map((item) =>
+          item.variantId === variantId
+            ? { ...item, quantity: qty }
+            : item
+        )
+        .filter((i) => i.quantity > 0)
+    )
+  }
+
   const clear = () => setItems([])
 
   const subtotal = useMemo(() => {
-    return items.reduce((sum, item) => sum + item.price * item.quantity, 0)
+    return items.reduce(
+      (sum, item) => sum + item.price * item.quantity,
+      0
+    )
   }, [items])
 
   return (
-    <CartContext.Provider value={{ items, addItem, removeItem, clear, subtotal }}>
+    <CartContext.Provider
+      value={{
+        items,
+        addItem,
+        removeItem,
+        updateQuantity,
+        clear,
+        subtotal,
+      }}
+    >
       {children}
     </CartContext.Provider>
   )
