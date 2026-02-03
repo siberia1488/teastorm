@@ -243,6 +243,7 @@ children: React.ReactNode
 }) {
 return (
     <div
+    className="info-card"
     style={{
         background:
         "radial-gradient(900px 480px at 20% -30%, #ffffff 0%, #f6f4ef 60%, #efede7 100%)",
@@ -254,7 +255,7 @@ return (
         boxShadow: "0 10px 32px rgba(0,0,0,0.04)",
     }}
     >
-    <div style={{ fontSize: 34, marginBottom: 18 }}>{icon}</div>
+    <div className="info-card-icon" style={{ fontSize: 34, marginBottom: 18 }}>{icon}</div>
 
     <p
         style={{
