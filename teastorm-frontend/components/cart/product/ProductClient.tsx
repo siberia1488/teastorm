@@ -39,8 +39,9 @@ useEffect(() => {
 }, [product])
 
 const selectedVariant =
-    product.variants.find((v) => v.id === selectedVariantId) ??
-    product.variants[0]
+    product.variants.length > 0
+      ? product.variants.find((v) => v.id === selectedVariantId) ?? product.variants[0]
+      : null
 
 const selectedPrice =
     selectedVariant && prices[selectedVariant.stripePriceId]
@@ -176,7 +177,9 @@ return (
             cursor: "pointer",
             }}
         >
-            {loadingPrices || !selectedPrice
+            {product.variants.length === 0
+            ? "Coming Soon"
+            : loadingPrices || !selectedPrice
             ? "Loading…"
             : `Add to cart — $${(selectedPrice / 100).toFixed(2)}`}
         </button>
