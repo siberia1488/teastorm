@@ -39,7 +39,7 @@ export default function ProductGallery({
           sizes="(max-width: 768px) 100vw, 50vw"
           priority={selectedImageIndex === 0}
           style={{
-            objectFit: "contain",
+            objectFit: "cover",
             objectPosition: "center",
           }}
         />
@@ -53,14 +53,14 @@ export default function ProductGallery({
               key={index}
               onClick={() => setSelectedImageIndex(index)}
               style={{
-                width: 80,
-                height: 80,
+                width: 100,
+                height: 100,
                 borderRadius: 12,
                 border:
                   selectedImageIndex === index
-                    ? "2px solid #000"
+                    ? "3px solid #000"
                     : "1px solid #ddd",
-                padding: 4,
+                padding: 0,
                 background: "#fff",
                 cursor: "pointer",
                 position: "relative",
@@ -73,9 +73,9 @@ export default function ProductGallery({
                 src={image}
                 alt={`${productName} thumbnail ${index + 1}`}
                 fill
-                sizes="80px"
+                sizes="100px"
                 style={{
-                  objectFit: "contain",
+                  objectFit: "cover",
                   objectPosition: "center",
                 }}
               />
