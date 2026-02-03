@@ -28,11 +28,9 @@ export const products: Product[] = [
     subtitle: "Aged Sheng Pu-erh Cake (2006)",
     category: "puerh",
     images: {
-      preview: "/tea/green-mark-2006/preview.png",
+      preview: "/tea/green-mark-2006/preview.PNG",
       gallery: [
-        "/tea/green-mark-2006/2.png",
-        "/tea/green-mark-2006/3.png",
-        "/tea/green-mark-2006/4.png",
+        "/tea/green-mark-2006/2.PNG",
       ],
     },
     variants: [
@@ -47,11 +45,9 @@ export const products: Product[] = [
     subtitle: "Sheng Pu-erh Cake",
     category: "puerh",
     images: {
-      preview: "/tea/bulangshan-peacock/preview.png",
+      preview: "/tea/bulangshan-peacock/preview.PNG",
       gallery: [
-        "/tea/bulangshan-peacock/2.png",
-        "/tea/bulangshan-peacock/3.png",
-        "/tea/bulangshan-peacock/4.png",
+        "/tea/bulangshan-peacock/2.jpg",
       ],
     },
     variants: [
@@ -65,11 +61,11 @@ export const products: Product[] = [
     title: "GABA Oolong",
     category: "oolong",
     images: {
-      preview: "/tea/gaba-nantou/preview.png",
+      preview: "/tea/gaba-nantou/preview.PNG",
       gallery: [
-        "/tea/gaba-nantou/2.png",
-        "/tea/gaba-nantou/3.png",
-        "/tea/gaba-nantou/4.png",
+        "/tea/gaba-nantou/2.PNG",
+        "/tea/gaba-nantou/3.PNG",
+        "/tea/gaba-nantou/4.PNG",
       ],
     },
     variants: [
@@ -86,12 +82,8 @@ export const products: Product[] = [
     subtitle: "Shu Pu-erh (2012)",
     category: "puerh",
     images: {
-      preview: "/tea/dragon-pearls/preview.png",
-      gallery: [
-        "/tea/dragon-pearls/2.png",
-        "/tea/dragon-pearls/3.png",
-        "/tea/dragon-pearls/4.png",
-      ],
+      preview: "/tea/dragon-pearls/preview.PNG",
+      gallery: [],
     },
     variants: []
   },
@@ -104,9 +96,7 @@ export const products: Product[] = [
     images: {
       preview: "/tea/shi-xiang/preview.png",
       gallery: [
-        "/tea/shi-xiang/2.png",
-        "/tea/shi-xiang/3.png",
-        "/tea/shi-xiang/4.png",
+        "/tea/shi-xiang/3.PNG",
       ],
     },
     variants: []
@@ -121,7 +111,7 @@ export const products: Product[] = [
       preview: "/tea/da-hong-pao/preview.png",
       gallery: [
         "/tea/da-hong-pao/2.png",
-        "/tea/da-hong-pao/3.png",
+        "/tea/da-hong-pao/3.PNG",
         "/tea/da-hong-pao/4.png",
       ],
     },
@@ -134,11 +124,9 @@ export const products: Product[] = [
     title: "Milk Oolong (Jin Xuan)",
     category: "oolong",
     images: {
-      preview: "/tea/jin-xuan/preview.png",
+      preview: "/tea/jin-xuan/preview.PNG",
       gallery: [
-        "/tea/jin-xuan/2.png",
-        "/tea/jin-xuan/3.png",
-        "/tea/jin-xuan/4.png",
+        "/tea/jin-xuan/2.PNG",
       ],
     },
     variants: []
@@ -150,11 +138,9 @@ export const products: Product[] = [
     title: "Dian Hong Mao Feng",
     category: "black",
     images: {
-      preview: "/tea/dian-hong/preview.png",
+      preview: "/tea/dian-hong/preview.PNG",
       gallery: [
-        "/tea/dian-hong/2.png",
-        "/tea/dian-hong/3.png",
-        "/tea/dian-hong/4.png",
+        "/tea/dian-hong/3.PNG",
       ],
     },
     variants: []
@@ -168,9 +154,7 @@ export const products: Product[] = [
     images: {
       preview: "/tea/gongting/preview.png",
       gallery: [
-        "/tea/gongting/2.png",
-        "/tea/gongting/3.png",
-        "/tea/gongting/4.png",
+        "/tea/gongting/3.PNG",
       ],
     },
     variants: []
@@ -182,10 +166,10 @@ export const products: Product[] = [
     title: "Mao Jian Wild",
     category: "green",
     images: {
-      preview: "/tea/mao-jian/preview.png",
+      preview: "/tea/mao-jian/preview.PNG",
       gallery: [
         "/tea/mao-jian/2.png",
-        "/tea/mao-jian/3.png",
+        "/tea/mao-jian/3.PNG",
         "/tea/mao-jian/4.png",
       ],
     },
@@ -198,11 +182,9 @@ export const products: Product[] = [
     title: "Lao Shou Mei (2018)",
     category: "white",
     images: {
-      preview: "/tea/lao-shou-mei/preview.png",
+      preview: "/tea/lao-shou-mei/preview.PNG",
       gallery: [
-        "/tea/lao-shou-mei/2.png",
-        "/tea/lao-shou-mei/3.png",
-        "/tea/lao-shou-mei/4.png",
+        "/tea/lao-shou-mei/2.PNG",
       ],
     },
     variants: []
@@ -214,11 +196,9 @@ export const products: Product[] = [
     title: "Yue Guang Bai",
     category: "white",
     images: {
-      preview: "/tea/yue-guang-bai/preview.png",
+      preview: "/tea/yue-guang-bai/preview.PNG",
       gallery: [
-        "/tea/yue-guang-bai/2.png",
-        "/tea/yue-guang-bai/3.png",
-        "/tea/yue-guang-bai/4.png",
+        "/tea/yue-guang-bai/2.PNG",
       ],
     },
     variants: []
@@ -230,11 +210,10 @@ export const products: Product[] = [
     title: "Zhengshan Xiaozhong",
     category: "black",
     images: {
-      preview: "/tea/zhengshan/preview.png",
+      preview: "/tea/zhengshan/preview.PNG",
       gallery: [
-        "/tea/zhengshan/2.png",
-        "/tea/zhengshan/3.png",
-        "/tea/zhengshan/4.png",
+        "/tea/zhengshan/2.PNG",
+        "/tea/zhengshan/3.PNG",
       ],
     },
     variants: []
@@ -246,11 +225,10 @@ export const products: Product[] = [
     title: "Longjing",
     category: "green",
     images: {
-      preview: "/tea/longjing/preview.png",
+      preview: "/tea/longjing/preview.PNG",
       gallery: [
-        "/tea/longjing/2.png",
-        "/tea/longjing/3.png",
-        "/tea/longjing/4.png",
+        "/tea/longjing/2.PNG",
+        "/tea/longjing/3.PNG",
       ],
     },
     variants: []
