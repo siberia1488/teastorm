@@ -29,12 +29,12 @@ export default function SiteHeader() {
           <button
             type="button"
             onClick={open}
-            className="relative p-2 rounded-md hover:bg-gray-100 transition-colors"
+            className="relative p-2.5 rounded-lg hover:bg-gray-100 transition-colors"
             aria-label="Open cart"
           >
-            <ShoppingBag size={18} />
+            <ShoppingBag className="h-5 w-5 md:h-6 md:w-6" />
             {count > 0 && (
-              <span className="absolute -top-1 -right-1 min-w-[18px] h-4 px-1.5 rounded-full bg-amber-600 text-white text-[11px] font-bold grid place-items-center">
+              <span className="absolute -top-0.5 -right-0.5 min-w-[20px] h-5 px-1.5 rounded-full bg-amber-600 text-white text-xs font-bold grid place-items-center">
                 {count}
               </span>
             )}
