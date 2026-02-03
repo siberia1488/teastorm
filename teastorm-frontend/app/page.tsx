@@ -207,14 +207,14 @@ export default function HomePage() {
                   textAlign: "center",
                 }}
               >
-                <div style={{ height: 280, borderRadius: 18, marginBottom: 28, position: "relative", overflow: "hidden" }}>
+                <div style={{ height: 280, borderRadius: 18, marginBottom: 28, position: "relative", overflow: "hidden", width: "100%" }}>
                   {tea.images?.preview && (
                     <Image
                       src={tea.images.preview}
                       alt={tea.title}
-                      fill
-                      sizes="(max-width: 768px) 100vw, 280px"
-                      style={{ objectFit: "cover", objectPosition: "center" }}
+                      width={300}
+                      height={300}
+                      style={{ objectFit: "cover", objectPosition: "center", width: "100%", height: "100%" }}
                     />
                   )}
                 </div>
