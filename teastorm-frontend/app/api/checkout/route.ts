@@ -1,12 +1,19 @@
-console.log("STRIPE KEY PREFIX:", process.env.STRIPE_SECRET_KEY?.slice(0, 12))
-
 import { NextResponse } from "next/server"
 import Stripe from "stripe"
 import { prisma } from "@/lib/prisma"
 import { getServerSession } from "next-auth"
 import { authOptions } from "@/lib/auth"
 
-const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!)
+// Validate required env vars at module load
+const STRIPE_SECRET_KEY = process.env.STRIPE_SECRET_KEY
+const STRIPE_SHIPPING_RATE_ID = process.env.STRIPE_SHIPPING_RATE_ID
+const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL
+
+if (!STRIPE_SECRET_KEY) {
+  console.error("Missing STRIPE_SECRET_KEY environment variable")
+}
+
+const stripe = STRIPE_SECRET_KEY ? new Stripe(STRIPE_SECRET_KEY) : null
 
 type CartItem = {
   variantId: string
@@ -20,6 +27,31 @@ type CartItem = {
 
 export async function POST(req: Request) {
   try {
+    // Validate env configuration
+    if (!stripe || !STRIPE_SECRET_KEY) {
+      console.error("Stripe not configured: missing STRIPE_SECRET_KEY")
+      return NextResponse.json(
+        { error: "Payment system not configured" },
+        { status: 503 }
+      )
+    }
+
+    if (!STRIPE_SHIPPING_RATE_ID) {
+      console.error("Stripe not configured: missing STRIPE_SHIPPING_RATE_ID")
+      return NextResponse.json(
+        { error: "Shipping not configured" },
+        { status: 503 }
+      )
+    }
+
+    if (!BASE_URL) {
+      console.error("Missing NEXT_PUBLIC_BASE_URL")
+      return NextResponse.json(
+        { error: "Application not configured" },
+        { status: 503 }
+      )
+    }
+
     const { items } = (await req.json()) as { items: CartItem[] }
 
     if (!items || items.length === 0) {
@@ -75,7 +107,7 @@ export async function POST(req: Request) {
 
       shipping_options: [
         {
-          shipping_rate: process.env.STRIPE_SHIPPING_RATE_ID!,
+          shipping_rate: STRIPE_SHIPPING_RATE_ID,
         },
       ],
 
@@ -88,8 +120,8 @@ export async function POST(req: Request) {
         orderId: order.id,
       },
 
-      success_url: `${process.env.NEXT_PUBLIC_BASE_URL}/success?orderId=${order.id}&session_id={CHECKOUT_SESSION_ID}`,
-      cancel_url: `${process.env.NEXT_PUBLIC_BASE_URL}/shop`,
+      success_url: `${BASE_URL}/success?orderId=${order.id}&session_id={CHECKOUT_SESSION_ID}`,
+      cancel_url: `${BASE_URL}/shop`,
     })
 
     return NextResponse.json({ url: stripeSession.url })
