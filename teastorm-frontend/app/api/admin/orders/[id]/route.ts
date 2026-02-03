@@ -9,7 +9,7 @@ import { prisma } from "@/lib/prisma";
  */
 export async function PATCH(
   req: Request,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   // check auth session
   const session = await getServerSession(authOptions);
@@ -33,7 +33,7 @@ export async function PATCH(
     );
   }
 
-  const { id } = params;
+  const { id } = await params;
 
   if (!id) {
     return NextResponse.json(
