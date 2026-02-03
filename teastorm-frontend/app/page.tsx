@@ -245,7 +245,7 @@ export default function HomePage() {
                     marginBottom: 24,
                   }}
                 >
-                  {tea.variants[0].label}
+                  {tea.variants.length > 0 ? tea.variants[0].label : "Coming Soon"}
                 </p>
 
                 <Link
