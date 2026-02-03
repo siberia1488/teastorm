@@ -4,6 +4,7 @@ import { Product } from "@/data/products"
 import { TeaContent } from "@/data/teaContent"
 import { useCart } from "@/lib/cart-context"
 import { useCartDrawer } from "@/lib/cart-store"
+import ProductGallery from "./ProductGallery"
 import { useEffect, useState } from "react"
 
 type PriceMap = Record<string, number>
@@ -56,7 +57,7 @@ const handleAdd = () => {
     weightGrams: selectedVariant.weightGrams,
     price: selectedPrice,
     stripePriceId: selectedVariant.stripePriceId,
-    image: product.image,
+    image: product.images.preview,
     quantity: 1,
     })
 
@@ -82,13 +83,10 @@ return (
         marginBottom: 140,
         }}
     >
-        <div
-        style={{
-            background:
-            "radial-gradient(800px 400px at 20% -20%, #f5f4f0 0%, #efede7 60%, #e8e6df 100%)",
-            borderRadius: 32,
-            height: 520,
-        }}
+        <ProductGallery
+          previewImage={product.images.preview}
+          galleryImages={product.images.gallery}
+          productName={content.displayName}
         />
 
         <div>
