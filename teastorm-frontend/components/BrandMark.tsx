@@ -3,7 +3,7 @@
 import Image from "next/image"
 
 type Props = {
-  size?: "sm" | "md" | "lg"
+  size?: "sm" | "md" | "lg" | "xl" | "hero"
   className?: string
 }
 
@@ -11,6 +11,8 @@ const sizes = {
   sm: { text: 20, icon: 18, gap: 1 },
   md: { text: 24, icon: 22, gap: 2 },
   lg: { text: 32, icon: 28, gap: 3 },
+  xl: { text: 48, icon: 42, gap: 4 },
+  hero: { text: 72, icon: 64, gap: 6 },
 }
 
 export default function BrandMark({ size = "md", className = "" }: Props) {

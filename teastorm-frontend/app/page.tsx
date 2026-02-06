@@ -87,7 +87,7 @@ export default function HomePage() {
               lineHeight: 1,
             }}
           >
-            TeaStorm
+            <BrandMark size="hero" />
           </h1>
 
           <p
