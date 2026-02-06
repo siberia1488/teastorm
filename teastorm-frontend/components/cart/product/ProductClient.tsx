@@ -101,14 +101,14 @@ const hasEffect = Boolean(content.effect)
 const hasBrewing = Boolean(content.brewing)
 
 return (
-    <main style={{ maxWidth: 1120, margin: "0 auto", padding: "64px 24px" }}>
+    <main style={{ maxWidth: 1120, margin: "0 auto", padding: "clamp(32px, 5vw, 64px) clamp(16px, 4vw, 24px)" }}>
       {/* TOP */}
     <div
         style={{
         display: "grid",
-        gridTemplateColumns: "1fr 1fr",
-        gap: 96,
-        marginBottom: 140,
+        gridTemplateColumns: "repeat(auto-fit, minmax(min(100%, 400px), 1fr))",
+        gap: "clamp(32px, 6vw, 96px)",
+        marginBottom: "clamp(64px, 10vw, 140px)",
         }}
     >
         <ProductGallery
@@ -130,7 +130,7 @@ return (
             {product.category}
         </p>
 
-        <h1 style={{ fontSize: 48, fontWeight: 500, marginBottom: 14 }}>
+        <h1 style={{ fontSize: "clamp(28px, 5vw, 48px)", fontWeight: 500, marginBottom: 14 }}>
             {content.displayName}
         </h1>
 
@@ -155,7 +155,7 @@ return (
             <div style={{ marginBottom: 42 }}>
             <strong>Select Size</strong>
 
-            <div style={{ display: "flex", gap: 14, marginTop: 14 }}>
+            <div style={{ display: "flex", gap: "clamp(8px, 2vw, 14px)", marginTop: 14, flexWrap: "wrap" }}>
                 {product.variants.map((variant) => {
                 const price = prices[variant.stripePriceId]
                 const cached = cachedPrices[variant.stripePriceId]?.unit_amount ?? null
@@ -165,7 +165,7 @@ return (
                     key={variant.id}
                     onClick={() => setSelectedVariantId(variant.id)}
                     style={{
-                        padding: "14px 22px",
+                        padding: "clamp(10px, 2vw, 14px) clamp(14px, 3vw, 22px)",
                         borderRadius: 999,
                         border:
                         variant.id === selectedVariantId
@@ -173,10 +173,10 @@ return (
                             : "1px solid #ddd",
                         background: "#fff",
                         cursor: "pointer",
-                        minWidth: 130,
+                        minWidth: "clamp(100px, 15vw, 130px)",
                     }}
                     >
-                    <div><span style={{ marginRight: 8, fontWeight: 600, fontSize: 16 }}>{product.variants.indexOf(variant) + 1}</span>{variant.label}</div>
+                    <div><span style={{ marginRight: 8, fontWeight: 600, fontSize: "clamp(14px, 1.5vw, 16px)" }}>{product.variants.indexOf(variant) + 1}</span>{variant.label}</div>
                     <div style={{ fontSize: 14, color: "#777" }}>
                         {loadingPrices && cached
                         ? `$${(cached / 100).toFixed(2)}`
@@ -224,8 +224,8 @@ return (
     <section
         style={{
         display: "grid",
-        gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))",
-        gap: 64,
+        gridTemplateColumns: "repeat(auto-fit, minmax(260px, 1fr))",
+        gap: "clamp(24px, 5vw, 64px)",
         }}
     >
         {hasFlavor && (
@@ -282,8 +282,8 @@ return (
     style={{
         background:
         "radial-gradient(900px 480px at 20% -30%, #ffffff 0%, #f6f4ef 60%, #efede7 100%)",
-        borderRadius: 36,
-        padding: "64px 52px",
+        borderRadius: "clamp(24px, 4vw, 36px)",
+        padding: "clamp(32px, 5vw, 64px) clamp(24px, 4vw, 52px)",
         textAlign: "center",
         transition:
         "transform 0.45s cubic-bezier(.22,1,.36,1), box-shadow 0.45s cubic-bezier(.22,1,.36,1)",
