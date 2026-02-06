@@ -1,0 +1,24 @@
+<svg width="1920" height="1080" viewBox="0 0 1920 1080" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="heroGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#f3f2ee"/>
+      <stop offset="50%" style="stop-color:#e8e5dd"/>
+      <stop offset="100%" style="stop-color:#d9d5c9"/>
+    </linearGradient>
+    <linearGradient id="leafGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#7a8f6a"/>
+      <stop offset="100%" style="stop-color:#5a7050"/>
+    </linearGradient>
+  </defs>
+  <rect width="1920" height="1080" fill="url(#heroGrad)"/>
+  <!-- Decorative tea leaves -->
+  <g opacity="0.15" transform="translate(1400, 200) scale(3)">
+    <ellipse cx="40" cy="60" rx="35" ry="55" fill="url(#leafGrad)" transform="rotate(-30 40 60)"/>
+    <ellipse cx="80" cy="40" rx="30" ry="45" fill="url(#leafGrad)" transform="rotate(15 80 40)"/>
+    <ellipse cx="60" cy="90" rx="25" ry="40" fill="url(#leafGrad)" transform="rotate(-10 60 90)"/>
+  </g>
+  <g opacity="0.1" transform="translate(100, 600) scale(2.5)">
+    <ellipse cx="40" cy="60" rx="35" ry="55" fill="url(#leafGrad)" transform="rotate(20 40 60)"/>
+    <ellipse cx="90" cy="50" rx="30" ry="45" fill="url(#leafGrad)" transform="rotate(-25 90 50)"/>
+  </g>
+</svg>

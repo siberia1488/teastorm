@@ -1,0 +1,20 @@
+<svg width="800" height="600" viewBox="0 0 800 600" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="mountainGrad" x1="0%" y1="100%" x2="0%" y2="0%">
+      <stop offset="0%" style="stop-color:#d9d5c9"/>
+      <stop offset="100%" style="stop-color:#f0ede5"/>
+    </linearGradient>
+    <linearGradient id="mistGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#ffffff;stop-opacity:0.8"/>
+      <stop offset="100%" style="stop-color:#ffffff;stop-opacity:0"/>
+    </linearGradient>
+  </defs>
+  <rect width="800" height="600" fill="url(#mountainGrad)"/>
+  <!-- Mountains -->
+  <path d="M0 600 L200 250 L400 450 L600 200 L800 400 L800 600 Z" fill="#bdb7ad" opacity="0.5"/>
+  <path d="M0 600 L150 350 L350 500 L550 280 L800 450 L800 600 Z" fill="#a8a298" opacity="0.4"/>
+  <path d="M0 600 L100 450 L300 550 L500 380 L700 500 L800 600 Z" fill="#948e84" opacity="0.3"/>
+  <!-- Mist layers -->
+  <rect x="0" y="100" width="800" height="150" fill="url(#mistGrad)"/>
+  <rect x="0" y="300" width="800" height="100" fill="url(#mistGrad)" opacity="0.5"/>
+</svg>
