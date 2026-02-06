@@ -1,34 +1,53 @@
 "use client"
 
-export default function InstagramFeed() {
-  const posts = [
-    {
-      id: "1",
-      url: "https://www.instagram.com/_teastorm_/reel/DTqGV5IjXxv/",
-      title: "Tea Ritual",
-    },
-    {
-      id: "2",
-      url: "https://www.instagram.com/_teastorm_/reel/DTgyzZmD3t_/",
-      title: "Morning Brew",
-    },
-    {
-      id: "3",
-      url: "https://www.instagram.com/_teastorm_/reel/DTolqVeDRIm/",
-      title: "Tea Journey",
-    },
-    {
-      id: "4",
-      url: "https://www.instagram.com/_teastorm_/reel/DT4LPSUjZEt/",
-      title: "Tea Culture",
-    },
-  ]
+import Image from "next/image"
+import { Instagram } from "lucide-react"
 
+const posts = [
+  {
+    id: "1",
+    image: "/instagram/ig-1.svg",
+    url: "https://www.instagram.com/_teastorm_/reel/DTqGV5IjXxv/",
+    alt: "Tea Ritual",
+  },
+  {
+    id: "2",
+    image: "/instagram/ig-2.svg",
+    url: "https://www.instagram.com/_teastorm_/reel/DTgyzZmD3t_/",
+    alt: "Morning Brew",
+  },
+  {
+    id: "3",
+    image: "/instagram/ig-3.svg",
+    url: "https://www.instagram.com/_teastorm_/reel/DTolqVeDRIm/",
+    alt: "Tea Journey",
+  },
+  {
+    id: "4",
+    image: "/instagram/ig-4.svg",
+    url: "https://www.instagram.com/_teastorm_/reel/DT4LPSUjZEt/",
+    alt: "Tea Culture",
+  },
+  {
+    id: "5",
+    image: "/instagram/ig-5.svg",
+    url: "https://www.instagram.com/_teastorm_/",
+    alt: "Leaf Selection",
+  },
+  {
+    id: "6",
+    image: "/instagram/ig-6.svg",
+    url: "https://www.instagram.com/_teastorm_/",
+    alt: "Mindful Moments",
+  },
+]
+
+export default function InstagramFeed() {
   return (
     <section
       style={{
         background: "#ffffff",
-        padding: "160px 80px",
+        padding: "clamp(80px, 10vw, 160px) clamp(24px, 5vw, 80px)",
       }}
     >
       <div
@@ -38,22 +57,32 @@ export default function InstagramFeed() {
         }}
       >
         {/* Header */}
-        <div style={{ textAlign: "center", marginBottom: 96 }}>
-          <p
+        <div style={{ textAlign: "center", marginBottom: "clamp(48px, 6vw, 96px)" }}>
+          <div
             style={{
-              textTransform: "uppercase",
-              letterSpacing: "0.32em",
-              fontSize: 12,
+              display: "inline-flex",
+              alignItems: "center",
+              gap: 10,
               marginBottom: 18,
-              color: "#7a776f",
             }}
           >
-            Community
-          </p>
+            <Instagram size={20} strokeWidth={1.5} style={{ color: "#7a776f" }} />
+            <p
+              style={{
+                textTransform: "uppercase",
+                letterSpacing: "0.32em",
+                fontSize: 12,
+                color: "#7a776f",
+                margin: 0,
+              }}
+            >
+              @_teastorm_
+            </p>
+          </div>
 
           <h2
             style={{
-              fontSize: 60,
+              fontSize: "clamp(36px, 5vw, 60px)",
               fontWeight: 500,
               letterSpacing: "-0.04em",
               marginBottom: 24,
@@ -66,14 +95,13 @@ export default function InstagramFeed() {
             style={{
               maxWidth: 640,
               margin: "0 auto",
-              fontSize: 20,
+              fontSize: "clamp(16px, 2vw, 20px)",
               lineHeight: 1.7,
               color: "#6b6b65",
             }}
           >
-            Behind every cup is a moment of stillness.
-            Join our growing community and explore daily brewing rituals,
-            origin stories, and seasonal releases.
+            Behind every cup is a moment of stillness. Join our growing community
+            and explore daily brewing rituals, origin stories, and seasonal releases.
           </p>
         </div>
 
@@ -81,9 +109,9 @@ export default function InstagramFeed() {
         <div
           style={{
             display: "grid",
-            gridTemplateColumns: "repeat(auto-fit, minmax(260px, 1fr))",
-            gap: 32,
-            marginBottom: 80,
+            gridTemplateColumns: "repeat(auto-fit, minmax(200px, 1fr))",
+            gap: "clamp(16px, 2vw, 32px)",
+            marginBottom: "clamp(48px, 5vw, 80px)",
           }}
         >
           {posts.map((post) => (
@@ -92,66 +120,39 @@ export default function InstagramFeed() {
               href={post.url}
               target="_blank"
               rel="noopener noreferrer"
+              className="instagram-tile"
               style={{
                 textDecoration: "none",
                 display: "block",
-                borderRadius: 24,
+                borderRadius: 20,
                 overflow: "hidden",
                 background: "#f6f5f2",
-                transition: "transform 0.3s ease, box-shadow 0.3s ease",
-                cursor: "pointer",
                 aspectRatio: "1 / 1",
                 position: "relative",
-                boxShadow: "0 4px 12px rgba(0,0,0,0.08)",
-              }}
-              onMouseEnter={(e) => {
-                e.currentTarget.style.transform = "translateY(-4px)"
-                e.currentTarget.style.boxShadow = "0 12px 24px rgba(0,0,0,0.12)"
-              }}
-              onMouseLeave={(e) => {
-                e.currentTarget.style.transform = "translateY(0)"
-                e.currentTarget.style.boxShadow = "0 4px 12px rgba(0,0,0,0.08)"
               }}
             >
+              <Image
+                src={post.image}
+                alt={post.alt}
+                fill
+                style={{ objectFit: "cover" }}
+                sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 220px"
+              />
+              {/* Hover overlay */}
               <div
+                className="instagram-overlay"
                 style={{
-                  width: "100%",
-                  height: "100%",
+                  position: "absolute",
+                  inset: 0,
+                  background: "rgba(0,0,0,0.4)",
                   display: "flex",
                   alignItems: "center",
                   justifyContent: "center",
-                  background: "linear-gradient(135deg, #f3f2ee 0%, #e8e5dd 100%)",
-                  padding: 32,
+                  opacity: 0,
+                  transition: "opacity 0.3s ease",
                 }}
               >
-                <div style={{ textAlign: "center" }}>
-                  <div
-                    style={{
-                      fontSize: 48,
-                      marginBottom: 16,
-                    }}
-                  >
-                    📸
-                  </div>
-                  <p
-                    style={{
-                      fontSize: 18,
-                      fontWeight: 500,
-                      color: "#1a1a1a",
-                      marginBottom: 12,
-                    }}
-                  >
-                    {post.title}
-                  </p>
-                  <p
-                    style={{
-                      fontSize: 14,
-                      color: "#7a776f",
-                    }}
-                  >
-                    Open on Instagram →
-                  </p>
-                </div>
+                <Instagram size={32} color="#fff" />
               </div>
             </a>
           ))}
@@ -164,21 +165,39 @@ export default function InstagramFeed() {
             target="_blank"
             rel="noopener noreferrer"
             style={{
-              display: "inline-block",
-              padding: "18px 56px",
+              display: "inline-flex",
+              alignItems: "center",
+              gap: 12,
+              padding: "18px 48px",
               borderRadius: 999,
               border: "1px solid #1a1a1a",
               color: "#1a1a1a",
               textDecoration: "none",
               fontSize: 14,
-              letterSpacing: "0.26em",
+              letterSpacing: "0.2em",
               textTransform: "uppercase",
+              transition: "all 0.2s ease",
             }}
           >
-            Follow @TeaStormUS
+            <Instagram size={18} strokeWidth={1.5} />
+            Follow @_teastorm_
           </a>
         </div>
       </div>
+
+      <style jsx>{`
+        .instagram-tile:hover .instagram-overlay {
+          opacity: 1 !important;
+        }
+        .instagram-tile {
+          transition: transform 0.3s ease, box-shadow 0.3s ease;
+          box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+        }
+        .instagram-tile:hover {
+          transform: translateY(-4px);
+          box-shadow: 0 12px 24px rgba(0, 0, 0, 0.12);
+        }
+      `}</style>
     </section>
   )
 }
