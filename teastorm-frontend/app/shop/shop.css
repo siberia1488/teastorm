@@ -74,10 +74,12 @@
 /* ================= IMAGE ================= */
 
 .product-image {
+  position: relative;
   height: 280px;
   background: linear-gradient(135deg, #e5e2db, #d8d5cd);
   border-radius: 22px;
   margin-bottom: 28px;
+  overflow: hidden;
 }
 
 /* ================= CONTENT ================= */
