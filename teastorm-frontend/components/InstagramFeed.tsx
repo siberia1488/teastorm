@@ -12,8 +12,8 @@ export default function InstagramFeed() {
     document.body.appendChild(script)
 
     // Process embeds if script is already loaded
-    if ((window as any).instgrm?.Embeds?.process) {
-      ;(window as any).instgrm.Embeds.process()
+    if ((window as unknown as { instgrm?: { Embeds?: { process?: () => void } } }).instgrm?.Embeds?.process) {
+      ;(window as unknown as { instgrm?: { Embeds?: { process?: () => void } } }).instgrm.Embeds.process()
     }
 
     return () => {
@@ -88,12 +88,12 @@ export default function InstagramFeed() {
         >
           {/* Instagram posts - replace with your actual post URLs */}
           {[
-            "https://www.instagram.com/p/DDW-VpXPAb9/",
-            "https://www.instagram.com/p/DDV0rLgvXmm/",
-            "https://www.instagram.com/p/DDURHzXvHEJ/",
-            "https://www.instagram.com/p/DDTUFS4PNlQ/",
-            "https://www.instagram.com/p/DDSqWHjPJ0e/",
-            "https://www.instagram.com/p/DDRhtCePJkB/",
+            "https://www.instagram.com/_teastorm_/reel/DTqGV5IjXxv/?hl=en",
+            "https://www.instagram.com/_teastorm_/reel/DTgyzZmD3t_/?hl=en",
+            "https://www.instagram.com/_teastorm_/reel/DTolqVeDRIm/?hl=en",
+            "https://www.instagram.com/_teastorm_/reel/DT4LPSUjZEt/?hl=en",
+            "https://www.instagram.com/_teastorm_/reel/DTy575aDf30/?hl=en",
+            "https://www.instagram.com/_teastorm_/reel/DT5rTYljdnd/?hl=en",
           ].map((url, i) => (
             <div
               key={i}
