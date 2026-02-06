@@ -1,7 +1,6 @@
 "use client"
 
 import { useEffect } from "react"
-import Link from "next/link"
 
 export default function InstagramFeed() {
   useEffect(() => {
@@ -9,6 +8,7 @@ export default function InstagramFeed() {
     const script = document.createElement("script")
     script.src = "//www.instagram.com/embed.js"
     script.async = true
+    script.defer = true
     document.body.appendChild(script)
 
     // Process embeds if script is already loaded
@@ -77,7 +77,7 @@ export default function InstagramFeed() {
           </p>
         </div>
 
-        {/* Instagram Grid - Using Instagram embed iframe */}
+        {/* Instagram Grid - Using Instagram blockquote embeds */}
         <div
           style={{
             display: "grid",
@@ -86,8 +86,7 @@ export default function InstagramFeed() {
             marginBottom: 80,
           }}
         >
-          {/* You need to replace these with actual Instagram post URLs from @_teastorm_ */}
-          {/* Format: https://www.instagram.com/p/POST_ID/ */}
+          {/* Instagram posts - replace with your actual post URLs */}
           {[
             "https://www.instagram.com/p/DDW-VpXPAb9/",
             "https://www.instagram.com/p/DDV0rLgvXmm/",
@@ -101,18 +100,23 @@ export default function InstagramFeed() {
               style={{
                 display: "flex",
                 justifyContent: "center",
+                minHeight: 500,
               }}
             >
-              <iframe
-                src={`${url}embed/captioned/`}
-                width="100%"
-                height="600"
-                frameBorder="0"
-                scrolling="no"
-                allowTransparency
+              <blockquote
+                className="instagram-media"
+                data-instgrm-permalink={url}
+                data-instgrm-version="14"
                 style={{
-                  borderRadius: 24,
+                  background: "#FFF",
+                  border: "0",
+                  borderRadius: "24px",
+                  boxShadow: "0 0 1px 0 rgba(0,0,0,0.7), 0 1px 3px 0 rgba(0,0,0,0.35)",
+                  margin: "1px",
                   maxWidth: "100%",
+                  minWidth: "326px",
+                  padding: "0",
+                  width: "99.375%",
                 }}
               />
             </div>
