@@ -78,52 +78,6 @@ export default function InstagramFeed() {
           </p>
         </div>
 
-        {/* Instagram Grid - Using Instagram blockquote embeds */}
-        <div
-          style={{
-            display: "grid",
-            gridTemplateColumns: "repeat(auto-fit, minmax(300px, 1fr))",
-            gap: 32,
-            marginBottom: 80,
-          }}
-        >
-          {/* Instagram posts - replace with your actual post URLs */}
-          {[
-            "https://www.instagram.com/_teastorm_/reel/DTqGV5IjXxv/?hl=en",
-            "https://www.instagram.com/_teastorm_/reel/DTgyzZmD3t_/?hl=en",
-            "https://www.instagram.com/_teastorm_/reel/DTolqVeDRIm/?hl=en",
-            "https://www.instagram.com/_teastorm_/reel/DT4LPSUjZEt/?hl=en",
-            "https://www.instagram.com/_teastorm_/reel/DTy575aDf30/?hl=en",
-            "https://www.instagram.com/_teastorm_/reel/DT5rTYljdnd/?hl=en",
-          ].map((url, i) => (
-            <div
-              key={i}
-              style={{
-                display: "flex",
-                justifyContent: "center",
-                minHeight: 500,
-              }}
-            >
-              <blockquote
-                className="instagram-media"
-                data-instgrm-permalink={url}
-                data-instgrm-version="14"
-                style={{
-                  background: "#FFF",
-                  border: "0",
-                  borderRadius: "24px",
-                  boxShadow: "0 0 1px 0 rgba(0,0,0,0.7), 0 1px 3px 0 rgba(0,0,0,0.35)",
-                  margin: "1px",
-                  maxWidth: "100%",
-                  minWidth: "326px",
-                  padding: "0",
-                  width: "99.375%",
-                }}
-              />
-            </div>
-          ))}
-        </div>
-
         {/* CTA */}
         <div style={{ textAlign: "center" }}>
           <a
