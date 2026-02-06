@@ -1,6 +1,7 @@
 import Link from "next/link"
 import Image from "next/image"
 import { products } from "@/data/products"
+import InstagramFeed from "@/components/InstagramFeed"
 
 export default function HomePage() {
   return (
@@ -197,7 +198,7 @@ export default function HomePage() {
               gap: 48,
             }}
           >
-            {products.slice(0, 6).map((tea) => (
+            {products.slice(0, 4).map((tea) => (
               <div
                 key={tea.id}
                 style={{
@@ -543,114 +544,8 @@ export default function HomePage() {
     </div>
     </div>
     </section>
-    {/* INSTAGRAM / SOCIAL */}
-<section
-  style={{
-    background: "#ffffff",
-    padding: "160px 80px",
-  }}
->
-  <div
-    style={{
-      maxWidth: 1400,
-      margin: "0 auto",
-    }}
-  >
-    {/* Header */}
-    <div style={{ textAlign: "center", marginBottom: 96 }}>
-      <p
-        style={{
-          textTransform: "uppercase",
-          letterSpacing: "0.32em",
-          fontSize: 12,
-          marginBottom: 18,
-          color: "#7a776f",
-        }}
-      >
-        Community
-      </p>
-
-      <h2
-        style={{
-          fontSize: 60,
-          fontWeight: 500,
-          letterSpacing: "-0.04em",
-          marginBottom: 24,
-        }}
-      >
-        Follow the Ritual
-      </h2>
-
-      <p
-        style={{
-          maxWidth: 640,
-          margin: "0 auto",
-          fontSize: 20,
-          lineHeight: 1.7,
-          color: "#6b6b65",
-        }}
-      >
-        Behind every cup is a moment of stillness.  
-        Join our growing community and explore daily brewing rituals,
-        origin stories, and seasonal releases.
-      </p>
-    </div>
-
-    {/* Grid */}
-    <div
-      style={{
-        display: "grid",
-        gridTemplateColumns: "repeat(auto-fit, minmax(240px, 1fr))",
-        gap: 28,
-        marginBottom: 80,
-      }}
-    >
-      {[
-        "/images/insta-1.jpg",
-        "/images/insta-2.jpg",
-        "/images/insta-3.jpg",
-        "/images/insta-4.jpg",
-        "/images/insta-5.jpg",
-        "/images/insta-6.jpg",
-      ].map((src, i) => (
-        <div
-          key={i}
-          style={{
-            aspectRatio: "1 / 1",
-            borderRadius: 24,
-            overflow: "hidden",
-            backgroundImage: `url(${src})`,
-            backgroundSize: "cover",
-            backgroundPosition: "center",
-            boxShadow: "0 18px 50px rgba(0,0,0,0.08)",
-          }}
-        />
-      ))}
-    </div>
-
-    {/* CTA */}
-    <div style={{ textAlign: "center" }}>
-      <a
-        href="https://www.instagram.com/_teastorm_/"
-        target="_blank"
-        rel="noopener noreferrer"
-        style={{
-          display: "inline-block",
-          padding: "18px 56px",
-          borderRadius: 999,
-          border: "1px solid #1a1a1a",
-          color: "#1a1a1a",
-          textDecoration: "none",
-          fontSize: 14,
-          letterSpacing: "0.26em",
-          textTransform: "uppercase",
-        }}
-      >
-        Follow @TeaStormUS
-      </a>
-    </div>
-    </div>
-    </section>
+    {/* INSTAGRAM / SOCIAL - Temporarily hidden */}
+    <InstagramFeed />
     {/* FOOTER */}
 <footer
   style={{
