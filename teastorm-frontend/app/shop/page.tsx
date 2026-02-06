@@ -2,7 +2,7 @@
 
 import { useState } from "react"
 import Link from "next/link"
-@@import Image from "next/image"
+import Image from "next/image"
 import { products } from "@/data/products"
 import { teaContent } from "@/data/teaContent"
 import "./shop.css"

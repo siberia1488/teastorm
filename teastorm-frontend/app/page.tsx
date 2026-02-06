@@ -2,6 +2,8 @@ import Link from "next/link"
 import Image from "next/image"
 import { products } from "@/data/products"
 import InstagramFeed from "@/components/InstagramFeed"
+import cachedPricesJson from "@/data/prices.json"
+const cachedPrices: Record<string, { unit_amount: number | null }> = cachedPricesJson as unknown as Record<string, { unit_amount: number | null }>
 
 export default function HomePage() {
   return (
@@ -253,19 +255,13 @@ export default function HomePage() {
 
                 {/* Cached price (hybrid) */}
                 {(() => {
-                  try {
-                    // eslint-disable-next-line @typescript-eslint/no-var-requires
-                    const cachedPrices = require("@/data/prices.json") as Record<string, { unit_amount: number | null }>
-                    const priceId = tea.variants[0]?.stripePriceId
-                    const amount = priceId ? cachedPrices[priceId]?.unit_amount ?? null : null
-                    return amount ? (
-                      <p style={{ fontSize: 14, color: "#222", marginBottom: 12 }}>
-                        {`$${(amount / 100).toFixed(2)}`}
-                      </p>
-                    ) : null
-                  } catch (e) {
-                    return null
-                  }
+                  const priceId = tea.variants[0]?.stripePriceId
+                  const amount = priceId ? cachedPrices[priceId]?.unit_amount ?? null : null
+                  return amount ? (
+                    <p style={{ fontSize: 14, color: "#222", marginBottom: 12 }}>
+                      {`$${(amount / 100).toFixed(2)}`}
+                    </p>
+                  ) : null
                 })()}
 
                 <Link
