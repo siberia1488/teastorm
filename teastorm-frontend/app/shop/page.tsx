@@ -2,6 +2,7 @@
 
 import { useState } from "react"
 import Link from "next/link"
+@@import Image from "next/image"
 import { products } from "@/data/products"
 import { teaContent } from "@/data/teaContent"
 import "./shop.css"
@@ -49,7 +50,16 @@ export default function ShopPage() {
               href={`/product/${product.slug}`}
               className="product-card"
             >
-              <div className="product-image" />
+              <div className="product-image">
+                {product.images?.preview && (
+                  <Image
+                    src={product.images.preview}
+                    alt={content?.displayName || product.title}
+                    fill
+                    style={{ objectFit: "cover", objectPosition: "center" }}
+                  />
+                )}
+              </div>
 
               <div className="product-content">
                 <h3>{content?.displayName || product.title}</h3>

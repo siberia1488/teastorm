@@ -158,7 +158,7 @@ return (
                         minWidth: 130,
                     }}
                     >
-                    <div>{variant.label}</div>
+                    <div><span style={{ marginRight: 8, fontWeight: 600, fontSize: 16 }}>{product.variants.indexOf(variant) + 1}</span>{variant.label}</div>
                     <div style={{ fontSize: 14, color: "#777" }}>
                         {loadingPrices && cached
                         ? `$${(cached / 100).toFixed(2)}`
