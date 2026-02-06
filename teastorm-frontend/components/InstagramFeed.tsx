@@ -12,8 +12,9 @@ export default function InstagramFeed() {
     document.body.appendChild(script)
 
     // Process embeds if script is already loaded
-    if ((window as unknown as { instgrm?: { Embeds?: { process?: () => void } } }).instgrm?.Embeds?.process) {
-      ;(window as unknown as { instgrm?: { Embeds?: { process?: () => void } } }).instgrm.Embeds.process()
+    const instagramWindow = window as unknown as { instgrm?: { Embeds?: { process?: () => void } } }
+    if (instagramWindow.instgrm?.Embeds?.process) {
+      instagramWindow.instgrm.Embeds.process()
     }
 
     return () => {
