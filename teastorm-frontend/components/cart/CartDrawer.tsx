@@ -145,14 +145,14 @@ export default function CartDrawer() {
         <div className="flex-1 overflow-y-auto">
           {items.length === 0 ? (
             <div className="flex h-full flex-col items-center justify-center px-5 sm:px-6 py-12">
-              <p className="text-gray-500 text-center">Your cart is empty.</p>
-              <button
-                type="button"
+              <p className="text-gray-500 text-center mb-6">Your cart is empty</p>
+              <Link
+                href="/shop"
                 onClick={close}
-                className="mt-4 py-2 px-4 text-sm font-medium text-gray-900 underline underline-offset-4 hover:no-underline"
+                className="py-3 px-8 rounded-full bg-black text-white text-sm font-medium tracking-wide uppercase hover:bg-gray-900 transition-colors"
               >
-                Continue shopping
-              </button>
+                Start shopping
+              </Link>
             </div>
           ) : (
             <ul className="divide-y divide-gray-100">
@@ -271,11 +271,11 @@ export default function CartDrawer() {
               </button>
 
               <Link
-                href="/cart"
+                href="/shop"
                 onClick={close}
                 className="w-full py-3.5 rounded-lg font-medium text-base text-center border border-gray-300 text-gray-900 hover:bg-gray-50 transition-colors"
               >
-                View Cart
+                Continue shopping
               </Link>
             </div>
           </div>
