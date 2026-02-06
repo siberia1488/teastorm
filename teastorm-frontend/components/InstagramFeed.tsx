@@ -1,29 +1,30 @@
 "use client"
 
-import { useEffect } from "react"
+import Link from "next/link"
 
 export default function InstagramFeed() {
-  useEffect(() => {
-    // Load Instagram embed script
-    const script = document.createElement("script")
-    script.src = "//www.instagram.com/embed.js"
-    script.async = true
-    script.defer = true
-    document.body.appendChild(script)
-
-    // Process embeds if script is already loaded
-    const instagramWindow = window as unknown as { instgrm?: { Embeds?: { process?: () => void } } }
-    if (instagramWindow.instgrm?.Embeds?.process) {
-      instagramWindow.instgrm.Embeds.process()
-    }
-
-    return () => {
-      // Cleanup
-      if (script.parentNode) {
-        script.parentNode.removeChild(script)
-      }
-    }
-  }, [])
+  const posts = [
+    {
+      id: "1",
+      url: "https://www.instagram.com/_teastorm_/reel/DTqGV5IjXxv/",
+      title: "Tea Ritual",
+    },
+    {
+      id: "2",
+      url: "https://www.instagram.com/_teastorm_/reel/DTgyzZmD3t_/",
+      title: "Morning Brew",
+    },
+    {
+      id: "3",
+      url: "https://www.instagram.com/_teastorm_/reel/DTolqVeDRIm/",
+      title: "Tea Journey",
+    },
+    {
+      id: "4",
+      url: "https://www.instagram.com/_teastorm_/reel/DT4LPSUjZEt/",
+      title: "Tea Culture",
+    },
+  ]
 
   return (
     <section
@@ -78,45 +79,83 @@ export default function InstagramFeed() {
           </p>
         </div>
 
-        {/* Instagram Grid - Using Instagram blockquote embeds */}
+        {/* Instagram Grid */}
         <div
           style={{
             display: "grid",
-            gridTemplateColumns: "repeat(auto-fit, minmax(300px, 1fr))",
+            gridTemplateColumns: "repeat(auto-fit, minmax(260px, 1fr))",
             gap: 32,
             marginBottom: 80,
           }}
         >
-          {[
-            "https://www.instagram.com/_teastorm_/reel/DTqGV5IjXxv/",
-            "https://www.instagram.com/_teastorm_/reel/DTgyzZmD3t_/",
-            "https://www.instagram.com/_teastorm_/reel/DTolqVeDRIm/",
-            "https://www.instagram.com/_teastorm_/reel/DT4LPSUjZEt/",
-          ].map((url) => (
-            <div
-              key={url}
+          {posts.map((post) => (
+            <a
+              key={post.id}
+              href={post.url}
+              target="_blank"
+              rel="noopener noreferrer"
               style={{
-                display: "flex",
-                justifyContent: "center",
+                textDecoration: "none",
+                display: "block",
+                borderRadius: 24,
+                overflow: "hidden",
+                background: "#f6f5f2",
+                transition: "transform 0.3s ease, box-shadow 0.3s ease",
+                cursor: "pointer",
+                aspectRatio: "1 / 1",
+                position: "relative",
+                boxShadow: "0 4px 12px rgba(0,0,0,0.08)",
+              }}
+              onMouseEnter={(e) => {
+                e.currentTarget.style.transform = "translateY(-4px)"
+                e.currentTarget.style.boxShadow = "0 12px 24px rgba(0,0,0,0.12)"
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.transform = "translateY(0)"
+                e.currentTarget.style.boxShadow = "0 4px 12px rgba(0,0,0,0.08)"
               }}
             >
-              <blockquote
-                className="instagram-media"
-                data-instgrm-permalink={url}
-                data-instgrm-version="14"
+              <div
                 style={{
-                  background: "#FFF",
-                  border: "0",
-                  borderRadius: "24px",
-                  boxShadow: "0 0 1px 0 rgba(0,0,0,0.7), 0 1px 3px 0 rgba(0,0,0,0.35)",
-                  margin: "1px",
-                  maxWidth: "100%",
-                  minWidth: "326px",
-                  padding: "0",
-                  width: "99.375%",
+                  width: "100%",
+                  height: "100%",
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  background: "linear-gradient(135deg, #f3f2ee 0%, #e8e5dd 100%)",
+                  padding: 32,
                 }}
-              />
-            </div>
+              >
+                <div style={{ textAlign: "center" }}>
+                  <div
+                    style={{
+                      fontSize: 48,
+                      marginBottom: 16,
+                    }}
+                  >
+                    📸
+                  </div>
+                  <p
+                    style={{
+                      fontSize: 18,
+                      fontWeight: 500,
+                      color: "#1a1a1a",
+                      marginBottom: 12,
+                    }}
+                  >
+                    {post.title}
+                  </p>
+                  <p
+                    style={{
+                      fontSize: 14,
+                      color: "#7a776f",
+                    }}
+                  >
+                    Open on Instagram →
+                  </p>
+                </div>
+              </div>
+            </a>
           ))}
         </div>
 
