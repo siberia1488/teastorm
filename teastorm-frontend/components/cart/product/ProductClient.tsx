@@ -176,7 +176,7 @@ return (
                         minWidth: "clamp(100px, 15vw, 130px)",
                     }}
                     >
-                    <div><span style={{ marginRight: 8, fontWeight: 600, fontSize: "clamp(14px, 1.5vw, 16px)" }}>{product.variants.indexOf(variant) + 1}</span>{variant.label}</div>
+                    <div style={{ fontWeight: 500, fontSize: "clamp(14px, 1.5vw, 16px)" }}>{variant.label}</div>
                     <div style={{ fontSize: 14, color: "#777" }}>
                         {loadingPrices && cached
                         ? `$${(cached / 100).toFixed(2)}`
