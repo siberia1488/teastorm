@@ -18,11 +18,13 @@ export default function HomePage() {
       {/* HERO */}
       <section
         style={{
-          minHeight: "100vh",
           display: "flex",
           alignItems: "center",
           justifyContent: "center",
-          padding: "clamp(80px, 10vw, 120px) clamp(24px, 5vw, 64px)",
+          paddingTop: "clamp(80px, 12vh, 140px)",
+          paddingBottom: "clamp(80px, 12vh, 160px)",
+          paddingLeft: "clamp(24px, 5vw, 64px)",
+          paddingRight: "clamp(24px, 5vw, 64px)",
           position: "relative",
           overflow: "hidden",
         }}
@@ -94,7 +96,7 @@ export default function HomePage() {
             style={{
               maxWidth: 640,
               margin: "0 auto",
-              marginBottom: "clamp(36px, 5vw, 56px)",
+              marginBottom: "clamp(28px, 4vw, 44px)",
               fontSize: "clamp(16px, 2vw, 22px)",
               lineHeight: 1.65,
               color: "#5f5d58",
@@ -147,20 +149,6 @@ export default function HomePage() {
           </div>
         </div>
 
-        <div
-          style={{
-            position: "absolute",
-            bottom: "clamp(24px, 4vw, 48px)",
-            left: "50%",
-            transform: "translateX(-50%)",
-            fontSize: 12,
-            letterSpacing: "0.28em",
-            color: "#7b7973",
-            zIndex: 2,
-          }}
-        >
-          Scroll
-        </div>
       </section>
 
       {/* FEATURED TEAS */}
