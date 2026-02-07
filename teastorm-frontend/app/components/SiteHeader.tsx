@@ -4,7 +4,6 @@ import Link from "next/link";
 import { ShoppingBag } from "lucide-react";
 import { useCartDrawer } from "@/lib/cart-store";
 import { useCart } from "@/lib/cart-context";
-import BrandMark from "@/components/BrandMark";
 
 export default function SiteHeader() {
   const open = useCartDrawer((s) => s.open);
@@ -16,7 +15,7 @@ export default function SiteHeader() {
     <header className="site-header">
       <div className="header-inner">
         <Link href="/" className="logo" style={{ textDecoration: "none" }}>
-          <BrandMark size="md" />
+          TeaStorm
         </Link>
 
         <nav className="nav">
