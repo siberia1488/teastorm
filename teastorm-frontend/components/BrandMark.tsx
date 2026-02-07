@@ -9,11 +9,11 @@ type Props = {
 
 // Logo is 1800x1200pt (3:2 aspect ratio), so width = height * 1.5
 const sizes = {
-  sm: { text: 20, iconH: 18, gap: 1 },
-  md: { text: 24, iconH: 22, gap: 2 },
-  lg: { text: 32, iconH: 28, gap: 3 },
-  xl: { text: 48, iconH: 42, gap: 4 },
-  hero: { text: 72, iconH: 64, gap: 6 },
+  sm: { text: 20, iconH: 20, gap: 6 },
+  md: { text: 24, iconH: 24, gap: 8 },
+  lg: { text: 32, iconH: 32, gap: 10 },
+  xl: { text: 48, iconH: 40, gap: 12 },
+  hero: { text: 72, iconH: 44, gap: 14 },
 }
 
 export default function BrandMark({ size = "md", className = "" }: Props) {
