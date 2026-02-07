@@ -2,7 +2,6 @@ import Link from "next/link"
 import Image from "next/image"
 import { products } from "@/data/products"
 import InstagramFeed from "@/components/InstagramFeed"
-import BrandMark from "@/components/BrandMark"
 import cachedPricesJson from "@/data/prices.json"
 const cachedPrices: Record<string, { unit_amount: number | null }> = cachedPricesJson as unknown as Record<string, { unit_amount: number | null }>
 
@@ -83,13 +82,13 @@ export default function HomePage() {
           <h1
             style={{
               fontSize: "clamp(48px, 10vw, 82px)",
-              fontWeight: 500,
-              letterSpacing: "-0.04em",
+              fontWeight: 600,
+              letterSpacing: "-0.03em",
               marginBottom: "clamp(18px, 3vw, 28px)",
               lineHeight: 1,
             }}
           >
-            <BrandMark size="hero" />
+            TeaStorm
           </h1>
 
           <p
@@ -583,8 +582,15 @@ export default function HomePage() {
         >
           {/* BRAND */}
           <div style={{ gridColumn: "span 1", minWidth: 240 }}>
-            <div style={{ marginBottom: 28 }}>
-              <BrandMark size="lg" className="text-white" />
+            <div
+              style={{
+                marginBottom: 28,
+                fontSize: 28,
+                fontWeight: 600,
+                letterSpacing: "-0.02em",
+              }}
+            >
+              TeaStorm
             </div>
 
             <p
