@@ -130,6 +130,14 @@ export async function POST(req: Request) {
 
     console.log("[checkout] Order created:", order.id)
 
+    // Diagnostic: log which Stripe account this key belongs to
+    try {
+      const account = await stripe.accounts.retrieve()
+      console.log("[checkout] STRIPE ACCOUNT ID:", account.id)
+    } catch (accErr) {
+      console.error("[checkout] STRIPE ACCOUNT RETRIEVE ERROR:", accErr)
+    }
+
     // Pre-flight: verify shipping rate exists in this Stripe account/mode
     try {
       const sr = await stripe.shippingRates.retrieve(STRIPE_SHIPPING_RATE_ID)
