@@ -9,11 +9,17 @@ const STRIPE_SECRET_KEY = process.env.STRIPE_SECRET_KEY
 const STRIPE_SHIPPING_RATE_ID = process.env.STRIPE_SHIPPING_RATE_ID
 const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL
 
+console.log("[checkout] NODE_ENV:", process.env.NODE_ENV)
+
 if (!STRIPE_SECRET_KEY) {
   console.error("[checkout] Missing STRIPE_SECRET_KEY environment variable")
+} else {
+  console.log("[checkout] Stripe key prefix:", STRIPE_SECRET_KEY.slice(0, 8))
 }
 if (!STRIPE_SHIPPING_RATE_ID) {
   console.error("[checkout] Missing STRIPE_SHIPPING_RATE_ID environment variable")
+} else {
+  console.log("[checkout] Shipping rate:", STRIPE_SHIPPING_RATE_ID)
 }
 if (!BASE_URL) {
   console.error("[checkout] Missing NEXT_PUBLIC_BASE_URL environment variable")
@@ -123,6 +129,48 @@ export async function POST(req: Request) {
     })
 
     console.log("[checkout] Order created:", order.id)
+
+    // Pre-flight: verify shipping rate exists in this Stripe account/mode
+    try {
+      const sr = await stripe.shippingRates.retrieve(STRIPE_SHIPPING_RATE_ID)
+      console.log("[checkout] Shipping rate verified:", sr.id, sr.active ? "(active)" : "(INACTIVE)")
+      if (!sr.active) {
+        return NextResponse.json(
+          { error: `Shipping rate ${sr.id} exists but is inactive` },
+          { status: 422 }
+        )
+      }
+    } catch (srErr) {
+      const msg = srErr instanceof Stripe.errors.StripeError ? srErr.message : String(srErr)
+      console.error("[checkout] Shipping rate verification failed:", msg)
+      return NextResponse.json(
+        { error: `Shipping rate not found in current Stripe account: ${msg}` },
+        { status: 422 }
+      )
+    }
+
+    // Pre-flight: verify all price IDs exist in this Stripe account/mode
+    for (const item of items) {
+      try {
+        const price = await stripe.prices.retrieve(item.stripePriceId)
+        console.log("[checkout] Price verified:", price.id, price.active ? "(active)" : "(INACTIVE)")
+        if (!price.active) {
+          return NextResponse.json(
+            { error: `Price ${price.id} for "${item.title}" exists but is inactive` },
+            { status: 422 }
+          )
+        }
+      } catch (prErr) {
+        const msg = prErr instanceof Stripe.errors.StripeError ? prErr.message : String(prErr)
+        console.error("[checkout] Price verification failed for", item.stripePriceId, ":", msg)
+        return NextResponse.json(
+          { error: `Price "${item.stripePriceId}" for "${item.title}" not found in current Stripe account: ${msg}` },
+          { status: 422 }
+        )
+      }
+    }
+
+    console.log("[checkout] All pre-flight checks passed, creating session")
 
     const stripeSession = await stripe.checkout.sessions.create({
       mode: "payment",
