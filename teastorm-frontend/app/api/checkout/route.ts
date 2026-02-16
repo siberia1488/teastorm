@@ -10,7 +10,13 @@ const STRIPE_SHIPPING_RATE_ID = process.env.STRIPE_SHIPPING_RATE_ID
 const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL
 
 if (!STRIPE_SECRET_KEY) {
-  console.error("Missing STRIPE_SECRET_KEY environment variable")
+  console.error("[checkout] Missing STRIPE_SECRET_KEY environment variable")
+}
+if (!STRIPE_SHIPPING_RATE_ID) {
+  console.error("[checkout] Missing STRIPE_SHIPPING_RATE_ID environment variable")
+}
+if (!BASE_URL) {
+  console.error("[checkout] Missing NEXT_PUBLIC_BASE_URL environment variable")
 }
 
 const stripe = STRIPE_SECRET_KEY ? new Stripe(STRIPE_SECRET_KEY) : null
@@ -29,33 +35,56 @@ export async function POST(req: Request) {
   try {
     // Validate env configuration
     if (!stripe || !STRIPE_SECRET_KEY) {
-      console.error("Stripe not configured: missing STRIPE_SECRET_KEY")
+      console.error("[checkout] Stripe not initialized: missing STRIPE_SECRET_KEY")
       return NextResponse.json(
-        { error: "Payment system not configured" },
+        { error: "Payment system not configured. Missing STRIPE_SECRET_KEY." },
         { status: 503 }
       )
     }
 
     if (!STRIPE_SHIPPING_RATE_ID) {
-      console.error("Stripe not configured: missing STRIPE_SHIPPING_RATE_ID")
+      console.error("[checkout] Missing STRIPE_SHIPPING_RATE_ID")
       return NextResponse.json(
-        { error: "Shipping not configured" },
+        { error: "Shipping not configured. Missing STRIPE_SHIPPING_RATE_ID." },
         { status: 503 }
       )
     }
 
     if (!BASE_URL) {
-      console.error("Missing NEXT_PUBLIC_BASE_URL")
+      console.error("[checkout] Missing NEXT_PUBLIC_BASE_URL")
       return NextResponse.json(
-        { error: "Application not configured" },
+        { error: "Application not configured. Missing NEXT_PUBLIC_BASE_URL." },
         { status: 503 }
       )
     }
 
-    const { items } = (await req.json()) as { items: CartItem[] }
+    // Parse request body
+    let body: { items?: CartItem[] }
+    try {
+      body = await req.json()
+    } catch (parseError) {
+      console.error("[checkout] Failed to parse request body:", parseError)
+      return NextResponse.json(
+        { error: "Invalid request body" },
+        { status: 400 }
+      )
+    }
+
+    const { items } = body
+    console.log("[checkout] Received request with", items?.length ?? 0, "items")
 
     if (!items || items.length === 0) {
       return NextResponse.json({ error: "Cart is empty" }, { status: 400 })
+    }
+
+    // Validate that all items have stripePriceId
+    const missingPriceId = items.find(item => !item.stripePriceId)
+    if (missingPriceId) {
+      console.error("[checkout] Item missing stripePriceId:", missingPriceId.title)
+      return NextResponse.json(
+        { error: `Item "${missingPriceId.title}" is missing a price ID` },
+        { status: 400 }
+      )
     }
 
     const session = await getServerSession(authOptions)
@@ -93,6 +122,8 @@ export async function POST(req: Request) {
       },
     })
 
+    console.log("[checkout] Order created:", order.id)
+
     const stripeSession = await stripe.checkout.sessions.create({
       mode: "payment",
 
@@ -124,9 +155,22 @@ export async function POST(req: Request) {
       cancel_url: `${BASE_URL}/shop`,
     })
 
+    console.log("[checkout] Stripe session created:", stripeSession.id)
+
     return NextResponse.json({ url: stripeSession.url })
   } catch (error) {
-    console.error("Checkout error:", error)
-    return NextResponse.json({ error: "Checkout failed" }, { status: 500 })
+    const message =
+      error instanceof Stripe.errors.StripeError
+        ? error.message
+        : error instanceof Error
+          ? error.message
+          : "Unknown error"
+
+    console.error("[checkout] Unhandled error:", message, error)
+
+    return NextResponse.json(
+      { error: `Checkout failed: ${message}` },
+      { status: 500 }
+    )
   }
 }

@@ -85,18 +85,42 @@ export default function CartDrawer() {
         }),
       });
 
-      const data = await res.json().catch(() => ({}));
-
-      if (!res.ok) {
-        console.error("Checkout failed:", data);
+      const text = await res.text();
+      let data: Record<string, unknown>;
+      try {
+        data = JSON.parse(text);
+      } catch {
+        console.error("Checkout failed: non-JSON response", {
+          status: res.status,
+          body: text.slice(0, 500),
+        });
+        alert("Checkout failed. Please try again.");
         return;
       }
 
-      if (data?.url) {
-        window.location.href = data.url;
-      } else {
-        console.error("Checkout failed: missing url", data);
+      if (!res.ok) {
+        console.error("Checkout failed:", {
+          status: res.status,
+          data,
+        });
+        alert(
+          (data?.message as string) ||
+            (data?.error as string) ||
+            "Checkout failed"
+        );
+        return;
       }
+
+      if (!data?.url) {
+        console.error("Checkout failed: missing redirect url", {
+          status: res.status,
+          data,
+        });
+        alert("Checkout failed: missing redirect URL");
+        return;
+      }
+
+      window.location.href = data.url as string;
     } finally {
       setLoading(false);
     }
