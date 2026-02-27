@@ -108,48 +108,35 @@ export default function InstagramFeed() {
             marginBottom: "clamp(48px, 5vw, 80px)",
           }}
         >
-          {ritualImages.map((item) => (
-            <a
-              key={item.src}
-              href={item.url}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="instagram-tile group"
-              style={{
-                textDecoration: "none",
-                display: "block",
-                borderRadius: 20,
-                overflow: "hidden",
-                background: "#f6f5f2",
-                aspectRatio: "1 / 1",
-                position: "relative",
-              }}
-            >
-              <Image
-                src={item.src}
-                alt={item.alt}
-                fill
-                className="object-cover transition-transform duration-500 ease-out group-hover:scale-[1.03]"
-                sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 220px"
-              />
-              {/* Hover overlay */}
-              <div
-                className="instagram-overlay"
-                style={{
-                  position: "absolute",
-                  inset: 0,
-                  background: "rgba(0,0,0,0.4)",
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "center",
-                  opacity: 0,
-                  transition: "opacity 0.3s ease",
-                }}
+          {ritualImages.map((item, index) => {
+            const isEmphasized = index === 0 || index === ritualImages.length - 1
+            return (
+              <a
+                key={item.src}
+                href={item.url}
+                target="_blank"
+                rel="noopener noreferrer"
+                className={[
+                  "relative block overflow-hidden rounded-xl",
+                  "transition-all duration-500 ease-out hover:scale-[1.06]",
+                  "after:absolute after:inset-0 after:bg-black/5",
+                  "after:opacity-0 hover:after:opacity-100",
+                  "after:transition-opacity after:duration-500 after:rounded-xl",
+                  isEmphasized ? "scale-[1.05]" : "scale-100",
+                ].join(" ")}
+                style={{ aspectRatio: "1 / 1", textDecoration: "none" }}
               >
-                <Instagram size={32} color="#fff" />
-              </div>
-            </a>
-          ))}
+                <Image
+                  src={item.src}
+                  alt={item.alt}
+                  fill
+                  className="object-cover"
+                  sizes="(max-width:768px) 33vw, 16vw"
+                  priority={index === 0}
+                />
+              </a>
+            )
+          })}
         </div>
 
         {/* CTA */}
