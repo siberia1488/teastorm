@@ -129,7 +129,7 @@ export default function InstagramFeed() {
                   alt={item.alt}
                   fill
                   className="object-cover"
-                  sizes="(max-width:768px) 33vw, 16vw"
+                  sizes="(max-width: 640px) 70vw, (max-width: 1024px) 40vw, 16vw"
                   priority={index === 0}
                 />
               </a>
