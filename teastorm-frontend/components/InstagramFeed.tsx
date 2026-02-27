@@ -166,19 +166,6 @@ export default function InstagramFeed() {
         </div>
       </div>
 
-      <style jsx>{`
-        .instagram-tile:hover .instagram-overlay {
-          opacity: 1 !important;
-        }
-        .instagram-tile {
-          transition: transform 0.3s ease, box-shadow 0.3s ease;
-          box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
-        }
-        .instagram-tile:hover {
-          transform: translateY(-4px);
-          box-shadow: 0 12px 24px rgba(0, 0, 0, 0.12);
-        }
-      `}</style>
     </section>
   )
 }
