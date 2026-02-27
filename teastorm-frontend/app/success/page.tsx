@@ -1,15 +1,16 @@
 import { prisma } from "@/lib/prisma"
 import Link from "next/link"
+import ClearCartOnMount from "./ClearCartOnMount"
 
 type PageProps = {
-  searchParams: {
+  searchParams: Promise<{
     orderId?: string
     session_id?: string
-  }
+  }>
 }
 
 export default async function SuccessPage({ searchParams }: PageProps) {
-  const orderId = searchParams.orderId
+  const { orderId } = await searchParams
 
   if (!orderId) {
     return (
@@ -45,6 +46,7 @@ export default async function SuccessPage({ searchParams }: PageProps) {
         padding: 48,
       }}
     >
+      <ClearCartOnMount />
       <div style={{ maxWidth: 720, width: "100%" }}>
         <h1
           style={{

@@ -1,90 +1,41 @@
 "use client";
 
 import Link from "next/link";
-import { useCart } from "@/lib/cart-context";
+import { ShoppingBag } from "lucide-react";
 import { useCartDrawer } from "@/lib/cart-store";
+import { useCart } from "@/lib/cart-context";
 
 export default function SiteHeader() {
+  const open = useCartDrawer((s) => s.open);
   const { items } = useCart();
-  const { open } = useCartDrawer();
 
-  const totalItems = items.reduce(
-    (sum, item) => sum + item.quantity,
-    0
-  );
+  const count = items.reduce((sum, it) => sum + it.quantity, 0);
 
   return (
-    <header
-      style={{
-        position: "sticky",
-        top: 0,
-        zIndex: 100,
-        background: "#fff",
-        borderBottom: "1px solid #eee",
-      }}
-    >
-      <div
-        style={{
-          maxWidth: 1100,
-          margin: "0 auto",
-          padding: "16px 24px",
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "space-between",
-        }}
-      >
-        <Link
-          href="/"
-          style={{
-            fontSize: 18,
-            fontWeight: 600,
-            textDecoration: "none",
-          }}
-        >
+    <header className="site-header">
+      <div className="header-inner">
+        <Link href="/" className="logo">
           TeaStorm
         </Link>
 
-        <nav
-          style={{
-            display: "flex",
-            alignItems: "center",
-            gap: 20,
-            fontSize: 15,
-          }}
-        >
-          <Link href="/shop" style={{ textDecoration: "none" }}>
+        <nav className="nav">
+          <Link href="/shop" className="nav-link">
             Shop
+          </Link>
+          <Link href="/about" className="nav-link">
+            About
           </Link>
 
           <button
+            type="button"
             onClick={open}
-            style={{
-              display: "flex",
-              alignItems: "center",
-              gap: 6,
-              background: "none",
-              border: "none",
-              cursor: "pointer",
-              fontSize: 15,
-            }}
+            className="relative p-2 rounded-md hover:bg-gray-100 transition-colors"
+            aria-label="Open cart"
           >
-            Cart
-            {totalItems > 0 && (
-              <span
-                style={{
-                  minWidth: 20,
-                  height: 20,
-                  borderRadius: 999,
-                  background: "#000",
-                  color: "#fff",
-                  fontSize: 12,
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "center",
-                  padding: "0 6px",
-                }}
-              >
-                {totalItems}
+            <ShoppingBag size={18} />
+            {count > 0 && (
+              <span className="absolute -top-1 -right-1 min-w-[18px] h-4 px-1.5 rounded-full bg-amber-600 text-white text-[11px] font-bold grid place-items-center">
+                {count}
               </span>
             )}
           </button>

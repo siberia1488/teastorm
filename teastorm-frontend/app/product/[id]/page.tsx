@@ -1,329 +1,98 @@
-"use client"
-
-import { useParams } from "next/navigation"
 import { products } from "@/data/products"
 import { teaContent } from "@/data/teaContent"
-import { useCart } from "@/lib/cart-context"
-import { useCartDrawer } from "@/lib/cart-store"
-import Link from "next/link"
-import { useEffect, useState } from "react"
+import { notFound } from "next/navigation"
+import type { Metadata } from "next"
+import ProductClient from "@/components/cart/product/ProductClient"
 
-type PriceMap = Record<string, number>
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ id: string }>
+}): Promise<Metadata> {
+  const { id } = await params
 
-export default function ProductPage() {
-  const params = useParams<{ id: string }>()
+  const product = products.find((p) => p.slug === id)
+  if (!product) return {}
 
-  const { addItem } = useCart()
-  const { open } = useCartDrawer()
+  const content = teaContent[product.slug]
+  if (!content) return {}
 
-  const product = products.find((p) => p.slug === params.id)
-  const content = teaContent[params.id]
+  const title = `${content.displayName} — Premium Chinese Tea | TeaStorm`
+  const description = content.description
 
-  const [selectedVariantId, setSelectedVariantId] = useState<string | null>(
-    product?.variants[0]?.id ?? null
-  )
+  const url = `https://teastorm.com/product/${product.slug}`
 
-  const [prices, setPrices] = useState<PriceMap>({})
-  const [loadingPrices, setLoadingPrices] = useState(true)
-
-  useEffect(() => {
-    if (!product) return
-
-    const priceIds = product.variants.map((v) => v.stripePriceId)
-
-    fetch("/api/prices", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ priceIds }),
-    })
-      .then((res) => res.json())
-      .then((data) => setPrices(data))
-      .finally(() => setLoadingPrices(false))
-  }, [product])
-
-  if (!product || !content) {
-    return (
-      <main style={{ padding: 40 }}>
-        <h1>Product not found</h1>
-        <Link href="/shop">← Back to shop</Link>
-      </main>
-    )
+  return {
+    title,
+    description,
+    alternates: {
+      canonical: url,
+    },
+    openGraph: {
+      title,
+      description,
+      url,
+      siteName: "TeaStorm",
+      images: [
+        {
+          url: product.image,
+          width: 1200,
+          height: 630,
+          alt: content.displayName,
+        },
+      ],
+      type: "website",
+    },
+    twitter: {
+      card: "summary_large_image",
+      title,
+      description,
+      images: [product.image],
+    },
   }
+}
 
-  const selectedVariant = product.variants.find(
-    (v) => v.id === selectedVariantId
-  )
+export default async function ProductPage({
+  params,
+}: {
+  params: Promise<{ id: string }>
+}) {
+  const { id } = await params
 
-  const selectedPrice =
-    selectedVariant && prices[selectedVariant.stripePriceId]
+  const product = products.find((p) => p.slug === id)
+  if (!product) notFound()
 
-  const handleAdd = () => {
-    if (!selectedVariant || !selectedPrice) return
-
-    addItem({
-      variantId: selectedVariant.id,
-      productId: product.id,
-      slug: product.slug,
-      title: content.displayName,
-      variantLabel: selectedVariant.label,
-      weightGrams: selectedVariant.weightGrams,
-      price: selectedPrice,
-      stripePriceId: selectedVariant.stripePriceId,
-      image: product.image,
-      quantity: 1,
-    })
-
-    open()
-  }
+  const content = teaContent[product.slug]
+  if (!content) notFound()
 
   return (
-    <main style={{ maxWidth: 1120, margin: "0 auto", padding: "64px 24px" }}>
-      <Link
-        href="/shop"
-        style={{
-          display: "inline-block",
-          marginBottom: 48,
-          fontSize: 14,
-          color: "#777",
+    <>
+      {/* STRUCTURED DATA */}
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "Product",
+            name: content.displayName,
+            description: content.description,
+            image: [`https://teastorm.com${product.image}`],
+            brand: {
+              "@type": "Brand",
+              name: "TeaStorm",
+            },
+            category: product.category,
+            offers: {
+              "@type": "Offer",
+              url: `https://teastorm.com/product/${product.slug}`,
+              priceCurrency: "USD",
+              availability: "https://schema.org/InStock",
+            },
+          }),
         }}
-      >
-        ← Back to shop
-      </Link>
+      />
 
-      {/* TOP */}
-      <div
-        style={{
-          display: "grid",
-          gridTemplateColumns: "1fr 1fr",
-          gap: 96,
-          marginBottom: 140,
-        }}
-      >
-        <div
-          style={{
-            background:
-              "radial-gradient(800px 400px at 20% -20%, #f5f4f0 0%, #efede7 60%, #e8e6df 100%)",
-            borderRadius: 32,
-            height: 520,
-          }}
-        />
-
-        <div>
-          <p
-            style={{
-              textTransform: "uppercase",
-              letterSpacing: "0.32em",
-              fontSize: 12,
-              color: "#8a8883",
-              marginBottom: 14,
-            }}
-          >
-            {product.category}
-          </p>
-
-          <h1
-            style={{
-              fontSize: 48,
-              fontWeight: 500,
-              marginBottom: 14,
-            }}
-          >
-            {content.displayName}
-          </h1>
-
-          <p
-            style={{
-              fontSize: 18,
-              color: "#777",
-              marginBottom: 24,
-            }}
-          >
-            {content.tagline}
-          </p>
-
-          <p
-            style={{
-              fontSize: 17,
-              lineHeight: 1.75,
-              color: "#555",
-              marginBottom: 42,
-              maxWidth: 520,
-            }}
-          >
-            {content.description}
-          </p>
-
-          {/* VARIANTS */}
-          {product.variants.length > 1 && (
-            <div style={{ marginBottom: 42 }}>
-              <strong>Select Size</strong>
-
-              <div style={{ display: "flex", gap: 14, marginTop: 14 }}>
-                {product.variants.map((variant) => {
-                  const price = prices[variant.stripePriceId]
-
-                  return (
-                    <button
-                      key={variant.id}
-                      onClick={() => setSelectedVariantId(variant.id)}
-                      style={{
-                        padding: "14px 22px",
-                        borderRadius: 999,
-                        border:
-                          variant.id === selectedVariantId
-                            ? "2px solid #000"
-                            : "1px solid #ddd",
-                        background: "#fff",
-                        cursor: "pointer",
-                        minWidth: 130,
-                      }}
-                    >
-                      <div>{variant.label}</div>
-                      <div style={{ fontSize: 14, color: "#777" }}>
-                        {loadingPrices || !price
-                          ? "—"
-                          : `$${(price / 100).toFixed(2)}`}
-                      </div>
-                    </button>
-                  )
-                })}
-              </div>
-            </div>
-          )}
-
-          {/* ADD */}
-          <button
-            disabled={!selectedVariant || !selectedPrice || loadingPrices}
-            onClick={handleAdd}
-            style={{
-              width: "100%",
-              padding: "20px",
-              borderRadius: 999,
-              background: "#000",
-              color: "#fff",
-              fontSize: 14,
-              letterSpacing: "0.24em",
-              textTransform: "uppercase",
-              cursor: "pointer",
-            }}
-          >
-            {loadingPrices || !selectedPrice
-              ? "Loading…"
-              : `Add to cart — $${(selectedPrice / 100).toFixed(2)}`}
-          </button>
-        </div>
-      </div>
-
-      {/* INFO CARDS */}
-      <section
-        style={{
-          display: "grid",
-          gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))",
-          gap: 64,
-        }}
-      >
-        {[
-          {
-            label: "Flavor Profile",
-            title: "Flavor Notes",
-            icon: "🍃",
-            content: (
-              <ul
-                style={{
-                  listStyle: "none",
-                  padding: 0,
-                  margin: 0,
-                  display: "grid",
-                  gap: 6,
-                }}
-              >
-                {content.flavorProfile.map((note: string) => (
-                  <li key={note}>• {note}</li>
-                ))}
-              </ul>
-            ),
-          },
-          {
-            label: "Effect",
-            title: "How It Feels",
-            icon: "☁️",
-            content: <p>{content.effect}</p>,
-          },
-          {
-            label: "Brewing",
-            title: "How to Brew",
-            icon: "🍵",
-            content: (
-              <>
-                <p>
-                  <strong>Gongfu:</strong> {content.brewing.gongfu}
-                </p>
-                <p>
-                  <strong>Western:</strong> {content.brewing.western}
-                </p>
-              </>
-            ),
-          },
-        ].map((item) => (
-          <div
-            key={item.title}
-            style={{
-              background:
-                "radial-gradient(900px 480px at 20% -30%, #ffffff 0%, #f6f4ef 60%, #efede7 100%)",
-              borderRadius: 36,
-              padding: "64px 52px",
-              textAlign: "center",
-              transition:
-                "transform 0.45s cubic-bezier(.22,1,.36,1), box-shadow 0.45s cubic-bezier(.22,1,.36,1)",
-              boxShadow: "0 10px 32px rgba(0,0,0,0.04)",
-            }}
-            onMouseEnter={(e) => {
-              e.currentTarget.style.transform = "translateY(-12px)"
-              e.currentTarget.style.boxShadow =
-                "0 28px 72px rgba(0,0,0,0.08)"
-            }}
-            onMouseLeave={(e) => {
-              e.currentTarget.style.transform = "translateY(0)"
-              e.currentTarget.style.boxShadow =
-                "0 10px 32px rgba(0,0,0,0.04)"
-            }}
-          >
-            <div style={{ fontSize: 34, marginBottom: 18 }}>{item.icon}</div>
-
-            <p
-              style={{
-                textTransform: "uppercase",
-                letterSpacing: "0.32em",
-                fontSize: 11,
-                marginBottom: 12,
-                color: "#9b978e",
-              }}
-            >
-              {item.label}
-            </p>
-
-            <h3
-              style={{
-                fontSize: 26,
-                fontWeight: 500,
-                marginBottom: 20,
-              }}
-            >
-              {item.title}
-            </h3>
-
-            <div
-              style={{
-                fontSize: 16,
-                lineHeight: 1.7,
-                color: "#6b6b65",
-              }}
-            >
-              {item.content}
-            </div>
-          </div>
-        ))}
-      </section>
-    </main>
+      <ProductClient product={product} content={content} />
+    </>
   )
 }

@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect } from "react";
-import { useCart } from "@/app/cart-context";
+import { useCart } from "@/lib/cart-context";
 
 export default function ClearCartOnMount() {
   const { clear } = useCart();

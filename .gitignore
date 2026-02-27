@@ -31,6 +31,9 @@ teastorm-sanity/node_modules
 # Turbopack
 .turbo
 
+# TypeScript build info
+*.tsbuildinfo
+
 # Logs
 logs
 *.log
