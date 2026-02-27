@@ -1,13 +1,16 @@
 import Link from "next/link"
+import Image from "next/image"
 import { products } from "@/data/products"
+import InstagramFeed from "@/components/InstagramFeed"
+import BrandMark from "@/components/BrandMark"
+import cachedPricesJson from "@/data/prices.json"
+const cachedPrices: Record<string, { unit_amount: number | null }> = cachedPricesJson as unknown as Record<string, { unit_amount: number | null }>
 
 export default function HomePage() {
   return (
     <main
       style={{
         minHeight: "100vh",
-        background:
-          "radial-gradient(1200px 600px at 50% -200px, #ffffff 0%, #f3f2ee 55%, #ebe9e4 100%)",
         display: "flex",
         flexDirection: "column",
       }}
@@ -15,23 +18,44 @@ export default function HomePage() {
       {/* HERO */}
       <section
         style={{
-          minHeight: "100vh",
           display: "flex",
           alignItems: "center",
           justifyContent: "center",
-          padding: "120px 64px",
+          paddingTop: "clamp(80px, 12vh, 140px)",
+          paddingBottom: "clamp(80px, 12vh, 160px)",
+          paddingLeft: "clamp(24px, 5vw, 64px)",
+          paddingRight: "clamp(24px, 5vw, 64px)",
           position: "relative",
           overflow: "hidden",
         }}
       >
+        {/* Hero Background Image */}
+        <div
+          style={{
+            position: "absolute",
+            inset: 0,
+            zIndex: 0,
+          }}
+        >
+          <Image
+            src="/images/hero.svg"
+            alt=""
+            fill
+            priority
+            style={{ objectFit: "cover" }}
+          />
+        </div>
+
+        {/* Overlay gradient for text readability */}
         <div
           aria-hidden
           style={{
             position: "absolute",
             inset: 0,
             background:
-              "linear-gradient(180deg, rgba(0,0,0,0.03), rgba(0,0,0,0.06))",
+              "linear-gradient(180deg, rgba(243,242,238,0.85) 0%, rgba(243,242,238,0.7) 50%, rgba(243,242,238,0.85) 100%)",
             pointerEvents: "none",
+            zIndex: 1,
           }}
         />
 
@@ -48,8 +72,8 @@ export default function HomePage() {
             style={{
               textTransform: "uppercase",
               letterSpacing: "0.32em",
-              fontSize: 12,
-              marginBottom: 28,
+              fontSize: "clamp(10px, 1.2vw, 12px)",
+              marginBottom: "clamp(18px, 3vw, 28px)",
               color: "#6d6b65",
             }}
           >
@@ -58,26 +82,27 @@ export default function HomePage() {
 
           <h1
             style={{
-              fontSize: 82,
+              fontSize: "clamp(48px, 10vw, 82px)",
               fontWeight: 500,
               letterSpacing: "-0.04em",
-              marginBottom: 28,
+              marginBottom: "clamp(18px, 3vw, 28px)",
               lineHeight: 1,
             }}
           >
-            TeaStorm
+            <BrandMark size="hero" />
           </h1>
 
           <p
             style={{
               maxWidth: 640,
-              margin: "0 auto 56px",
-              fontSize: 22,
+              margin: "0 auto",
+              marginBottom: "clamp(28px, 4vw, 44px)",
+              fontSize: "clamp(16px, 2vw, 22px)",
               lineHeight: 1.65,
               color: "#5f5d58",
             }}
           >
-            Exceptional loose-leaf teas sourced directly from China’s most
+            Exceptional loose-leaf teas sourced directly from China&apos;s most
             storied growing regions — curated for ritual, clarity, and quiet
             power in every cup.
           </p>
@@ -86,19 +111,19 @@ export default function HomePage() {
             style={{
               display: "flex",
               justifyContent: "center",
-              gap: 20,
+              gap: "clamp(12px, 2vw, 20px)",
               flexWrap: "wrap",
             }}
           >
             <Link
               href="/shop"
               style={{
-                padding: "18px 48px",
+                padding: "clamp(14px, 2vw, 18px) clamp(32px, 4vw, 48px)",
                 borderRadius: 999,
                 background: "#1a1a1a",
                 color: "#ffffff",
                 textDecoration: "none",
-                fontSize: 14,
+                fontSize: "clamp(12px, 1.4vw, 14px)",
                 letterSpacing: "0.18em",
                 textTransform: "uppercase",
               }}
@@ -109,12 +134,12 @@ export default function HomePage() {
             <Link
               href="#origins"
               style={{
-                padding: "18px 48px",
+                padding: "clamp(14px, 2vw, 18px) clamp(32px, 4vw, 48px)",
                 borderRadius: 999,
                 border: "1px solid #cfcfc7",
                 color: "#1a1a1a",
                 textDecoration: "none",
-                fontSize: 14,
+                fontSize: "clamp(12px, 1.4vw, 14px)",
                 letterSpacing: "0.18em",
                 textTransform: "uppercase",
               }}
@@ -124,26 +149,13 @@ export default function HomePage() {
           </div>
         </div>
 
-        <div
-          style={{
-            position: "absolute",
-            bottom: 48,
-            left: "50%",
-            transform: "translateX(-50%)",
-            fontSize: 12,
-            letterSpacing: "0.28em",
-            color: "#7b7973",
-          }}
-        >
-          Scroll
-        </div>
       </section>
 
       {/* FEATURED TEAS */}
       <section
         style={{
           background: "#ffffff",
-          padding: "140px 80px",
+          padding: "clamp(80px, 10vw, 140px) clamp(24px, 5vw, 80px)",
         }}
       >
         <div
@@ -152,7 +164,7 @@ export default function HomePage() {
             margin: "0 auto",
           }}
         >
-          <div style={{ textAlign: "center", marginBottom: 96 }}>
+          <div style={{ textAlign: "center", marginBottom: "clamp(48px, 8vw, 96px)" }}>
             <p
               style={{
                 textTransform: "uppercase",
@@ -167,7 +179,7 @@ export default function HomePage() {
 
             <h2
               style={{
-                fontSize: 56,
+                fontSize: "clamp(32px, 5vw, 56px)",
                 fontWeight: 500,
                 letterSpacing: "-0.03em",
                 marginBottom: 24,
@@ -180,7 +192,7 @@ export default function HomePage() {
               style={{
                 maxWidth: 520,
                 margin: "0 auto",
-                fontSize: 18,
+                fontSize: "clamp(15px, 1.8vw, 18px)",
                 color: "#6b6b65",
               }}
             >
@@ -193,33 +205,34 @@ export default function HomePage() {
             style={{
               display: "grid",
               gridTemplateColumns: "repeat(auto-fit, minmax(260px, 1fr))",
-              gap: 48,
+              gap: "clamp(24px, 4vw, 48px)",
             }}
           >
-            {products.slice(0, 6).map((tea) => (
+            {products.slice(0, 4).map((tea) => (
               <div
                 key={tea.id}
                 style={{
                   background: "#f6f5f2",
                   borderRadius: 24,
-                  padding: 32,
+                  padding: "clamp(20px, 3vw, 32px)",
                   textAlign: "center",
                 }}
               >
-                <div
-                  style={{
-                    height: 280,
-                    borderRadius: 18,
-                    backgroundImage: `url(${tea.image})`,
-                    backgroundSize: "cover",
-                    backgroundPosition: "center",
-                    marginBottom: 28,
-                  }}
-                />
+                <div style={{ height: "clamp(200px, 25vw, 280px)", borderRadius: 18, marginBottom: "clamp(18px, 3vw, 28px)", position: "relative", overflow: "hidden", width: "100%" }}>
+                  {tea.images?.preview && (
+                    <Image
+                      src={tea.images.preview}
+                      alt={tea.title}
+                      fill
+                      style={{ objectFit: "cover", objectPosition: "center" }}
+                      sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 280px"
+                    />
+                  )}
+                </div>
 
                 <h3
                   style={{
-                    fontSize: 22,
+                    fontSize: "clamp(18px, 2vw, 22px)",
                     fontWeight: 500,
                     marginBottom: 8,
                   }}
@@ -242,11 +255,22 @@ export default function HomePage() {
                 <p
                   style={{
                     color: "#6f6d68",
-                    marginBottom: 24,
+                    marginBottom: "clamp(16px, 2vw, 24px)",
                   }}
                 >
-                  {tea.variants[0].label}
+                  {tea.variants.length > 0 ? tea.variants[0].label : "Coming Soon"}
                 </p>
+
+                {/* Cached price (hybrid) */}
+                {(() => {
+                  const priceId = tea.variants[0]?.stripePriceId
+                  const amount = priceId ? cachedPrices[priceId]?.unit_amount ?? null : null
+                  return amount ? (
+                    <p style={{ fontSize: 14, color: "#222", marginBottom: 12 }}>
+                      {`$${(amount / 100).toFixed(2)}`}
+                    </p>
+                  ) : null
+                })()}
 
                 <Link
                   href={`/product/${tea.slug}`}
@@ -268,7 +292,7 @@ export default function HomePage() {
             ))}
           </div>
 
-          <div style={{ textAlign: "center", marginTop: 96 }}>
+          <div style={{ textAlign: "center", marginTop: "clamp(48px, 8vw, 96px)" }}>
             <Link
               href="/shop"
               style={{
@@ -294,7 +318,7 @@ export default function HomePage() {
         id="origins"
         style={{
           background: "#f3f2ee",
-          padding: "180px 80px",
+          padding: "clamp(80px, 12vw, 180px) clamp(24px, 5vw, 80px)",
         }}
       >
         <div
@@ -302,8 +326,8 @@ export default function HomePage() {
             maxWidth: 1280,
             margin: "0 auto",
             display: "grid",
-            gridTemplateColumns: "1.1fr 0.9fr",
-            gap: 120,
+            gridTemplateColumns: "repeat(auto-fit, minmax(min(100%, 480px), 1fr))",
+            gap: "clamp(48px, 8vw, 120px)",
             alignItems: "center",
           }}
         >
@@ -322,10 +346,11 @@ export default function HomePage() {
 
             <h2
               style={{
-                fontSize: 64,
+                fontSize: "clamp(36px, 5vw, 64px)",
                 fontWeight: 500,
                 letterSpacing: "-0.04em",
                 marginBottom: 32,
+                lineHeight: 1.1,
               }}
             >
               From Legendary
@@ -335,7 +360,7 @@ export default function HomePage() {
 
             <p
               style={{
-                fontSize: 20,
+                fontSize: "clamp(16px, 1.8vw, 20px)",
                 lineHeight: 1.75,
                 color: "#5f5d58",
                 maxWidth: 520,
@@ -367,489 +392,402 @@ export default function HomePage() {
 
           <div
             style={{
-              height: 560,
+              height: "clamp(320px, 40vw, 560px)",
               borderRadius: 36,
-              background: "linear-gradient(135deg, #cfcac0, #bdb7ad)",
+              overflow: "hidden",
+              position: "relative",
             }}
-          />
+          >
+            <Image
+              src="/images/origins.svg"
+              alt="Mountain tea gardens"
+              fill
+              style={{ objectFit: "cover" }}
+              sizes="(max-width: 768px) 100vw, 50vw"
+            />
+          </div>
         </div>
       </section>
+
       {/* SUSTAINABILITY / TRUST */}
-<section
-  style={{
-    background: "#f3f2ee",
-    padding: "180px 80px",
-  }}
->
-  <div
-    style={{
-      maxWidth: 1280,
-      margin: "0 auto",
-    }}
-  >
-    {/* Header */}
-    <div style={{ textAlign: "center", marginBottom: 120 }}>
-      <p
+      <section
         style={{
-          textTransform: "uppercase",
-          letterSpacing: "0.32em",
-          fontSize: 12,
-          marginBottom: 18,
-          color: "#7a776f",
+          background: "#f3f2ee",
+          padding: "clamp(80px, 12vw, 180px) clamp(24px, 5vw, 80px)",
         }}
       >
-        Our Philosophy
-      </p>
-
-      <h2
-        style={{
-          fontSize: 60,
-          fontWeight: 500,
-          letterSpacing: "-0.04em",
-          marginBottom: 28,
-        }}
-      >
-        Sourced With Intention.
-        <br />
-        Crafted With Respect.
-      </h2>
-
-      <p
-        style={{
-          maxWidth: 680,
-          margin: "0 auto",
-          fontSize: 20,
-          lineHeight: 1.7,
-          color: "#6b6b65",
-        }}
-      >
-        TeaStorm works directly with small gardens and artisan producers across
-        China. Every tea is selected for purity, seasonality, and expressive
-        terroir — then packed fresh in small batches for peak vitality.
-      </p>
-    </div>
-
-    {/* Grid */}
-    <div
-      style={{
-        display: "grid",
-        gridTemplateColumns: "repeat(auto-fit, minmax(300px, 1fr))",
-        gap: 56,
-        marginBottom: 120,
-      }}
-    >
-      {[
-        {
-          title: "Direct Garden Sourcing",
-          text:
-            "We collaborate with independent tea gardens and family producers in Yunnan, Fujian, Zhejiang, and Guangdong — prioritizing craftsmanship over commodity scale.",
-        },
-        {
-          title: "Leaf-First Selection",
-          text:
-            "Whole leaves, intact buds, and careful post-harvest handling ensure depth of flavor, longevity across infusions, and a clean energetic profile.",
-        },
-        {
-          title: "Small-Batch Packing",
-          text:
-            "Teas are packed in limited runs to preserve freshness, aroma, and texture — never sitting in warehouses for months.",
-        },
-        {
-          title: "Respect for Nature",
-          text:
-            "We favor gardens that avoid heavy chemicals, protect biodiversity, and maintain soil vitality through traditional cultivation practices.",
-        },
-        {
-          title: "Transparent Craft",
-          text:
-            "From cultivar to harvest season to processing style — we share the story behind every tea so you know exactly what is in your cup.",
-        },
-        {
-          title: "Designed for Ritual",
-          text:
-            "Our packaging and brewing guidance are created to slow you down — inviting intention, calm, and appreciation into everyday tea moments.",
-        },
-      ].map((item) => (
         <div
-          key={item.title}
           style={{
-            background: "#ffffff",
-            borderRadius: 32,
-            padding: 48,
-            boxShadow: "0 18px 60px rgba(0,0,0,0.05)",
-            border: "1px solid #e4e2dc",
+            maxWidth: 1280,
+            margin: "0 auto",
           }}
         >
-          <h3
-            style={{
-              fontSize: 24,
-              fontWeight: 500,
-              marginBottom: 16,
-            }}
-          >
-            {item.title}
-          </h3>
+          {/* Header */}
+          <div style={{ textAlign: "center", marginBottom: "clamp(48px, 10vw, 120px)" }}>
+            <p
+              style={{
+                textTransform: "uppercase",
+                letterSpacing: "0.32em",
+                fontSize: 12,
+                marginBottom: 18,
+                color: "#7a776f",
+              }}
+            >
+              Our Philosophy
+            </p>
 
-          <p
+            <h2
+              style={{
+                fontSize: "clamp(28px, 5vw, 60px)",
+                fontWeight: 500,
+                letterSpacing: "-0.04em",
+                marginBottom: 28,
+                lineHeight: 1.15,
+              }}
+            >
+              Sourced With Intention.
+              <br />
+              Crafted With Respect.
+            </h2>
+
+            <p
+              style={{
+                maxWidth: 680,
+                margin: "0 auto",
+                fontSize: "clamp(15px, 1.8vw, 20px)",
+                lineHeight: 1.7,
+                color: "#6b6b65",
+              }}
+            >
+              TeaStorm works directly with small gardens and artisan producers across
+              China. Every tea is selected for purity, seasonality, and expressive
+              terroir — then packed fresh in small batches for peak vitality.
+            </p>
+          </div>
+
+          {/* Grid */}
+          <div
             style={{
-              fontSize: 17,
-              lineHeight: 1.7,
-              color: "#6b6b65",
+              display: "grid",
+              gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))",
+              gap: "clamp(24px, 4vw, 56px)",
+              marginBottom: "clamp(48px, 10vw, 120px)",
             }}
           >
-            {item.text}
-          </p>
+            {[
+              {
+                title: "Direct Garden Sourcing",
+                text:
+                  "We collaborate with independent tea gardens and family producers in Yunnan, Fujian, Zhejiang, and Guangdong — prioritizing craftsmanship over commodity scale.",
+              },
+              {
+                title: "Leaf-First Selection",
+                text:
+                  "Whole leaves, intact buds, and careful post-harvest handling ensure depth of flavor, longevity across infusions, and a clean energetic profile.",
+              },
+              {
+                title: "Small-Batch Packing",
+                text:
+                  "Teas are packed in limited runs to preserve freshness, aroma, and texture — never sitting in warehouses for months.",
+              },
+              {
+                title: "Respect for Nature",
+                text:
+                  "We favor gardens that avoid heavy chemicals, protect biodiversity, and maintain soil vitality through traditional cultivation practices.",
+              },
+              {
+                title: "Transparent Craft",
+                text:
+                  "From cultivar to harvest season to processing style — we share the story behind every tea so you know exactly what is in your cup.",
+              },
+              {
+                title: "Designed for Ritual",
+                text:
+                  "Our packaging and brewing guidance are created to slow you down — inviting intention, calm, and appreciation into everyday tea moments.",
+              },
+            ].map((item) => (
+              <div
+                key={item.title}
+                style={{
+                  background: "#ffffff",
+                  borderRadius: 32,
+                  padding: "clamp(28px, 4vw, 48px)",
+                  boxShadow: "0 18px 60px rgba(0,0,0,0.05)",
+                  border: "1px solid #e4e2dc",
+                }}
+              >
+                <h3
+                  style={{
+                    fontSize: "clamp(18px, 2vw, 24px)",
+                    fontWeight: 500,
+                    marginBottom: 16,
+                  }}
+                >
+                  {item.title}
+                </h3>
+
+                <p
+                  style={{
+                    fontSize: "clamp(14px, 1.5vw, 17px)",
+                    lineHeight: 1.7,
+                    color: "#6b6b65",
+                  }}
+                >
+                  {item.text}
+                </p>
+              </div>
+            ))}
+          </div>
+
+          {/* CTA */}
+          <div style={{ textAlign: "center" }}>
+            <Link
+              href="/shop"
+              style={{
+                display: "inline-block",
+                padding: "20px 56px",
+                borderRadius: 999,
+                background: "#1a1a1a",
+                color: "#ffffff",
+                textDecoration: "none",
+                fontSize: 14,
+                letterSpacing: "0.26em",
+                textTransform: "uppercase",
+              }}
+            >
+              Explore the Collection
+            </Link>
+          </div>
         </div>
-      ))}
-    </div>
+      </section>
 
-    {/* CTA */}
-    <div style={{ textAlign: "center" }}>
-      <Link
-        href="/shop"
+      {/* INSTAGRAM */}
+      <InstagramFeed />
+
+      {/* FOOTER */}
+      <footer
         style={{
-          display: "inline-block",
-          padding: "20px 56px",
-          borderRadius: 999,
           background: "#1a1a1a",
-          color: "#ffffff",
-          textDecoration: "none",
-          fontSize: 14,
-          letterSpacing: "0.26em",
-          textTransform: "uppercase",
+          color: "#f4f4f1",
+          padding: "clamp(80px, 12vw, 160px) clamp(24px, 5vw, 80px) clamp(48px, 6vw, 80px)",
         }}
       >
-        Explore the Collection
-      </Link>
-    </div>
-    </div>
-    </section>
-    {/* INSTAGRAM / SOCIAL */}
-<section
-  style={{
-    background: "#ffffff",
-    padding: "160px 80px",
-  }}
->
-  <div
-    style={{
-      maxWidth: 1400,
-      margin: "0 auto",
-    }}
-  >
-    {/* Header */}
-    <div style={{ textAlign: "center", marginBottom: 96 }}>
-      <p
-        style={{
-          textTransform: "uppercase",
-          letterSpacing: "0.32em",
-          fontSize: 12,
-          marginBottom: 18,
-          color: "#7a776f",
-        }}
-      >
-        Community
-      </p>
-
-      <h2
-        style={{
-          fontSize: 60,
-          fontWeight: 500,
-          letterSpacing: "-0.04em",
-          marginBottom: 24,
-        }}
-      >
-        Follow the Ritual
-      </h2>
-
-      <p
-        style={{
-          maxWidth: 640,
-          margin: "0 auto",
-          fontSize: 20,
-          lineHeight: 1.7,
-          color: "#6b6b65",
-        }}
-      >
-        Behind every cup is a moment of stillness.  
-        Join our growing community and explore daily brewing rituals,
-        origin stories, and seasonal releases.
-      </p>
-    </div>
-
-    {/* Grid */}
-    <div
-      style={{
-        display: "grid",
-        gridTemplateColumns: "repeat(auto-fit, minmax(240px, 1fr))",
-        gap: 28,
-        marginBottom: 80,
-      }}
-    >
-      {[
-        "/images/insta-1.jpg",
-        "/images/insta-2.jpg",
-        "/images/insta-3.jpg",
-        "/images/insta-4.jpg",
-        "/images/insta-5.jpg",
-        "/images/insta-6.jpg",
-      ].map((src, i) => (
         <div
-          key={i}
           style={{
-            aspectRatio: "1 / 1",
-            borderRadius: 24,
-            overflow: "hidden",
-            backgroundImage: `url(${src})`,
-            backgroundSize: "cover",
-            backgroundPosition: "center",
-            boxShadow: "0 18px 50px rgba(0,0,0,0.08)",
-          }}
-        />
-      ))}
-    </div>
-
-    {/* CTA */}
-    <div style={{ textAlign: "center" }}>
-      <a
-        href="https://www.instagram.com/_teastorm_/"
-        target="_blank"
-        rel="noopener noreferrer"
-        style={{
-          display: "inline-block",
-          padding: "18px 56px",
-          borderRadius: 999,
-          border: "1px solid #1a1a1a",
-          color: "#1a1a1a",
-          textDecoration: "none",
-          fontSize: 14,
-          letterSpacing: "0.26em",
-          textTransform: "uppercase",
-        }}
-      >
-        Follow @TeaStormUS
-      </a>
-    </div>
-    </div>
-    </section>
-    {/* FOOTER */}
-<footer
-  style={{
-    background: "#1a1a1a",
-    color: "#f4f4f1",
-    padding: "160px 80px 80px",
-  }}
->
-  <div
-    style={{
-      maxWidth: 1280,
-      margin: "0 auto",
-      display: "grid",
-      gridTemplateColumns: "2fr 1fr 1fr 1fr",
-      gap: 96,
-    }}
-  >
-    {/* BRAND */}
-    <div>
-      <h3
-        style={{
-          fontSize: 40,
-          fontWeight: 500,
-          letterSpacing: "-0.03em",
-          marginBottom: 28,
-        }}
-      >
-        TeaStorm
-      </h3>
-
-      <p
-        style={{
-          maxWidth: 420,
-          lineHeight: 1.7,
-          color: "#cfcfc7",
-          marginBottom: 36,
-        }}
-      >
-        Premium loose-leaf teas sourced from China’s most revered mountains —
-        curated for ritual, clarity, and quiet power in every cup.
-      </p>
-
-      {/* Newsletter */}
-      <form
-        style={{
-          display: "flex",
-          gap: 14,
-          flexWrap: "wrap",
-        }}
-      >
-        <input
-          type="email"
-          placeholder="Enter your email"
-          style={{
-            flex: 1,
-            minWidth: 220,
-            padding: "16px 20px",
-            borderRadius: 999,
-            border: "1px solid #3a3a3a",
-            background: "transparent",
-            color: "#ffffff",
-            outline: "none",
-          }}
-        />
-
-        <button
-          type="submit"
-          style={{
-            padding: "16px 36px",
-            borderRadius: 999,
-            background: "#ffffff",
-            color: "#1a1a1a",
-            border: "none",
-            fontSize: 13,
-            letterSpacing: "0.2em",
-            textTransform: "uppercase",
-            cursor: "pointer",
+            maxWidth: 1280,
+            margin: "0 auto",
+            display: "grid",
+            gridTemplateColumns: "repeat(auto-fit, minmax(200px, 1fr))",
+            gap: "clamp(32px, 6vw, 96px)",
           }}
         >
-          Join
-        </button>
-      </form>
-    </div>
+          {/* BRAND */}
+          <div style={{ gridColumn: "span 1", minWidth: 240 }}>
+            <div style={{ marginBottom: 28 }}>
+              <BrandMark size="lg" className="text-white" />
+            </div>
 
-    {/* SHOP */}
-    <div>
-      <p
-        style={{
-          textTransform: "uppercase",
-          letterSpacing: "0.3em",
-          fontSize: 12,
-          marginBottom: 28,
-          color: "#a7a69f",
-        }}
-      >
-        Shop
-      </p>
+            <p
+              style={{
+                maxWidth: 420,
+                lineHeight: 1.7,
+                color: "#cfcfc7",
+                marginBottom: 36,
+                fontSize: "clamp(14px, 1.5vw, 16px)",
+              }}
+            >
+              Premium loose-leaf teas sourced from China&apos;s most revered mountains —
+              curated for ritual, clarity, and quiet power in every cup.
+            </p>
 
-      <ul style={{ listStyle: "none", padding: 0, margin: 0 }}>
-        {["All Teas", "Green Tea", "Oolong", "Pu-erh", "White Tea", "Black Tea"].map(
-          (item) => (
-            <li key={item} style={{ marginBottom: 14 }}>
-              <Link
-                href="/shop"
+            {/* Newsletter */}
+            <form
+              style={{
+                display: "flex",
+                gap: 14,
+                flexWrap: "wrap",
+              }}
+            >
+              <input
+                type="email"
+                placeholder="Enter your email"
                 style={{
-                  color: "#f4f4f1",
-                  textDecoration: "none",
-                  fontSize: 15,
+                  flex: 1,
+                  minWidth: 180,
+                  padding: "14px 18px",
+                  borderRadius: 999,
+                  border: "1px solid #3a3a3a",
+                  background: "transparent",
+                  color: "#ffffff",
+                  outline: "none",
+                  fontSize: 14,
+                }}
+              />
+
+              <button
+                type="submit"
+                style={{
+                  padding: "14px 28px",
+                  borderRadius: 999,
+                  background: "#ffffff",
+                  color: "#1a1a1a",
+                  border: "none",
+                  fontSize: 13,
+                  letterSpacing: "0.2em",
+                  textTransform: "uppercase",
+                  cursor: "pointer",
                 }}
               >
-                {item}
-              </Link>
-            </li>
-          )
-        )}
-      </ul>
-    </div>
+                Join
+              </button>
+            </form>
+          </div>
 
-    {/* ABOUT */}
-    <div>
-      <p
-        style={{
-          textTransform: "uppercase",
-          letterSpacing: "0.3em",
-          fontSize: 12,
-          marginBottom: 28,
-          color: "#a7a69f",
-        }}
-      >
-        Company
-      </p>
+          {/* SHOP */}
+          <div>
+            <p
+              style={{
+                textTransform: "uppercase",
+                letterSpacing: "0.3em",
+                fontSize: 12,
+                marginBottom: 28,
+                color: "#a7a69f",
+              }}
+            >
+              Shop
+            </p>
 
-      <ul style={{ listStyle: "none", padding: 0, margin: 0 }}>
-        {["Our Story", "Origins", "Brewing Guide", "Sustainability"].map(
-          (item) => (
-            <li key={item} style={{ marginBottom: 14 }}>
-              <Link
-                href="/"
-                style={{
-                  color: "#f4f4f1",
-                  textDecoration: "none",
-                  fontSize: 15,
-                }}
-              >
-                {item}
-              </Link>
-            </li>
-          )
-        )}
-      </ul>
-    </div>
+            <ul style={{ listStyle: "none", padding: 0, margin: 0 }}>
+              {["All Teas", "Green Tea", "Oolong", "Pu-erh", "White Tea", "Black Tea"].map(
+                (item) => (
+                  <li key={item} style={{ marginBottom: 14 }}>
+                    <Link
+                      href="/shop"
+                      style={{
+                        color: "#f4f4f1",
+                        textDecoration: "none",
+                        fontSize: 15,
+                      }}
+                    >
+                      {item}
+                    </Link>
+                  </li>
+                )
+              )}
+            </ul>
+          </div>
 
-    {/* SOCIAL */}
-    <div>
-      <p
-        style={{
-          textTransform: "uppercase",
-          letterSpacing: "0.3em",
-          fontSize: 12,
-          marginBottom: 28,
-          color: "#a7a69f",
-        }}
-      >
-        Follow
-      </p>
+          {/* ABOUT */}
+          <div>
+            <p
+              style={{
+                textTransform: "uppercase",
+                letterSpacing: "0.3em",
+                fontSize: 12,
+                marginBottom: 28,
+                color: "#a7a69f",
+              }}
+            >
+              Company
+            </p>
 
-      <ul style={{ listStyle: "none", padding: 0, margin: 0 }}>
-        <li style={{ marginBottom: 14 }}>
-          <a
-            href="https://www.instagram.com/_teastorm_/"
-            target="_blank"
-            rel="noopener noreferrer"
-            style={{
-              color: "#f4f4f1",
-              textDecoration: "none",
-              fontSize: 15,
-            }}
-          >
-            Instagram
-          </a>
-        </li>
-      </ul>
-    </div>
-  </div>
+            <ul style={{ listStyle: "none", padding: 0, margin: 0 }}>
+              <li style={{ marginBottom: 14 }}>
+                <Link
+                  href="/about"
+                  style={{
+                    color: "#f4f4f1",
+                    textDecoration: "none",
+                    fontSize: 15,
+                  }}
+                >
+                  Our Story
+                </Link>
+              </li>
+              {["Origins", "Brewing Guide", "Sustainability"].map(
+                (item) => (
+                  <li key={item} style={{ marginBottom: 14 }}>
+                    <Link
+                      href="/about"
+                      style={{
+                        color: "#f4f4f1",
+                        textDecoration: "none",
+                        fontSize: 15,
+                      }}
+                    >
+                      {item}
+                    </Link>
+                  </li>
+                )
+              )}
+            </ul>
+          </div>
 
-  {/* Bottom bar */}
-  <div
-    style={{
-      marginTop: 120,
-      paddingTop: 48,
-      borderTop: "1px solid #333",
-      display: "flex",
-      justifyContent: "space-between",
-      flexWrap: "wrap",
-      gap: 20,
-      fontSize: 13,
-      color: "#a7a69f",
-    }}
-  >
-    <p>© {new Date().getFullYear()} TeaStorm. All rights reserved.</p>
+          {/* SOCIAL */}
+          <div>
+            <p
+              style={{
+                textTransform: "uppercase",
+                letterSpacing: "0.3em",
+                fontSize: 12,
+                marginBottom: 28,
+                color: "#a7a69f",
+              }}
+            >
+              Follow
+            </p>
 
-    <div style={{ display: "flex", gap: 28 }}>
-      <Link
-        href="/privacy"
-        style={{ color: "#a7a69f", textDecoration: "none" }}
-      >
-        Privacy
-      </Link>
-      <Link
-        href="/terms"
-        style={{ color: "#a7a69f", textDecoration: "none" }}
-      >
-        Terms
-      </Link>
-    </div>
-    </div>
-    </footer>
+            <ul style={{ listStyle: "none", padding: 0, margin: 0 }}>
+              <li style={{ marginBottom: 14 }}>
+                <a
+                  href="https://www.instagram.com/_teastorm_/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  style={{
+                    color: "#f4f4f1",
+                    textDecoration: "none",
+                    fontSize: 15,
+                  }}
+                >
+                  Instagram
+                </a>
+              </li>
+            </ul>
+          </div>
+        </div>
 
+        {/* Bottom bar */}
+        <div
+          style={{
+            marginTop: "clamp(48px, 8vw, 120px)",
+            paddingTop: "clamp(24px, 4vw, 48px)",
+            borderTop: "1px solid #333",
+            display: "flex",
+            justifyContent: "space-between",
+            flexWrap: "wrap",
+            gap: 20,
+            fontSize: 13,
+            color: "#a7a69f",
+          }}
+        >
+          <p>© {new Date().getFullYear()} TeaStorm. All rights reserved.</p>
+
+          <div style={{ display: "flex", gap: 28 }}>
+            <Link
+              href="/privacy"
+              style={{ color: "#a7a69f", textDecoration: "none" }}
+            >
+              Privacy
+            </Link>
+            <Link
+              href="/terms"
+              style={{ color: "#a7a69f", textDecoration: "none" }}
+            >
+              Terms
+            </Link>
+          </div>
+        </div>
+      </footer>
     </main>
   )
 }

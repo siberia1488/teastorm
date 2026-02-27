@@ -1,0 +1,12 @@
+<svg width="400" height="400" viewBox="0 0 400 400" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="bg4" x1="0%" y1="100%" x2="100%" y2="0%">
+      <stop offset="0%" style="stop-color:#e9e6df"/>
+      <stop offset="100%" style="stop-color:#f4f2ed"/>
+    </linearGradient>
+  </defs>
+  <rect width="400" height="400" fill="url(#bg4)"/>
+  <path d="M150 250 Q200 150 250 250" stroke="#c4bfb3" stroke-width="40" fill="none" stroke-linecap="round"/>
+  <circle cx="200" cy="150" r="30" fill="#d4cfc3" opacity="0.5"/>
+  <text x="200" y="350" text-anchor="middle" font-family="system-ui" font-size="14" fill="#8a8580">Tea Culture</text>
+</svg>

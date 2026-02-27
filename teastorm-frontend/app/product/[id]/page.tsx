@@ -22,6 +22,27 @@ export async function generateMetadata({
 
   const url = `https://teastorm.com/product/${product.slug}`
 
+  // Prepare all images for OG tags
+  const allImages = [
+    product.images.preview,
+    ...product.images.gallery,
+  ].map((imagePath) => ({
+    url: `https://teastorm.com${imagePath}`,
+    width: 1200,
+    height: 630,
+    alt: content.displayName,
+  }))
+
+  // Fallback image if no images available
+  const ogImages = allImages.length > 0 ? allImages : [
+    {
+      url: "https://teastorm.com/og-fallback.png",
+      width: 1200,
+      height: 630,
+      alt: "TeaStorm - Premium Chinese Tea",
+    },
+  ]
+
   return {
     title,
     description,
@@ -33,21 +54,14 @@ export async function generateMetadata({
       description,
       url,
       siteName: "TeaStorm",
-      images: [
-        {
-          url: product.image,
-          width: 1200,
-          height: 630,
-          alt: content.displayName,
-        },
-      ],
+      images: ogImages,
       type: "website",
     },
     twitter: {
       card: "summary_large_image",
       title,
       description,
-      images: [product.image],
+      images: [ogImages[0].url],
     },
   }
 }
@@ -76,7 +90,10 @@ export default async function ProductPage({
             "@type": "Product",
             name: content.displayName,
             description: content.description,
-            image: [`https://teastorm.com${product.image}`],
+            image: [
+              `https://teastorm.com${product.images.preview}`,
+              ...product.images.gallery.map((img) => `https://teastorm.com${img}`),
+            ],
             brand: {
               "@type": "Brand",
               name: "TeaStorm",

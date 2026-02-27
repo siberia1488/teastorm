@@ -1,0 +1,12 @@
+<svg width="400" height="400" viewBox="0 0 400 400" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="bg5" x1="50%" y1="0%" x2="50%" y2="100%">
+      <stop offset="0%" style="stop-color:#f2f0ea"/>
+      <stop offset="100%" style="stop-color:#e5e2da"/>
+    </linearGradient>
+  </defs>
+  <rect width="400" height="400" fill="url(#bg5)"/>
+  <rect x="120" y="150" width="160" height="100" rx="10" fill="#d9d4c8" opacity="0.5"/>
+  <rect x="160" y="130" width="80" height="40" rx="5" fill="#cec9bd" opacity="0.6"/>
+  <text x="200" y="350" text-anchor="middle" font-family="system-ui" font-size="14" fill="#8a8580">Leaf Selection</text>
+</svg>
