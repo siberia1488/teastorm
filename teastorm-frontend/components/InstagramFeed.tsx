@@ -3,42 +3,36 @@
 import Image from "next/image"
 import { Instagram } from "lucide-react"
 
-const posts = [
+const ritualImages = [
   {
-    id: "1",
-    image: "/instagram/tea-first-cup.png",
-    url: "https://www.instagram.com/_teastorm_/reel/DTqGV5IjXxv/",
-    alt: "The First Cup",
-  },
-  {
-    id: "2",
-    image: "/instagram/tea-preparation.jpeg",
+    src: "/instagram/tea-preparation.jpeg",
     url: "https://www.instagram.com/_teastorm_/reel/DTgyzZmD3t_/",
     alt: "Tea Preparation",
   },
   {
-    id: "3",
-    image: "/instagram/tea-aroma.png",
+    src: "/instagram/tea-brewing.jpeg",
+    url: "https://www.instagram.com/_teastorm_/",
+    alt: "Tea Brewing",
+  },
+  {
+    src: "/instagram/tea-aroma.png",
     url: "https://www.instagram.com/_teastorm_/reel/DTolqVeDRIm/",
     alt: "Tea Aroma",
   },
   {
-    id: "4",
-    image: "/instagram/tea-leaves.png",
+    src: "/instagram/tea-first-cup.png",
+    url: "https://www.instagram.com/_teastorm_/reel/DTqGV5IjXxv/",
+    alt: "The First Cup",
+  },
+  {
+    src: "/instagram/tea-leaves.png",
     url: "https://www.instagram.com/_teastorm_/reel/DT4LPSUjZEt/",
     alt: "Tea Leaves",
   },
   {
-    id: "5",
-    image: "/instagram/tea-moment.jpeg",
+    src: "/instagram/tea-moment.jpeg",
     url: "https://www.instagram.com/_teastorm_/",
     alt: "Tea Moment",
-  },
-  {
-    id: "6",
-    image: "/instagram/tea-brewing.jpeg",
-    url: "https://www.instagram.com/_teastorm_/",
-    alt: "Tea Brewing",
   },
 ]
 
@@ -114,10 +108,10 @@ export default function InstagramFeed() {
             marginBottom: "clamp(48px, 5vw, 80px)",
           }}
         >
-          {posts.map((post) => (
+          {ritualImages.map((item) => (
             <a
-              key={post.id}
-              href={post.url}
+              key={item.src}
+              href={item.url}
               target="_blank"
               rel="noopener noreferrer"
               className="instagram-tile group"
@@ -132,8 +126,8 @@ export default function InstagramFeed() {
               }}
             >
               <Image
-                src={post.image}
-                alt={post.alt}
+                src={item.src}
+                alt={item.alt}
                 fill
                 className="object-cover transition-transform duration-500 ease-out group-hover:scale-[1.03]"
                 sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 220px"
