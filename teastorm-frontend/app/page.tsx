@@ -2,7 +2,7 @@ import Link from "next/link"
 import Image from "next/image"
 import { products } from "@/data/products"
 import InstagramFeed from "@/components/InstagramFeed"
-import BrandMark from "@/components/BrandMark"
+import Hero from "@/components/Hero"
 import cachedPricesJson from "@/data/prices.json"
 const cachedPrices: Record<string, { unit_amount: number | null }> = cachedPricesJson as unknown as Record<string, { unit_amount: number | null }>
 
@@ -16,140 +16,7 @@ export default function HomePage() {
       }}
     >
       {/* HERO */}
-      <section
-        style={{
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "center",
-          paddingTop: "clamp(80px, 12vh, 140px)",
-          paddingBottom: "clamp(80px, 12vh, 160px)",
-          paddingLeft: "clamp(24px, 5vw, 64px)",
-          paddingRight: "clamp(24px, 5vw, 64px)",
-          position: "relative",
-          overflow: "hidden",
-        }}
-      >
-        {/* Hero Background Image */}
-        <div
-          style={{
-            position: "absolute",
-            inset: 0,
-            zIndex: 0,
-          }}
-        >
-          <Image
-            src="/images/hero.svg"
-            alt=""
-            fill
-            priority
-            style={{ objectFit: "cover" }}
-          />
-        </div>
-
-        {/* Overlay gradient for text readability */}
-        <div
-          aria-hidden
-          style={{
-            position: "absolute",
-            inset: 0,
-            background:
-              "linear-gradient(180deg, rgba(243,242,238,0.85) 0%, rgba(243,242,238,0.7) 50%, rgba(243,242,238,0.85) 100%)",
-            pointerEvents: "none",
-            zIndex: 1,
-          }}
-        />
-
-        <div
-          style={{
-            maxWidth: 880,
-            width: "100%",
-            textAlign: "center",
-            position: "relative",
-            zIndex: 2,
-          }}
-        >
-          <p
-            style={{
-              textTransform: "uppercase",
-              letterSpacing: "0.32em",
-              fontSize: "clamp(10px, 1.2vw, 12px)",
-              marginBottom: "clamp(18px, 3vw, 28px)",
-              color: "#6d6b65",
-            }}
-          >
-            Rare Loose-Leaf Collection
-          </p>
-
-          <h1
-            style={{
-              fontSize: "clamp(48px, 10vw, 82px)",
-              fontWeight: 500,
-              letterSpacing: "-0.04em",
-              marginBottom: "clamp(18px, 3vw, 28px)",
-              lineHeight: 1,
-            }}
-          >
-            <BrandMark size="hero" />
-          </h1>
-
-          <p
-            style={{
-              maxWidth: 640,
-              margin: "0 auto",
-              marginBottom: "clamp(28px, 4vw, 44px)",
-              fontSize: "clamp(16px, 2vw, 22px)",
-              lineHeight: 1.65,
-              color: "#5f5d58",
-            }}
-          >
-            Exceptional loose-leaf teas sourced directly from China&apos;s most
-            storied growing regions — curated for ritual, clarity, and quiet
-            power in every cup.
-          </p>
-
-          <div
-            style={{
-              display: "flex",
-              justifyContent: "center",
-              gap: "clamp(12px, 2vw, 20px)",
-              flexWrap: "wrap",
-            }}
-          >
-            <Link
-              href="/shop"
-              style={{
-                padding: "clamp(14px, 2vw, 18px) clamp(32px, 4vw, 48px)",
-                borderRadius: 999,
-                background: "#1a1a1a",
-                color: "#ffffff",
-                textDecoration: "none",
-                fontSize: "clamp(12px, 1.4vw, 14px)",
-                letterSpacing: "0.18em",
-                textTransform: "uppercase",
-              }}
-            >
-              Shop the Collection
-            </Link>
-
-            <Link
-              href="#origins"
-              style={{
-                padding: "clamp(14px, 2vw, 18px) clamp(32px, 4vw, 48px)",
-                borderRadius: 999,
-                border: "1px solid #cfcfc7",
-                color: "#1a1a1a",
-                textDecoration: "none",
-                fontSize: "clamp(12px, 1.4vw, 14px)",
-                letterSpacing: "0.18em",
-                textTransform: "uppercase",
-              }}
-            >
-              Explore Origins
-            </Link>
-          </div>
-        </div>
-
-      </section>
+      <Hero />
 
       {/* FEATURED TEAS */}
       <section
@@ -583,8 +450,15 @@ export default function HomePage() {
         >
           {/* BRAND */}
           <div style={{ gridColumn: "span 1", minWidth: 240 }}>
-            <div style={{ marginBottom: 28 }}>
-              <BrandMark size="lg" className="text-white" />
+            <div
+              style={{
+                marginBottom: 28,
+                fontSize: 28,
+                fontWeight: 600,
+                letterSpacing: "-0.02em",
+              }}
+            >
+              TeaStorm
             </div>
 
             <p
