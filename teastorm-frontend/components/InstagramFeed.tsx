@@ -99,14 +99,10 @@ export default function InstagramFeed() {
           </p>
         </div>
 
-        {/* Instagram Grid */}
+        {/* Ritual Gallery — mobile: horizontal scroll, tablet: 4-col grid, desktop: 6-col grid */}
         <div
-          style={{
-            display: "grid",
-            gridTemplateColumns: "repeat(auto-fit, minmax(200px, 1fr))",
-            gap: "clamp(16px, 2vw, 32px)",
-            marginBottom: "clamp(48px, 5vw, 80px)",
-          }}
+          className="flex gap-4 overflow-x-auto scrollbar-hide md:grid md:overflow-visible md:grid-cols-4 md:gap-6 xl:grid-cols-6 xl:gap-8"
+          style={{ marginBottom: "clamp(48px, 5vw, 80px)" }}
         >
           {ritualImages.map((item, index) => {
             const isEmphasized = index === 0 || index === ritualImages.length - 1
@@ -118,13 +114,15 @@ export default function InstagramFeed() {
                 rel="noopener noreferrer"
                 className={[
                   "relative block overflow-hidden rounded-xl",
+                  "min-w-[70%] sm:min-w-[45%] md:min-w-0",
+                  "aspect-square",
                   "transition-all duration-500 ease-out hover:scale-[1.06]",
                   "after:absolute after:inset-0 after:bg-black/5",
                   "after:opacity-0 hover:after:opacity-100",
                   "after:transition-opacity after:duration-500 after:rounded-xl",
                   isEmphasized ? "scale-[1.05]" : "scale-100",
                 ].join(" ")}
-                style={{ aspectRatio: "1 / 1", textDecoration: "none" }}
+                style={{ textDecoration: "none" }}
               >
                 <Image
                   src={item.src}
