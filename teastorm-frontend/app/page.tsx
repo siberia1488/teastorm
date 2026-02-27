@@ -22,7 +22,7 @@ export default function HomePage() {
       {/* FEATURED TEAS */}
       <section
         style={{
-          background: "#ffffff",
+          background: "#F6F4EF",
           padding: "clamp(80px, 10vw, 140px) clamp(24px, 5vw, 80px)",
         }}
       >
@@ -185,7 +185,7 @@ export default function HomePage() {
       <section
         id="origins"
         style={{
-          background: "#f3f2ee",
+          background: "#ffffff",
           padding: "clamp(80px, 12vw, 180px) clamp(24px, 5vw, 80px)",
         }}
       >
@@ -278,7 +278,7 @@ export default function HomePage() {
               className="absolute inset-0 pointer-events-none"
               style={{
                 background:
-                  "linear-gradient(to bottom, transparent 55%, transparent 70%, #f3f2ee 100%)",
+                  "linear-gradient(to bottom, transparent 55%, transparent 70%, #ffffff 100%)",
               }}
             />
           </div>
@@ -288,7 +288,7 @@ export default function HomePage() {
       {/* SUSTAINABILITY / TRUST */}
       <section
         style={{
-          background: "#f3f2ee",
+          background: "#F6F4EF",
           padding: "clamp(80px, 12vw, 180px) clamp(24px, 5vw, 80px)",
         }}
       >
