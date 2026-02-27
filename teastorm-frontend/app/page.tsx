@@ -267,11 +267,19 @@ export default function HomePage() {
             }}
           >
             <Image
-              src="/images/origins.svg"
-              alt="Mountain tea gardens"
+              src="/images/tea-mountains.jpeg"
+              alt="High altitude tea mountains covered in morning mist"
               fill
-              style={{ objectFit: "cover" }}
               sizes="(max-width: 768px) 100vw, 50vw"
+              className="object-cover brightness-[0.96] contrast-[0.92] saturate-[0.9]"
+            />
+            {/* Soft bottom fade blending image into section background */}
+            <div
+              className="absolute inset-0 pointer-events-none"
+              style={{
+                background:
+                  "linear-gradient(to bottom, transparent 55%, transparent 70%, #f3f2ee 100%)",
+              }}
             />
           </div>
         </div>
