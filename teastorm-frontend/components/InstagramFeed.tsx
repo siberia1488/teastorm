@@ -101,7 +101,7 @@ export default function InstagramFeed() {
 
         {/* Ritual Gallery — mobile: horizontal scroll, tablet: 4-col grid, desktop: 6-col grid */}
         <div
-          className="flex gap-4 overflow-x-auto scrollbar-hide md:grid md:overflow-visible md:grid-cols-4 md:gap-6 xl:grid-cols-6 xl:gap-8"
+          className="flex gap-4 overflow-x-auto snap-x snap-mandatory scroll-smooth touch-pan-x select-none scrollbar-hide md:grid md:overflow-visible md:snap-none md:grid-cols-4 md:gap-6 xl:grid-cols-6 xl:gap-8"
           style={{ marginBottom: "clamp(48px, 5vw, 80px)" }}
         >
           {ritualImages.map((item, index) => {
@@ -115,7 +115,7 @@ export default function InstagramFeed() {
                 className={[
                   "relative block overflow-hidden rounded-xl",
                   "min-w-[70%] sm:min-w-[45%] md:min-w-0",
-                  "aspect-square",
+                  "aspect-square snap-start",
                   "transition-all duration-500 ease-out hover:scale-[1.06]",
                   "after:absolute after:inset-0 after:bg-black/5",
                   "after:opacity-0 hover:after:opacity-100",
