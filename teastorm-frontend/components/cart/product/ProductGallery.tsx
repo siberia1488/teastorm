@@ -25,12 +25,12 @@ export default function ProductGallery({
       {/* MAIN IMAGE */}
       <div
         style={{
-          background:
-            "radial-gradient(800px 400px at 20% -20%, #f5f4f0 0%, #efede7 60%, #e8e6df 100%)",
+          background: "#ffffff",
           borderRadius: 32,
           height: 520,
           position: "relative",
           overflow: "hidden",
+          boxShadow: "0 18px 45px rgba(0,0,0,0.05)",
         }}
       >
         <button

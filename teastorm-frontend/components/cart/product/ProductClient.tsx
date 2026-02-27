@@ -280,14 +280,15 @@ return (
     <div
     className="info-card"
     style={{
-        background:
-        "radial-gradient(900px 480px at 20% -30%, #ffffff 0%, #f6f4ef 60%, #efede7 100%)",
-        borderRadius: "clamp(24px, 4vw, 36px)",
+        background: "rgba(255,255,255,0.8)",
+        backdropFilter: "blur(8px)",
+        WebkitBackdropFilter: "blur(8px)",
+        borderRadius: "clamp(16px, 3vw, 24px)",
         padding: "clamp(32px, 5vw, 64px) clamp(24px, 4vw, 52px)",
         textAlign: "center",
         transition:
         "transform 0.45s cubic-bezier(.22,1,.36,1), box-shadow 0.45s cubic-bezier(.22,1,.36,1)",
-        boxShadow: "0 10px 32px rgba(0,0,0,0.04)",
+        boxShadow: "0 8px 20px rgba(0,0,0,0.04)",
     }}
     >
     <div className="info-card-icon" style={{ fontSize: 34, marginBottom: 18 }}>{icon}</div>

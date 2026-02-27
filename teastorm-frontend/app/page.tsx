@@ -2,6 +2,7 @@ import Link from "next/link"
 import Image from "next/image"
 import { products } from "@/data/products"
 import InstagramFeed from "@/components/InstagramFeed"
+import BrandMark from "@/components/BrandMark"
 import Hero from "@/components/Hero"
 import cachedPricesJson from "@/data/prices.json"
 const cachedPrices: Record<string, { unit_amount: number | null }> = cachedPricesJson as unknown as Record<string, { unit_amount: number | null }>
@@ -21,7 +22,7 @@ export default function HomePage() {
       {/* FEATURED TEAS */}
       <section
         style={{
-          background: "#ffffff",
+          background: "#F6F4EF",
           padding: "clamp(80px, 10vw, 140px) clamp(24px, 5vw, 80px)",
         }}
       >
@@ -184,7 +185,7 @@ export default function HomePage() {
       <section
         id="origins"
         style={{
-          background: "#f3f2ee",
+          background: "#ffffff",
           padding: "clamp(80px, 12vw, 180px) clamp(24px, 5vw, 80px)",
         }}
       >
@@ -266,11 +267,19 @@ export default function HomePage() {
             }}
           >
             <Image
-              src="/images/origins.svg"
-              alt="Mountain tea gardens"
+              src="/images/tea-mountains.jpeg"
+              alt="High altitude tea mountains covered in morning mist"
               fill
-              style={{ objectFit: "cover" }}
               sizes="(max-width: 768px) 100vw, 50vw"
+              className="object-cover brightness-[0.96] contrast-[0.92] saturate-[0.9]"
+            />
+            {/* Soft bottom fade blending image into section background */}
+            <div
+              className="absolute inset-0 pointer-events-none"
+              style={{
+                background:
+                  "linear-gradient(to bottom, transparent 55%, transparent 70%, #ffffff 100%)",
+              }}
             />
           </div>
         </div>
@@ -279,7 +288,7 @@ export default function HomePage() {
       {/* SUSTAINABILITY / TRUST */}
       <section
         style={{
-          background: "#f3f2ee",
+          background: "#F6F4EF",
           padding: "clamp(80px, 12vw, 180px) clamp(24px, 5vw, 80px)",
         }}
       >
@@ -450,15 +459,8 @@ export default function HomePage() {
         >
           {/* BRAND */}
           <div style={{ gridColumn: "span 1", minWidth: 240 }}>
-            <div
-              style={{
-                marginBottom: 28,
-                fontSize: 28,
-                fontWeight: 600,
-                letterSpacing: "-0.02em",
-              }}
-            >
-              TeaStorm
+            <div style={{ marginBottom: 28 }}>
+              <BrandMark size="lg" className="text-white" />
             </div>
 
             <p

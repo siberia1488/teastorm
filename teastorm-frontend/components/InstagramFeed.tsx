@@ -3,42 +3,36 @@
 import Image from "next/image"
 import { Instagram } from "lucide-react"
 
-const posts = [
+const ritualImages = [
   {
-    id: "1",
-    image: "/instagram/ig-1.svg",
-    url: "https://www.instagram.com/_teastorm_/reel/DTqGV5IjXxv/",
-    alt: "Tea Ritual",
-  },
-  {
-    id: "2",
-    image: "/instagram/ig-2.svg",
+    src: "/instagram/tea-preparation.jpeg",
     url: "https://www.instagram.com/_teastorm_/reel/DTgyzZmD3t_/",
-    alt: "Morning Brew",
+    alt: "Tea Preparation",
   },
   {
-    id: "3",
-    image: "/instagram/ig-3.svg",
+    src: "/instagram/tea-brewing.jpeg",
+    url: "https://www.instagram.com/_teastorm_/",
+    alt: "Tea Brewing",
+  },
+  {
+    src: "/instagram/tea-aroma.png",
     url: "https://www.instagram.com/_teastorm_/reel/DTolqVeDRIm/",
-    alt: "Tea Journey",
+    alt: "Tea Aroma",
   },
   {
-    id: "4",
-    image: "/instagram/ig-4.svg",
+    src: "/instagram/tea-first-cup.png",
+    url: "https://www.instagram.com/_teastorm_/reel/DTqGV5IjXxv/",
+    alt: "The First Cup",
+  },
+  {
+    src: "/instagram/tea-leaves.png",
     url: "https://www.instagram.com/_teastorm_/reel/DT4LPSUjZEt/",
-    alt: "Tea Culture",
+    alt: "Tea Leaves",
   },
   {
-    id: "5",
-    image: "/instagram/ig-5.svg",
+    src: "/instagram/tea-moment.jpeg",
     url: "https://www.instagram.com/_teastorm_/",
-    alt: "Leaf Selection",
-  },
-  {
-    id: "6",
-    image: "/instagram/ig-6.svg",
-    url: "https://www.instagram.com/_teastorm_/",
-    alt: "Mindful Moments",
+    alt: "Tea Moment",
   },
 ]
 
@@ -105,57 +99,42 @@ export default function InstagramFeed() {
           </p>
         </div>
 
-        {/* Instagram Grid */}
+        {/* Ritual Gallery — mobile: horizontal scroll, tablet: 4-col grid, desktop: 6-col grid */}
         <div
-          style={{
-            display: "grid",
-            gridTemplateColumns: "repeat(auto-fit, minmax(200px, 1fr))",
-            gap: "clamp(16px, 2vw, 32px)",
-            marginBottom: "clamp(48px, 5vw, 80px)",
-          }}
+          className="flex gap-4 overflow-x-auto snap-x snap-mandatory scroll-smooth touch-pan-x select-none scrollbar-hide md:grid md:overflow-visible md:snap-none md:grid-cols-4 md:gap-6 xl:grid-cols-6 xl:gap-8"
+          style={{ marginBottom: "clamp(48px, 5vw, 80px)" }}
         >
-          {posts.map((post) => (
-            <a
-              key={post.id}
-              href={post.url}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="instagram-tile"
-              style={{
-                textDecoration: "none",
-                display: "block",
-                borderRadius: 20,
-                overflow: "hidden",
-                background: "#f6f5f2",
-                aspectRatio: "1 / 1",
-                position: "relative",
-              }}
-            >
-              <Image
-                src={post.image}
-                alt={post.alt}
-                fill
-                style={{ objectFit: "cover" }}
-                sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 220px"
-              />
-              {/* Hover overlay */}
-              <div
-                className="instagram-overlay"
-                style={{
-                  position: "absolute",
-                  inset: 0,
-                  background: "rgba(0,0,0,0.4)",
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "center",
-                  opacity: 0,
-                  transition: "opacity 0.3s ease",
-                }}
+          {ritualImages.map((item, index) => {
+            const isEmphasized = index === 0 || index === ritualImages.length - 1
+            return (
+              <a
+                key={item.src}
+                href={item.url}
+                target="_blank"
+                rel="noopener noreferrer"
+                className={[
+                  "relative block overflow-hidden rounded-xl",
+                  "min-w-[70%] sm:min-w-[45%] md:min-w-0",
+                  "aspect-square snap-start",
+                  "transition-all duration-500 ease-out hover:scale-[1.06]",
+                  "after:absolute after:inset-0 after:bg-black/5",
+                  "after:opacity-0 hover:after:opacity-100",
+                  "after:transition-opacity after:duration-500 after:rounded-xl",
+                  isEmphasized ? "scale-[1.05]" : "scale-100",
+                ].join(" ")}
+                style={{ textDecoration: "none" }}
               >
-                <Instagram size={32} color="#fff" />
-              </div>
-            </a>
-          ))}
+                <Image
+                  src={item.src}
+                  alt={item.alt}
+                  fill
+                  className="object-cover"
+                  sizes="(max-width: 640px) 70vw, (max-width: 1024px) 40vw, 16vw"
+                  priority={index === 0}
+                />
+              </a>
+            )
+          })}
         </div>
 
         {/* CTA */}
@@ -185,19 +164,6 @@ export default function InstagramFeed() {
         </div>
       </div>
 
-      <style jsx>{`
-        .instagram-tile:hover .instagram-overlay {
-          opacity: 1 !important;
-        }
-        .instagram-tile {
-          transition: transform 0.3s ease, box-shadow 0.3s ease;
-          box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
-        }
-        .instagram-tile:hover {
-          transform: translateY(-4px);
-          box-shadow: 0 12px 24px rgba(0, 0, 0, 0.12);
-        }
-      `}</style>
     </section>
   )
 }

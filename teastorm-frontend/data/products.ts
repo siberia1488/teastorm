@@ -34,7 +34,7 @@ export const products: Product[] = [
       ],
     },
     variants: [
-      { id: "green-mark-375", label: "375 g cake", weightGrams: 375, stripePriceId: "price_1SoeN1KopMGyjtmADIaXgMVX" }
+      { id: "green-mark-375", label: "375 g cake", weightGrams: 375, stripePriceId: "price_1SuQen3mM6A1O46L3nREhQ7y" }
     ]
   },
 
@@ -51,7 +51,7 @@ export const products: Product[] = [
       ],
     },
     variants: [
-      { id: "bulangshan-375", label: "375 g cake", weightGrams: 375, stripePriceId: "price_1SoeRkKopMGyjtmAJCljI00j" }
+      { id: "bulangshan-375", label: "375 g cake", weightGrams: 375, stripePriceId: "price_1SuQek3mM6A1O46L4U1Aw3ie" }
     ]
   },
 
@@ -69,9 +69,9 @@ export const products: Product[] = [
       ],
     },
     variants: [
-      { id: "gaba-50", label: "50 g", weightGrams: 50, stripePriceId: "price_1SoeCsKopMGyjtmA5kgMogWP" },
-      { id: "gaba-100", label: "100 g", weightGrams: 100, stripePriceId: "price_1SoeFmKopMGyjtmADJHWLERq" },
-      { id: "gaba-250", label: "250 g", weightGrams: 250, stripePriceId: "price_1SoeFPKopMGyjtmAtXFuhwVJ" }
+      { id: "gaba-50", label: "50 g", weightGrams: 50, stripePriceId: "price_1SuQep3mM6A1O46LogSpucKn" },
+      { id: "gaba-100", label: "100 g", weightGrams: 100, stripePriceId: "price_1SuQep3mM6A1O46LfF63H8yK" },
+      { id: "gaba-250", label: "250 g", weightGrams: 250, stripePriceId: "price_1SuQep3mM6A1O46L67YdxtHO" }
     ]
   },
 
@@ -86,9 +86,9 @@ export const products: Product[] = [
       gallery: [],
     },
     variants: [
-      { id: "dragon-pearls-50", label: "50 g", weightGrams: 50, stripePriceId: "price_1SoeUJKopMGyjtmAuYJEZrVy" },
-      { id: "dragon-pearls-100", label: "100 g", weightGrams: 100, stripePriceId: "price_1SoeU7KopMGyjtmAnCzEN6a0" },
-      { id: "dragon-pearls-250", label: "250 g", weightGrams: 250, stripePriceId: "price_1SoeTVKopMGyjtmAuLvHt88Z" },
+      { id: "dragon-pearls-50", label: "50 g", weightGrams: 50, stripePriceId: "price_1SuQej3mM6A1O46LtuXhcvH1" },
+      { id: "dragon-pearls-100", label: "100 g", weightGrams: 100, stripePriceId: "price_1SuQej3mM6A1O46Ldwmzstth" },
+      { id: "dragon-pearls-250", label: "250 g", weightGrams: 250, stripePriceId: "price_1SuQej3mM6A1O46LCKheofIO" },
     ]
   },
 
@@ -104,9 +104,9 @@ export const products: Product[] = [
       ],
     },
     variants: [
-      { id: "shi-xiang-50", label: "50 g", weightGrams: 50, stripePriceId: "price_1SoeWPKopMGyjtmAEOJr5b2O" },
-      { id: "shi-xiang-100", label: "100 g", weightGrams: 100, stripePriceId: "price_1SoeWrKopMGyjtmALDI6aeQu" },
-      { id: "shi-xiang-250", label: "250 g", weightGrams: 250, stripePriceId: "price_1SoeX8KopMGyjtmAJ0icEbYm" },
+      { id: "shi-xiang-50", label: "50 g", weightGrams: 50, stripePriceId: "price_1SuQeh3mM6A1O46LTgXAbU2h" },
+      { id: "shi-xiang-100", label: "100 g", weightGrams: 100, stripePriceId: "price_1SuQeh3mM6A1O46LIZNSLmhI" },
+      { id: "shi-xiang-250", label: "250 g", weightGrams: 250, stripePriceId: "price_1SuQeh3mM6A1O46LQC6r2oQ5" },
     ]
   },
 
@@ -124,9 +124,9 @@ export const products: Product[] = [
       ],
     },
     variants: [
-      { id: "da-hong-pao-50", label: "50 g", weightGrams: 50, stripePriceId: "price_1SoeZxKopMGyjtmAbTpyVTgP" },
-      { id: "da-hong-pao-100", label: "100 g", weightGrams: 100, stripePriceId: "price_1SoeaNKopMGyjtmAftvXkjvb" },
-      { id: "da-hong-pao-250", label: "250 g", weightGrams: 250, stripePriceId: "price_1SoeaiKopMGyjtmA9Ra2u7Ww" },
+      { id: "da-hong-pao-50", label: "50 g", weightGrams: 50, stripePriceId: "price_1SuQeY3mM6A1O46L2P1mTHI8" },
+      { id: "da-hong-pao-100", label: "100 g", weightGrams: 100, stripePriceId: "price_1SuQeY3mM6A1O46LFKXwjQS2" },
+      { id: "da-hong-pao-250", label: "250 g", weightGrams: 250, stripePriceId: "price_1SuQeY3mM6A1O46L7X1hUgnf" },
     ]
   },
 
@@ -142,9 +142,9 @@ export const products: Product[] = [
       ],
     },
     variants: [
-      { id: "jin-xuan-50", label: "50 g", weightGrams: 50, stripePriceId: "price_1Soed7KopMGyjtmAXOljHrBH" },
-      { id: "jin-xuan-100", label: "100 g", weightGrams: 100, stripePriceId: "price_1SoedNKopMGyjtmAt5dn1XR9" },
-      { id: "jin-xuan-250", label: "250 g", weightGrams: 250, stripePriceId: "price_1SoedlKopMGyjtmACDYl1YTz" },
+      { id: "jin-xuan-50", label: "50 g", weightGrams: 50, stripePriceId: "price_1SuQeV3mM6A1O46LUKyWCypN" },
+      { id: "jin-xuan-100", label: "100 g", weightGrams: 100, stripePriceId: "price_1SuQeV3mM6A1O46LM2MijIw6" },
+      { id: "jin-xuan-250", label: "250 g", weightGrams: 250, stripePriceId: "price_1SuQeV3mM6A1O46Ll46BwmAE" },
     ]
   },
 
@@ -160,9 +160,9 @@ export const products: Product[] = [
       ],
     },
     variants: [
-      { id: "dian-hong-50", label: "50 g", weightGrams: 50, stripePriceId: "price_1SoeftKopMGyjtmA6KXiAJxy" },
-      { id: "dian-hong-100", label: "100 g", weightGrams: 100, stripePriceId: "price_1SoegIKopMGyjtmAhOp4ymVL" },
-      { id: "dian-hong-250", label: "250 g", weightGrams: 250, stripePriceId: "price_1SoegSKopMGyjtmAt6bWkdrF" },
+      { id: "dian-hong-50", label: "50 g", weightGrams: 50, stripePriceId: "price_1SuQeT3mM6A1O46LNmUFWIjW" },
+      { id: "dian-hong-100", label: "100 g", weightGrams: 100, stripePriceId: "price_1SuQeT3mM6A1O46LQMxwlxPR" },
+      { id: "dian-hong-250", label: "250 g", weightGrams: 250, stripePriceId: "price_1SuQeT3mM6A1O46LDMGbdmhX" },
     ]
   },
 
@@ -178,9 +178,9 @@ export const products: Product[] = [
       ],
     },
     variants: [
-      { id: "gongting-50", label: "50 g", weightGrams: 50, stripePriceId: "price_1Soek8KopMGyjtmAJ6KbApUF" },
-      { id: "gongting-100", label: "100 g", weightGrams: 100, stripePriceId: "price_1SoekVKopMGyjtmAHjV67H0u" },
-      { id: "gongting-250", label: "250 g", weightGrams: 250, stripePriceId: "price_1SoekqKopMGyjtmAlvvTb80H" },
+      { id: "gongting-50", label: "50 g", weightGrams: 50, stripePriceId: "price_1SuQeP3mM6A1O46LsRbzDW4o" },
+      { id: "gongting-100", label: "100 g", weightGrams: 100, stripePriceId: "price_1SuQeP3mM6A1O46Lzk48qnUq" },
+      { id: "gongting-250", label: "250 g", weightGrams: 250, stripePriceId: "price_1SuQeP3mM6A1O46Lj9pGq2oQ" },
     ]
   },
 
@@ -198,9 +198,9 @@ export const products: Product[] = [
       ],
     },
     variants: [
-      { id: "mao-jian-50", label: "50 g", weightGrams: 50, stripePriceId: "price_1SoemOKopMGyjtmAnc72NFEh" },
-      { id: "mao-jian-100", label: "100 g", weightGrams: 100, stripePriceId: "price_1SoemgKopMGyjtmAL1Yfb4VI" },
-      { id: "mao-jian-250", label: "250 g", weightGrams: 250, stripePriceId: "price_1SoemqKopMGyjtmAyVT17cYY" },
+      { id: "mao-jian-50", label: "50 g", weightGrams: 50, stripePriceId: "price_1SuQeL3mM6A1O46LXN0TLmf0" },
+      { id: "mao-jian-100", label: "100 g", weightGrams: 100, stripePriceId: "price_1SuQeL3mM6A1O46LCNd4uLIK" },
+      { id: "mao-jian-250", label: "250 g", weightGrams: 250, stripePriceId: "price_1SuQeL3mM6A1O46LpELGNXRR" },
     ]
   },
 
@@ -216,9 +216,9 @@ export const products: Product[] = [
       ],
     },
     variants: [
-      { id: "lao-shou-mei-50", label: "50 g", weightGrams: 50, stripePriceId: "price_1SoeoQKopMGyjtmAIDzePidX" },
-      { id: "lao-shou-mei-100", label: "100 g", weightGrams: 100, stripePriceId: "price_1SoeohKopMGyjtmArta2bTed" },
-      { id: "lao-shou-mei-250", label: "250 g", weightGrams: 250, stripePriceId: "price_1SoeouKopMGyjtmACRLokIY9" },
+      { id: "lao-shou-mei-50", label: "50 g", weightGrams: 50, stripePriceId: "price_1SuQeE3mM6A1O46LHdtSSp6s" },
+      { id: "lao-shou-mei-100", label: "100 g", weightGrams: 100, stripePriceId: "price_1SuQeE3mM6A1O46LtkDLeXm4" },
+      { id: "lao-shou-mei-250", label: "250 g", weightGrams: 250, stripePriceId: "price_1SuQeE3mM6A1O46LD3Dc7fqA" },
     ]
   },
 
@@ -234,9 +234,9 @@ export const products: Product[] = [
       ],
     },
     variants: [
-      { id: "yue-guang-bai-50", label: "50 g", weightGrams: 50, stripePriceId: "price_1SoeqQKopMGyjtmAjvIunfy4" },
-      { id: "yue-guang-bai-100", label: "100 g", weightGrams: 100, stripePriceId: "price_1SoeqgKopMGyjtmApw9qioVa" },
-      { id: "yue-guang-bai-250", label: "250 g", weightGrams: 250, stripePriceId: "price_1SoeqtKopMGyjtmAE0W3t8XC" },
+      { id: "yue-guang-bai-50", label: "50 g", weightGrams: 50, stripePriceId: "price_1SuQeA3mM6A1O46L2j6K36x6" },
+      { id: "yue-guang-bai-100", label: "100 g", weightGrams: 100, stripePriceId: "price_1SuQeA3mM6A1O46LYn0RVlJ4" },
+      { id: "yue-guang-bai-250", label: "250 g", weightGrams: 250, stripePriceId: "price_1SuQeA3mM6A1O46LaxS8jzm5" },
     ]
   },
 
@@ -253,9 +253,9 @@ export const products: Product[] = [
       ],
     },
     variants: [
-      { id: "zhengshan-50", label: "50 g", weightGrams: 50, stripePriceId: "price_1SoesZKopMGyjtmA1lH0hCq7" },
-      { id: "zhengshan-100", label: "100 g", weightGrams: 100, stripePriceId: "price_1SoesnKopMGyjtmAKcApH21F" },
-      { id: "zhengshan-250", label: "250 g", weightGrams: 250, stripePriceId: "price_1SoesxKopMGyjtmAfjITBOKM" },
+      { id: "zhengshan-50", label: "50 g", weightGrams: 50, stripePriceId: "price_1SuQe23mM6A1O46L2qqAyhPw" },
+      { id: "zhengshan-100", label: "100 g", weightGrams: 100, stripePriceId: "price_1SuQe23mM6A1O46LE0vGx1ea" },
+      { id: "zhengshan-250", label: "250 g", weightGrams: 250, stripePriceId: "price_1SuQe13mM6A1O46LSboTmLpL" },
     ]
   },
 
@@ -272,9 +272,9 @@ export const products: Product[] = [
       ],
     },
     variants: [
-      { id: "longjing-50", label: "50 g", weightGrams: 50, stripePriceId: "price_1SoeuQKopMGyjtmAHDkBLvn9" },
-      { id: "longjing-100", label: "100 g", weightGrams: 100, stripePriceId: "price_1SoeugKopMGyjtmAX57l3e1g" },
-      { id: "longjing-250", label: "250 g", weightGrams: 250, stripePriceId: "price_1SoeupKopMGyjtmAMYxxNhvg" },
+      { id: "longjing-50", label: "50 g", weightGrams: 50, stripePriceId: "price_1SuQdc3mM6A1O46LyBbyca4I" },
+      { id: "longjing-100", label: "100 g", weightGrams: 100, stripePriceId: "price_1SuQdc3mM6A1O46LD9LwS29e" },
+      { id: "longjing-250", label: "250 g", weightGrams: 250, stripePriceId: "price_1SuQdc3mM6A1O46LBFpjIFxM" },
     ]
   },
 ]
