@@ -6,39 +6,39 @@ import { Instagram } from "lucide-react"
 const posts = [
   {
     id: "1",
-    image: "/instagram/ig-1.svg",
+    image: "/instagram/tea-first-cup.png",
     url: "https://www.instagram.com/_teastorm_/reel/DTqGV5IjXxv/",
-    alt: "Tea Ritual",
+    alt: "The First Cup",
   },
   {
     id: "2",
-    image: "/instagram/ig-2.svg",
+    image: "/instagram/tea-preparation.jpeg",
     url: "https://www.instagram.com/_teastorm_/reel/DTgyzZmD3t_/",
-    alt: "Morning Brew",
+    alt: "Tea Preparation",
   },
   {
     id: "3",
-    image: "/instagram/ig-3.svg",
+    image: "/instagram/tea-aroma.png",
     url: "https://www.instagram.com/_teastorm_/reel/DTolqVeDRIm/",
-    alt: "Tea Journey",
+    alt: "Tea Aroma",
   },
   {
     id: "4",
-    image: "/instagram/ig-4.svg",
+    image: "/instagram/tea-leaves.png",
     url: "https://www.instagram.com/_teastorm_/reel/DT4LPSUjZEt/",
-    alt: "Tea Culture",
+    alt: "Tea Leaves",
   },
   {
     id: "5",
-    image: "/instagram/ig-5.svg",
+    image: "/instagram/tea-moment.jpeg",
     url: "https://www.instagram.com/_teastorm_/",
-    alt: "Leaf Selection",
+    alt: "Tea Moment",
   },
   {
     id: "6",
-    image: "/instagram/ig-6.svg",
+    image: "/instagram/tea-brewing.jpeg",
     url: "https://www.instagram.com/_teastorm_/",
-    alt: "Mindful Moments",
+    alt: "Tea Brewing",
   },
 ]
 
@@ -120,7 +120,7 @@ export default function InstagramFeed() {
               href={post.url}
               target="_blank"
               rel="noopener noreferrer"
-              className="instagram-tile"
+              className="instagram-tile group"
               style={{
                 textDecoration: "none",
                 display: "block",
@@ -135,7 +135,7 @@ export default function InstagramFeed() {
                 src={post.image}
                 alt={post.alt}
                 fill
-                style={{ objectFit: "cover" }}
+                className="object-cover transition-transform duration-500 ease-out group-hover:scale-[1.03]"
                 sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 220px"
               />
               {/* Hover overlay */}
