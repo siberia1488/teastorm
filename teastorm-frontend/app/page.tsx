@@ -1,12 +1,9 @@
 import Link from "next/link"
 import Image from "next/image"
 import { products } from "@/data/products"
-import { teaContent } from "@/data/teaContent"
 import InstagramFeed from "@/components/InstagramFeed"
 import BrandMark from "@/components/BrandMark"
 import Hero from "@/components/Hero"
-import cachedPricesJson from "@/data/prices.json"
-const cachedPrices: Record<string, { unit_amount: number | null }> = cachedPricesJson as unknown as Record<string, { unit_amount: number | null }>
 
 export default function HomePage() {
   return (
@@ -78,9 +75,7 @@ export default function HomePage() {
               alignItems: "stretch",
             }}
           >
-            {products.slice(0, 4).map((tea) => {
-              const content = teaContent[tea.slug]
-              return (
+            {products.slice(0, 4).map((tea) => (
               <div
                 key={tea.id}
                 style={{
@@ -116,50 +111,13 @@ export default function HomePage() {
 
                 <p
                   style={{
-                    fontSize: 14,
-                    color: "#8a8883",
-                    marginBottom: 10,
-                    minHeight: "21px",
-                  }}
-                >
-                  {tea.subtitle ?? ""}
-                </p>
-
-                <p
-                  style={{
-                    fontSize: 13,
-                    color: "#6b6b65",
-                    lineHeight: 1.6,
-                    marginBottom: 10,
-                    minHeight: "42px",
-                    overflow: "hidden",
-                    display: "-webkit-box",
-                    WebkitLineClamp: 2,
-                    WebkitBoxOrient: "vertical",
-                  }}
-                >
-                  {content?.description ?? "Smooth, aromatic Chinese loose-leaf tea."}
-                </p>
-
-                <p
-                  style={{
                     color: "#6f6d68",
+                    fontSize: 14,
                     marginBottom: "clamp(16px, 2vw, 24px)",
                   }}
                 >
                   {tea.variants.length > 0 ? tea.variants[0].label : "Coming Soon"}
                 </p>
-
-                {/* Cached price (hybrid) */}
-                {(() => {
-                  const priceId = tea.variants[0]?.stripePriceId
-                  const amount = priceId ? cachedPrices[priceId]?.unit_amount ?? null : null
-                  return amount ? (
-                    <p style={{ fontSize: 14, color: "#222", marginBottom: 12 }}>
-                      {`$${(amount / 100).toFixed(2)}`}
-                    </p>
-                  ) : null
-                })()}
 
                 <div style={{ marginTop: "auto", paddingTop: "clamp(16px, 2vw, 24px)" }}>
                   <Link
@@ -180,8 +138,7 @@ export default function HomePage() {
                   </Link>
                 </div>
               </div>
-              )
-            })}
+            ))}
           </div>
 
           <div style={{ textAlign: "center", marginTop: "clamp(48px, 8vw, 96px)" }}>
