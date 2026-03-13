@@ -17,11 +17,23 @@ export default function AboutPage() {
           "radial-gradient(1200px 600px at 50% -100px, #ffffff 0%, #f3f2ee 55%, #ebe9e4 100%)",
       }}
     >
+      {/* ── REGION PILL HOVER STYLES ── */}
+      <style>{`
+        .region-pill {
+          transition: background 0.2s ease, border-color 0.2s ease, color 0.2s ease;
+        }
+        .region-pill:hover {
+          background: #1a1a1a !important;
+          border-color: #1a1a1a !important;
+          color: #ffffff !important;
+        }
+      `}</style>
+
       {/* ── HERO ── */}
       <section
         style={{
           padding: "clamp(80px, 10vw, 140px) clamp(24px, 5vw, 80px)",
-          maxWidth: 680,
+          maxWidth: 700,
           margin: "0 auto",
           textAlign: "center",
         }}
@@ -43,7 +55,7 @@ export default function AboutPage() {
             fontSize: "clamp(40px, 6vw, 72px)",
             fontWeight: 500,
             letterSpacing: "-0.04em",
-            marginBottom: 28,
+            marginBottom: 36,
             lineHeight: 1.1,
           }}
         >
@@ -52,27 +64,15 @@ export default function AboutPage() {
 
         <p
           style={{
-            fontSize: "clamp(18px, 2vw, 22px)",
-            lineHeight: 1.65,
+            fontSize: "clamp(16px, 1.8vw, 20px)",
+            lineHeight: 1.85,
             color: "#5f5d58",
-            marginBottom: 24,
           }}
         >
-          Rare Chinese teas sourced directly from legendary mountains —
-          crafted for modern ritual.
-        </p>
-
-        <p
-          style={{
-            fontSize: "clamp(15px, 1.6vw, 18px)",
-            lineHeight: 1.8,
-            color: "#7a776f",
-          }}
-        >
-          TeaStorm connects you to centuries of tea craft.
-          <br />
-          We source rare loose-leaf teas directly from small producers across
-          China&apos;s most revered growing regions.
+          TeaStorm was created to reconnect modern life with the timeless ritual
+          of tea. We source rare loose-leaf teas directly from legendary growing
+          regions across China — bringing centuries of craft, culture, and
+          terroir to your cup.
         </p>
       </section>
 
@@ -82,12 +82,7 @@ export default function AboutPage() {
           padding: "0 clamp(24px, 5vw, 80px) clamp(80px, 10vw, 140px)",
         }}
       >
-        <div
-          style={{
-            maxWidth: 1100,
-            margin: "0 auto",
-          }}
-        >
+        <div style={{ maxWidth: 1100, margin: "0 auto" }}>
           <div
             style={{
               position: "relative",
@@ -172,19 +167,19 @@ export default function AboutPage() {
             {[
               {
                 title: "Direct Sourcing",
-                text: "We work directly with small tea gardens across China.",
+                text: "We work directly with small tea gardens and family producers.",
               },
               {
                 title: "Quality First",
-                text: "Every tea is carefully selected for purity and terroir.",
+                text: "Every tea is selected for purity, character, and expressive terroir.",
               },
               {
                 title: "Small Batches",
-                text: "Our teas are packed in limited runs to preserve freshness.",
+                text: "Our teas are packed in limited runs to preserve aroma and freshness.",
               },
               {
                 title: "Mindful Ritual",
-                text: "Tea is more than a drink — it's a daily moment of calm.",
+                text: "Tea is more than a beverage — it's a moment to slow down.",
               },
             ].map((value) => (
               <div
@@ -208,8 +203,9 @@ export default function AboutPage() {
                 <p
                   style={{
                     fontSize: "clamp(14px, 1.4vw, 16px)",
-                    lineHeight: 1.7,
+                    lineHeight: 1.75,
                     color: "#6b6b65",
+                    maxWidth: 280,
                   }}
                 >
                   {value.text}
@@ -265,7 +261,8 @@ export default function AboutPage() {
               marginBottom: 48,
             }}
           >
-            Each tea in our collection reflects the character of its region.
+            Each tea in our collection carries the spirit of its origin — from
+            the misty cliffs of Wuyi Mountain to the ancient forests of Yunnan.
           </p>
 
           <div
@@ -279,6 +276,7 @@ export default function AboutPage() {
             {["Yunnan", "Fujian", "Zhejiang", "Guangdong", "Taiwan"].map((region) => (
               <span
                 key={region}
+                className="region-pill"
                 style={{
                   padding: "12px 28px",
                   borderRadius: 999,
@@ -288,10 +286,105 @@ export default function AboutPage() {
                   textTransform: "uppercase",
                   color: "#5f5d58",
                   background: "#ffffff",
+                  cursor: "default",
                 }}
               >
                 {region}
               </span>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ── WHY TEASTORM ── */}
+      <section
+        style={{
+          background: "#ffffff",
+          padding: "clamp(80px, 10vw, 140px) clamp(24px, 5vw, 80px)",
+        }}
+      >
+        <div style={{ maxWidth: 1100, margin: "0 auto", textAlign: "center" }}>
+          <p
+            style={{
+              textTransform: "uppercase",
+              letterSpacing: "0.32em",
+              fontSize: 12,
+              marginBottom: 16,
+              color: "#7a776f",
+            }}
+          >
+            Our Promise
+          </p>
+
+          <h2
+            style={{
+              fontSize: "clamp(32px, 4vw, 52px)",
+              fontWeight: 500,
+              letterSpacing: "-0.03em",
+              marginBottom: "clamp(48px, 6vw, 80px)",
+            }}
+          >
+            Why TeaStorm
+          </h2>
+
+          <div
+            style={{
+              display: "grid",
+              gridTemplateColumns: "repeat(auto-fit, minmax(220px, 1fr))",
+              gap: "clamp(32px, 4vw, 64px)",
+            }}
+          >
+            {[
+              {
+                label: "Direct partnerships with tea producers",
+                icon: "○",
+              },
+              {
+                label: "Carefully curated rare teas",
+                icon: "○",
+              },
+              {
+                label: "Small batch freshness",
+                icon: "○",
+              },
+            ].map((item) => (
+              <div
+                key={item.label}
+                style={{
+                  display: "flex",
+                  flexDirection: "column",
+                  alignItems: "center",
+                  gap: 18,
+                }}
+              >
+                <div
+                  style={{
+                    width: 48,
+                    height: 48,
+                    borderRadius: 999,
+                    border: "1px solid #d8d6cf",
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    fontSize: 18,
+                    color: "#5f5d58",
+                  }}
+                >
+                  {item.icon}
+                </div>
+
+                <p
+                  style={{
+                    fontSize: "clamp(15px, 1.5vw, 18px)",
+                    lineHeight: 1.6,
+                    color: "#3a3a38",
+                    fontWeight: 500,
+                    maxWidth: 220,
+                  }}
+                >
+                  {item.label}
+                </p>
+              </div>
             ))}
           </div>
         </div>
