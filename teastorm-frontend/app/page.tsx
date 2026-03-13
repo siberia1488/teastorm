@@ -1,6 +1,7 @@
 import Link from "next/link"
 import Image from "next/image"
 import { products } from "@/data/products"
+import { teaContent } from "@/data/teaContent"
 import InstagramFeed from "@/components/InstagramFeed"
 import BrandMark from "@/components/BrandMark"
 import Hero from "@/components/Hero"
@@ -77,7 +78,9 @@ export default function HomePage() {
               alignItems: "stretch",
             }}
           >
-            {products.slice(0, 4).map((tea) => (
+            {products.slice(0, 4).map((tea) => {
+              const content = teaContent[tea.slug]
+              return (
               <div
                 key={tea.id}
                 style={{
@@ -124,6 +127,22 @@ export default function HomePage() {
 
                 <p
                   style={{
+                    fontSize: 13,
+                    color: "#6b6b65",
+                    lineHeight: 1.6,
+                    marginBottom: 10,
+                    minHeight: "42px",
+                    overflow: "hidden",
+                    display: "-webkit-box",
+                    WebkitLineClamp: 2,
+                    WebkitBoxOrient: "vertical",
+                  }}
+                >
+                  {content?.description ?? "Smooth, aromatic Chinese loose-leaf tea."}
+                </p>
+
+                <p
+                  style={{
                     color: "#6f6d68",
                     marginBottom: "clamp(16px, 2vw, 24px)",
                   }}
@@ -161,7 +180,8 @@ export default function HomePage() {
                   </Link>
                 </div>
               </div>
-            ))}
+              )
+            })}
           </div>
 
           <div style={{ textAlign: "center", marginTop: "clamp(48px, 8vw, 96px)" }}>
