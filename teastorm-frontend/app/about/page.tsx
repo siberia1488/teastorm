@@ -127,51 +127,24 @@ export default function AboutPage() {
       </section>
 
       {/* ── IMAGE STORY BLOCK ── */}
-      <section
-        style={{
-          padding: "0 clamp(24px, 5vw, 80px) clamp(56px, 7vw, 80px)",
-        }}
-      >
-        <div style={{ maxWidth: 1100, margin: "0 auto" }}>
-          <div
-            style={{
-              position: "relative",
-              width: "100%",
-              height: "clamp(280px, 40vw, 560px)",
-              borderRadius: 36,
-              overflow: "hidden",
-            }}
-          >
+      <section style={{ padding: "0 clamp(24px, 5vw, 80px) clamp(56px, 7vw, 80px)" }}>
+        <div className="max-w-6xl mx-auto mt-20 relative rounded-3xl overflow-hidden">
+          <div className="aspect-[16/9] w-full">
             <Image
-              src="/images/tea-mountains.jpeg"
-              alt="Ancient tea forests on misty mountain peaks"
-              fill
-              sizes="(max-width: 768px) 100vw, 1100px"
-              style={{ objectFit: "cover", objectPosition: "center" }}
+              src="/images/about/fujian-tea.jpeg"
+              alt="Tea terraces in Fujian mountains at sunrise"
+              width={1600}
+              height={900}
               priority
-            />
-            <div
-              style={{
-                position: "absolute",
-                inset: 0,
-                background:
-                  "linear-gradient(to bottom, transparent 50%, rgba(0,0,0,0.35) 100%)",
-              }}
+              className="w-full h-full object-cover"
             />
           </div>
-
-          <p
-            style={{
-              textAlign: "center",
-              marginTop: 20,
-              fontSize: 14,
-              color: "#8a8883",
-              letterSpacing: "0.06em",
-              fontStyle: "italic",
-            }}
-          >
-            From ancient tea forests to your cup.
-          </p>
+          <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-black/10 to-transparent" />
+          <div className="absolute bottom-10 left-10 text-white max-w-md">
+            <p className="text-3xl font-semibold mb-1">Fujian Mountains</p>
+            <p className="text-lg text-white/80 mb-2">Where our tea begins</p>
+            <p className="text-white/70">Hand-harvested leaves from misty mountain gardens cultivated using centuries-old traditions.</p>
+          </div>
         </div>
       </section>
 
