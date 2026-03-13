@@ -111,25 +111,17 @@ export default function AboutPage() {
           </div>
 
           {/* Right: image */}
-          <div
-            style={{
-              position: "relative",
-              width: "100%",
-              maxWidth: 420,
-              aspectRatio: "3 / 4",
-              borderRadius: 24,
-              overflow: "hidden",
-              justifySelf: "end",
-            }}
-          >
-            <Image
-              src="/images/teastorm-hero.png"
-              alt="Premium Chinese tea preparation"
-              fill
-              sizes="(max-width: 768px) 100vw, 420px"
-              style={{ objectFit: "cover", objectPosition: "center" }}
-              priority
-            />
+          <div className="relative" style={{ justifySelf: "end" }}>
+            <div className="aspect-4/5 w-full max-w-105 overflow-hidden rounded-2xl" style={{ boxShadow: "0 8px 32px rgba(0,0,0,0.12)" }}>
+              <Image
+                src="/images/about/hero.jpeg"
+                alt="Tea farmer harvesting leaves in Fujian mountains"
+                width={420}
+                height={520}
+                priority
+                className="h-full w-full object-cover transition duration-700 hover:scale-[1.02]"
+              />
+            </div>
           </div>
         </div>
       </section>
