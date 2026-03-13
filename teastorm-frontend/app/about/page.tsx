@@ -38,8 +38,8 @@ export default function AboutPage() {
       {/* ── HERO ── */}
       <section
         style={{
-          padding: "clamp(80px, 10vw, 140px) clamp(24px, 5vw, 80px)",
-          maxWidth: 700,
+          padding: "clamp(96px, 12vw, 160px) clamp(24px, 5vw, 80px) clamp(64px, 8vw, 100px)",
+          maxWidth: 620,
           margin: "0 auto",
           textAlign: "center",
         }}
@@ -49,7 +49,7 @@ export default function AboutPage() {
             textTransform: "uppercase",
             letterSpacing: "0.32em",
             fontSize: 12,
-            marginBottom: 24,
+            marginBottom: 28,
             color: "#7a776f",
           }}
         >
@@ -61,7 +61,7 @@ export default function AboutPage() {
             fontSize: "clamp(40px, 6vw, 72px)",
             fontWeight: 500,
             letterSpacing: "-0.04em",
-            marginBottom: 36,
+            marginBottom: 40,
             lineHeight: 1.1,
           }}
         >
@@ -73,13 +73,59 @@ export default function AboutPage() {
             fontSize: "clamp(16px, 1.8vw, 20px)",
             lineHeight: 1.85,
             color: "#5f5d58",
+            marginBottom: 24,
           }}
         >
-          TeaStorm was created to reconnect modern life with the timeless ritual
-          of tea. We source rare loose-leaf teas directly from legendary growing
-          regions across China — bringing centuries of craft, culture, and
-          terroir to your cup.
+          TeaStorm was born from a simple belief: exceptional tea transforms
+          everyday moments into something extraordinary.
         </p>
+
+        <p
+          style={{
+            fontSize: "clamp(15px, 1.6vw, 18px)",
+            lineHeight: 1.85,
+            color: "#7a776f",
+          }}
+        >
+          We source rare loose-leaf teas directly from legendary Chinese growing
+          regions, bringing centuries of craft and terroir into every cup.
+        </p>
+      </section>
+
+      {/* ── TRUST METRICS ── */}
+      <section
+        style={{
+          padding: "0 clamp(24px, 5vw, 80px) clamp(64px, 8vw, 96px)",
+        }}
+      >
+        <div
+          style={{
+            maxWidth: 620,
+            margin: "0 auto",
+            display: "flex",
+            flexWrap: "wrap",
+            justifyContent: "center",
+            gap: "clamp(24px, 5vw, 56px)",
+          }}
+        >
+          {[
+            "14 curated teas",
+            "5 legendary regions",
+            "direct producer partnerships",
+          ].map((metric) => (
+            <p
+              key={metric}
+              style={{
+                fontSize: 13,
+                letterSpacing: "0.14em",
+                textTransform: "uppercase",
+                color: "#8a8883",
+              }}
+            >
+              {metric}
+            </p>
+          ))}
+        </div>
       </section>
 
       {/* ── IMAGE STORY BLOCK ── */}
@@ -166,41 +212,31 @@ export default function AboutPage() {
           <div
             style={{
               display: "grid",
-              gridTemplateColumns: "repeat(auto-fit, minmax(240px, 1fr))",
-              gap: "clamp(24px, 3vw, 40px)",
+              gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))",
+              gap: "clamp(40px, 5vw, 72px)",
             }}
           >
             {[
               {
                 title: "Direct Sourcing",
-                text: "We work directly with small tea gardens and family producers.",
+                text: "We work directly with independent tea gardens and family producers across Yunnan, Fujian, Zhejiang, and Guangdong — cutting out middlemen to ensure freshness and fair prices.",
               },
               {
                 title: "Quality First",
-                text: "Every tea is selected for purity, character, and expressive terroir.",
+                text: "Every tea in our collection is carefully selected for purity, seasonality, and expressive terroir. We never compromise on leaf grade or processing quality.",
               },
               {
                 title: "Small Batches",
-                text: "Our teas are packed in limited runs to preserve aroma and freshness.",
-              },
-              {
-                title: "Mindful Ritual",
-                text: "Tea is more than a beverage — it's a moment to slow down.",
+                text: "Our teas are packed in limited runs to preserve freshness, aroma, and texture. Each batch is traceable to its origin garden.",
               },
             ].map((value) => (
-              <div
-                key={value.title}
-                style={{
-                  background: "#f6f5f2",
-                  borderRadius: 24,
-                  padding: "clamp(28px, 4vw, 44px)",
-                }}
-              >
+              <div key={value.title}>
                 <h3
                   style={{
-                    fontSize: "clamp(18px, 2vw, 22px)",
+                    fontSize: "clamp(17px, 1.8vw, 20px)",
                     fontWeight: 500,
-                    marginBottom: 14,
+                    marginBottom: 16,
+                    color: "#1a1a1a",
                   }}
                 >
                   {value.title}
@@ -208,10 +244,9 @@ export default function AboutPage() {
 
                 <p
                   style={{
-                    fontSize: "clamp(14px, 1.4vw, 16px)",
-                    lineHeight: 1.75,
-                    color: "#6b6b65",
-                    maxWidth: 280,
+                    fontSize: "clamp(14px, 1.3vw, 15px)",
+                    lineHeight: 1.8,
+                    color: "#7a776f",
                   }}
                 >
                   {value.text}
@@ -222,10 +257,77 @@ export default function AboutPage() {
         </div>
       </section>
 
-      {/* ── TEA REGIONS ── */}
+      {/* ── TEA PHILOSOPHY ── */}
       <section
         style={{
           background: "#f3f2ee",
+          padding: "clamp(80px, 10vw, 140px) clamp(24px, 5vw, 80px)",
+        }}
+      >
+        <div
+          style={{
+            maxWidth: 560,
+            margin: "0 auto",
+            textAlign: "center",
+          }}
+        >
+          <p
+            style={{
+              textTransform: "uppercase",
+              letterSpacing: "0.32em",
+              fontSize: 12,
+              marginBottom: 36,
+              color: "#7a776f",
+            }}
+          >
+            Philosophy
+          </p>
+
+          <h2
+            style={{
+              fontSize: "clamp(28px, 4vw, 48px)",
+              fontWeight: 500,
+              letterSpacing: "-0.03em",
+              marginBottom: 40,
+            }}
+          >
+            Our Tea Philosophy
+          </h2>
+
+          <p
+            style={{
+              fontSize: "clamp(17px, 1.8vw, 22px)",
+              lineHeight: 1.9,
+              color: "#5f5d58",
+              fontStyle: "italic",
+              marginBottom: 28,
+            }}
+          >
+            Great tea is never rushed.
+            <br />
+            It is grown slowly, harvested with care,
+            <br />
+            and shared with intention.
+          </p>
+
+          <p
+            style={{
+              fontSize: "clamp(15px, 1.5vw, 17px)",
+              lineHeight: 1.8,
+              color: "#8a8883",
+            }}
+          >
+            We believe tea should create a quiet moment
+            <br />
+            in the middle of a busy day.
+          </p>
+        </div>
+      </section>
+
+      {/* ── TEA REGIONS ── */}
+      <section
+        style={{
+          background: "#ffffff",
           padding: "clamp(80px, 10vw, 140px) clamp(24px, 5vw, 80px)",
         }}
       >
@@ -291,7 +393,7 @@ export default function AboutPage() {
                   letterSpacing: "0.14em",
                   textTransform: "uppercase",
                   color: "#5f5d58",
-                  background: "#ffffff",
+                  background: "#f6f5f2",
                   cursor: "default",
                 }}
               >
@@ -299,151 +401,6 @@ export default function AboutPage() {
               </span>
             ))}
           </div>
-        </div>
-      </section>
-
-      {/* ── WHY TEASTORM ── */}
-      <section
-        style={{
-          background: "#ffffff",
-          padding: "clamp(80px, 10vw, 140px) clamp(24px, 5vw, 80px)",
-        }}
-      >
-        <div style={{ maxWidth: 1100, margin: "0 auto", textAlign: "center" }}>
-          <p
-            style={{
-              textTransform: "uppercase",
-              letterSpacing: "0.32em",
-              fontSize: 12,
-              marginBottom: 16,
-              color: "#7a776f",
-            }}
-          >
-            Our Promise
-          </p>
-
-          <h2
-            style={{
-              fontSize: "clamp(32px, 4vw, 52px)",
-              fontWeight: 500,
-              letterSpacing: "-0.03em",
-              marginBottom: 20,
-            }}
-          >
-            Why TeaStorm
-          </h2>
-
-          <p
-            style={{
-              fontSize: "clamp(15px, 1.6vw, 18px)",
-              color: "#8a8883",
-              marginBottom: "clamp(48px, 6vw, 80px)",
-              fontStyle: "italic",
-            }}
-          >
-            Rare teas sourced with intention.
-          </p>
-
-          <div
-            style={{
-              display: "grid",
-              gridTemplateColumns: "repeat(auto-fit, minmax(240px, 1fr))",
-              gap: "clamp(32px, 5vw, 64px)",
-              textAlign: "left",
-            }}
-          >
-            {[
-              {
-                title: "Direct relationships with tea producers",
-                text: "We partner directly with small tea gardens to ensure authenticity and fair sourcing.",
-              },
-              {
-                title: "Curated rare teas",
-                text: "Each tea is carefully selected for character, purity, and expressive terroir.",
-              },
-              {
-                title: "Small batch freshness",
-                text: "Our teas are packed in limited batches to preserve aroma and vitality.",
-              },
-            ].map((item) => (
-              <div key={item.title}>
-                <h3
-                  style={{
-                    fontSize: "clamp(16px, 1.6vw, 20px)",
-                    fontWeight: 500,
-                    marginBottom: 14,
-                    color: "#1a1a1a",
-                  }}
-                >
-                  {item.title}
-                </h3>
-
-                <p
-                  style={{
-                    fontSize: "clamp(14px, 1.3vw, 15px)",
-                    lineHeight: 1.75,
-                    color: "#7a776f",
-                  }}
-                >
-                  {item.text}
-                </p>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* ── TEA PHILOSOPHY ── */}
-      <section
-        style={{
-          background: "#f3f2ee",
-          padding: "clamp(80px, 10vw, 140px) clamp(24px, 5vw, 80px)",
-        }}
-      >
-        <div
-          style={{
-            maxWidth: 600,
-            margin: "0 auto",
-            textAlign: "center",
-          }}
-        >
-          <p
-            style={{
-              textTransform: "uppercase",
-              letterSpacing: "0.32em",
-              fontSize: 12,
-              marginBottom: 36,
-              color: "#7a776f",
-            }}
-          >
-            Philosophy
-          </p>
-
-          <h2
-            style={{
-              fontSize: "clamp(28px, 4vw, 48px)",
-              fontWeight: 500,
-              letterSpacing: "-0.03em",
-              marginBottom: 40,
-            }}
-          >
-            Our Tea Philosophy
-          </h2>
-
-          <p
-            style={{
-              fontSize: "clamp(18px, 2vw, 24px)",
-              lineHeight: 1.85,
-              color: "#5f5d58",
-              fontStyle: "italic",
-            }}
-          >
-            Great tea is never rushed.
-            <br />
-            It is grown slowly, harvested with care,
-            <br />
-            and shared with intention.
-          </p>
         </div>
       </section>
 
@@ -464,7 +421,7 @@ export default function AboutPage() {
             color: "#ffffff",
           }}
         >
-          Discover Your Tea Ritual
+          Ready to Explore?
         </h2>
 
         <p
@@ -476,7 +433,8 @@ export default function AboutPage() {
             margin: "0 auto 48px",
           }}
         >
-          Explore our curated collection of rare Chinese teas.
+          Browse our curated collection of rare Chinese teas and discover your
+          daily ritual.
         </p>
 
         <Link
