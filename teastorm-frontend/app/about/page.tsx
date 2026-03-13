@@ -17,7 +17,7 @@ export default function AboutPage() {
           "radial-gradient(1200px 600px at 50% -100px, #ffffff 0%, #f3f2ee 55%, #ebe9e4 100%)",
       }}
     >
-      {/* ── REGION PILL HOVER STYLES ── */}
+      {/* ── SCOPED STYLES ── */}
       <style>{`
         .region-pill {
           transition: background 0.2s ease, border-color 0.2s ease, color 0.2s ease;
@@ -26,6 +26,12 @@ export default function AboutPage() {
           background: #1a1a1a !important;
           border-color: #1a1a1a !important;
           color: #ffffff !important;
+        }
+        .cta-button {
+          transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        .cta-button:hover {
+          transform: scale(1.02);
         }
       `}</style>
 
@@ -321,72 +327,123 @@ export default function AboutPage() {
               fontSize: "clamp(32px, 4vw, 52px)",
               fontWeight: 500,
               letterSpacing: "-0.03em",
-              marginBottom: "clamp(48px, 6vw, 80px)",
+              marginBottom: 20,
             }}
           >
             Why TeaStorm
           </h2>
 
+          <p
+            style={{
+              fontSize: "clamp(15px, 1.6vw, 18px)",
+              color: "#8a8883",
+              marginBottom: "clamp(48px, 6vw, 80px)",
+              fontStyle: "italic",
+            }}
+          >
+            Rare teas sourced with intention.
+          </p>
+
           <div
             style={{
               display: "grid",
-              gridTemplateColumns: "repeat(auto-fit, minmax(220px, 1fr))",
-              gap: "clamp(32px, 4vw, 64px)",
+              gridTemplateColumns: "repeat(auto-fit, minmax(240px, 1fr))",
+              gap: "clamp(32px, 5vw, 64px)",
+              textAlign: "left",
             }}
           >
             {[
               {
-                label: "Direct partnerships with tea producers",
-                icon: "○",
+                title: "Direct relationships with tea producers",
+                text: "We partner directly with small tea gardens to ensure authenticity and fair sourcing.",
               },
               {
-                label: "Carefully curated rare teas",
-                icon: "○",
+                title: "Curated rare teas",
+                text: "Each tea is carefully selected for character, purity, and expressive terroir.",
               },
               {
-                label: "Small batch freshness",
-                icon: "○",
+                title: "Small batch freshness",
+                text: "Our teas are packed in limited batches to preserve aroma and vitality.",
               },
             ].map((item) => (
-              <div
-                key={item.label}
-                style={{
-                  display: "flex",
-                  flexDirection: "column",
-                  alignItems: "center",
-                  gap: 18,
-                }}
-              >
-                <div
+              <div key={item.title}>
+                <h3
                   style={{
-                    width: 48,
-                    height: 48,
-                    borderRadius: 999,
-                    border: "1px solid #d8d6cf",
-                    display: "flex",
-                    alignItems: "center",
-                    justifyContent: "center",
-                    fontSize: 18,
-                    color: "#5f5d58",
+                    fontSize: "clamp(16px, 1.6vw, 20px)",
+                    fontWeight: 500,
+                    marginBottom: 14,
+                    color: "#1a1a1a",
                   }}
                 >
-                  {item.icon}
-                </div>
+                  {item.title}
+                </h3>
 
                 <p
                   style={{
-                    fontSize: "clamp(15px, 1.5vw, 18px)",
-                    lineHeight: 1.6,
-                    color: "#3a3a38",
-                    fontWeight: 500,
-                    maxWidth: 220,
+                    fontSize: "clamp(14px, 1.3vw, 15px)",
+                    lineHeight: 1.75,
+                    color: "#7a776f",
                   }}
                 >
-                  {item.label}
+                  {item.text}
                 </p>
               </div>
             ))}
           </div>
+        </div>
+      </section>
+
+      {/* ── TEA PHILOSOPHY ── */}
+      <section
+        style={{
+          background: "#f3f2ee",
+          padding: "clamp(80px, 10vw, 140px) clamp(24px, 5vw, 80px)",
+        }}
+      >
+        <div
+          style={{
+            maxWidth: 600,
+            margin: "0 auto",
+            textAlign: "center",
+          }}
+        >
+          <p
+            style={{
+              textTransform: "uppercase",
+              letterSpacing: "0.32em",
+              fontSize: 12,
+              marginBottom: 36,
+              color: "#7a776f",
+            }}
+          >
+            Philosophy
+          </p>
+
+          <h2
+            style={{
+              fontSize: "clamp(28px, 4vw, 48px)",
+              fontWeight: 500,
+              letterSpacing: "-0.03em",
+              marginBottom: 40,
+            }}
+          >
+            Our Tea Philosophy
+          </h2>
+
+          <p
+            style={{
+              fontSize: "clamp(18px, 2vw, 24px)",
+              lineHeight: 1.85,
+              color: "#5f5d58",
+              fontStyle: "italic",
+            }}
+          >
+            Great tea is never rushed.
+            <br />
+            It is grown slowly, harvested with care,
+            <br />
+            and shared with intention.
+          </p>
         </div>
       </section>
 
@@ -424,6 +481,7 @@ export default function AboutPage() {
 
         <Link
           href="/shop"
+          className="cta-button"
           style={{
             display: "inline-block",
             padding: "20px 56px",
