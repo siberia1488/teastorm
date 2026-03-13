@@ -30,100 +30,111 @@ export default function AboutPage() {
       {/* ── HERO ── */}
       <section
         style={{
-          padding: "clamp(72px, 8vw, 112px) clamp(24px, 5vw, 80px) clamp(48px, 6vw, 72px)",
-          maxWidth: 520,
+          padding: "clamp(64px, 8vw, 96px) clamp(24px, 5vw, 80px)",
+          maxWidth: 1200,
           margin: "0 auto",
-          textAlign: "center",
-        }}
-      >
-        <p
-          style={{
-            textTransform: "uppercase",
-            letterSpacing: "0.32em",
-            fontSize: 12,
-            marginBottom: 28,
-            color: "#7a776f",
-          }}
-        >
-          Our Story
-        </p>
-
-        <h1
-          style={{
-            fontSize: "clamp(44px, 7vw, 80px)",
-            fontWeight: 500,
-            letterSpacing: "-0.04em",
-            marginBottom: 36,
-            lineHeight: 1.05,
-          }}
-        >
-          Tea, Elevated.
-        </h1>
-
-        <p
-          style={{
-            fontSize: "clamp(16px, 1.8vw, 20px)",
-            lineHeight: 1.85,
-            color: "#5f5d58",
-            marginBottom: 24,
-          }}
-        >
-          TeaStorm was born from a simple belief: exceptional tea transforms
-          everyday moments into something extraordinary.
-        </p>
-
-        <p
-          style={{
-            fontSize: "clamp(15px, 1.6vw, 18px)",
-            lineHeight: 1.85,
-            color: "#7a776f",
-          }}
-        >
-          We source rare loose-leaf teas directly from legendary Chinese growing
-          regions, bringing centuries of craft and terroir into every cup.
-        </p>
-      </section>
-
-      {/* ── TRUST METRICS ── */}
-      <section
-        style={{
-          padding: "0 clamp(24px, 5vw, 80px) clamp(48px, 6vw, 72px)",
         }}
       >
         <div
           style={{
-            maxWidth: 520,
-            margin: "0 auto",
-            display: "flex",
-            flexWrap: "wrap",
-            justifyContent: "center",
-            gap: "clamp(16px, 3vw, 32px)",
+            display: "grid",
+            gridTemplateColumns: "repeat(auto-fit, minmax(min(100%, 420px), 1fr))",
+            gap: "clamp(40px, 6vw, 80px)",
+            alignItems: "center",
           }}
         >
-          {[
-            "14 curated teas",
-            "5 legendary regions",
-            "direct producer partnerships",
-          ].map((metric) => (
+          {/* Left: text */}
+          <div>
             <p
-              key={metric}
+              style={{
+                textTransform: "uppercase",
+                letterSpacing: "0.32em",
+                fontSize: 12,
+                marginBottom: 24,
+                color: "#7a776f",
+              }}
+            >
+              Our Story
+            </p>
+
+            <h1
+              style={{
+                fontSize: "clamp(44px, 6vw, 72px)",
+                fontWeight: 500,
+                letterSpacing: "-0.04em",
+                marginBottom: 24,
+                lineHeight: 1.05,
+              }}
+            >
+              Tea, Elevated.
+            </h1>
+
+            <p
+              style={{
+                fontSize: "clamp(17px, 1.8vw, 20px)",
+                lineHeight: 1.7,
+                color: "#5f5d58",
+                marginBottom: 16,
+                maxWidth: 460,
+              }}
+            >
+              Exceptional tea transforms everyday moments.
+            </p>
+
+            <p
+              style={{
+                fontSize: "clamp(14px, 1.4vw, 16px)",
+                lineHeight: 1.8,
+                color: "#8a8883",
+                maxWidth: 440,
+                marginBottom: 36,
+              }}
+            >
+              We source rare loose-leaf teas directly from legendary Chinese
+              growing regions, bringing centuries of craft and terroir into
+              every cup.
+            </p>
+
+            {/* Trust metrics */}
+            <p
               style={{
                 fontSize: 11,
                 letterSpacing: "0.2em",
                 textTransform: "uppercase",
                 color: "#a7a59e",
+                lineHeight: 2,
               }}
             >
-              {metric}
+              14 curated teas · 5 legendary regions · direct producer partnerships
             </p>
-          ))}
+          </div>
+
+          {/* Right: image */}
+          <div
+            style={{
+              position: "relative",
+              width: "100%",
+              aspectRatio: "4 / 5",
+              borderRadius: 28,
+              overflow: "hidden",
+            }}
+          >
+            <Image
+              src="/images/teastorm-hero.png"
+              alt="Premium Chinese tea preparation"
+              fill
+              sizes="(max-width: 768px) 100vw, 50vw"
+              style={{ objectFit: "cover", objectPosition: "center" }}
+              priority
+            />
+          </div>
         </div>
       </section>
 
       {/* ── IMAGE STORY BLOCK ── */}
       <section
         style={{
-          padding: "0 clamp(24px, 5vw, 80px) clamp(80px, 10vw, 140px)",
+          padding: "0 clamp(24px, 5vw, 80px) clamp(56px, 7vw, 80px)",
         }}
       >
         <div style={{ maxWidth: 1100, margin: "0 auto" }}>
