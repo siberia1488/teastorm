@@ -98,10 +98,11 @@ export default function AboutPage() {
             {/* Trust metrics */}
             <p
               style={{
-                fontSize: 11,
-                letterSpacing: "0.2em",
+                fontSize: 13,
+                letterSpacing: "0.18em",
                 textTransform: "uppercase",
-                color: "#a7a59e",
+                color: "#6b6b65",
+                marginTop: 28,
                 lineHeight: 2,
               }}
             >
@@ -114,16 +115,18 @@ export default function AboutPage() {
             style={{
               position: "relative",
               width: "100%",
-              aspectRatio: "4 / 5",
-              borderRadius: 28,
+              maxWidth: 420,
+              aspectRatio: "3 / 4",
+              borderRadius: 24,
               overflow: "hidden",
+              justifySelf: "end",
             }}
           >
             <Image
               src="/images/teastorm-hero.png"
               alt="Premium Chinese tea preparation"
               fill
-              sizes="(max-width: 768px) 100vw, 50vw"
+              sizes="(max-width: 768px) 100vw, 420px"
               style={{ objectFit: "cover", objectPosition: "center" }}
               priority
             />
@@ -184,11 +187,12 @@ export default function AboutPage() {
       <section
         style={{
           background: "#ffffff",
+          borderTop: "1px solid #e8e6e1",
           padding: "clamp(56px, 7vw, 96px) clamp(24px, 5vw, 80px)",
         }}
       >
-        <div style={{ maxWidth: 1100, margin: "0 auto" }}>
-          <div style={{ textAlign: "center", marginBottom: "clamp(48px, 6vw, 96px)" }}>
+        <div style={{ maxWidth: 900, margin: "0 auto" }}>
+          <div style={{ textAlign: "center", marginBottom: "clamp(40px, 5vw, 72px)" }}>
             <p
               style={{
                 textTransform: "uppercase",
@@ -215,8 +219,8 @@ export default function AboutPage() {
           <div
             style={{
               display: "grid",
-              gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))",
-              gap: "clamp(40px, 5vw, 72px)",
+              gridTemplateColumns: "repeat(auto-fit, minmax(240px, 1fr))",
+              gap: "clamp(32px, 4vw, 56px)",
             }}
           >
             {[
@@ -236,9 +240,9 @@ export default function AboutPage() {
               <div key={value.title}>
                 <h3
                   style={{
-                    fontSize: "clamp(17px, 1.8vw, 20px)",
+                    fontSize: "clamp(18px, 1.8vw, 22px)",
                     fontWeight: 500,
-                    marginBottom: 16,
+                    marginBottom: 14,
                     color: "#1a1a1a",
                   }}
                 >
@@ -264,6 +268,7 @@ export default function AboutPage() {
       <section
         style={{
           background: "#f3f2ee",
+          borderTop: "1px solid #e0ddd7",
           padding: "clamp(56px, 7vw, 96px) clamp(24px, 5vw, 80px)",
         }}
       >
@@ -299,8 +304,8 @@ export default function AboutPage() {
 
           <p
             style={{
-              fontSize: "clamp(17px, 1.8vw, 22px)",
-              lineHeight: 1.9,
+              fontSize: "clamp(18px, 2vw, 24px)",
+              lineHeight: 1.85,
               color: "#5f5d58",
               fontStyle: "italic",
               marginBottom: 28,
@@ -315,9 +320,9 @@ export default function AboutPage() {
 
           <p
             style={{
-              fontSize: "clamp(15px, 1.5vw, 17px)",
+              fontSize: "clamp(14px, 1.4vw, 16px)",
               lineHeight: 1.8,
-              color: "#8a8883",
+              color: "#9a9890",
             }}
           >
             We believe tea should create a quiet moment
@@ -331,6 +336,7 @@ export default function AboutPage() {
       <section
         style={{
           background: "#ffffff",
+          borderTop: "1px solid #e8e6e1",
           padding: "clamp(56px, 7vw, 96px) clamp(24px, 5vw, 80px)",
         }}
       >
