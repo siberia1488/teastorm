@@ -19,14 +19,6 @@ export default function AboutPage() {
     >
       {/* ── SCOPED STYLES ── */}
       <style>{`
-        .region-pill {
-          transition: background 0.2s ease, border-color 0.2s ease, color 0.2s ease;
-        }
-        .region-pill:hover {
-          background: #1a1a1a !important;
-          border-color: #1a1a1a !important;
-          color: #ffffff !important;
-        }
         .cta-button {
           transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1);
         }
@@ -38,8 +30,8 @@ export default function AboutPage() {
       {/* ── HERO ── */}
       <section
         style={{
-          padding: "clamp(96px, 12vw, 160px) clamp(24px, 5vw, 80px) clamp(64px, 8vw, 100px)",
-          maxWidth: 620,
+          padding: "clamp(72px, 8vw, 112px) clamp(24px, 5vw, 80px) clamp(48px, 6vw, 72px)",
+          maxWidth: 520,
           margin: "0 auto",
           textAlign: "center",
         }}
@@ -58,11 +50,11 @@ export default function AboutPage() {
 
         <h1
           style={{
-            fontSize: "clamp(40px, 6vw, 72px)",
+            fontSize: "clamp(44px, 7vw, 80px)",
             fontWeight: 500,
             letterSpacing: "-0.04em",
-            marginBottom: 40,
-            lineHeight: 1.1,
+            marginBottom: 36,
+            lineHeight: 1.05,
           }}
         >
           Tea, Elevated.
@@ -95,17 +87,17 @@ export default function AboutPage() {
       {/* ── TRUST METRICS ── */}
       <section
         style={{
-          padding: "0 clamp(24px, 5vw, 80px) clamp(64px, 8vw, 96px)",
+          padding: "0 clamp(24px, 5vw, 80px) clamp(48px, 6vw, 72px)",
         }}
       >
         <div
           style={{
-            maxWidth: 620,
+            maxWidth: 520,
             margin: "0 auto",
             display: "flex",
             flexWrap: "wrap",
             justifyContent: "center",
-            gap: "clamp(24px, 5vw, 56px)",
+            gap: "clamp(16px, 3vw, 32px)",
           }}
         >
           {[
@@ -116,10 +108,10 @@ export default function AboutPage() {
             <p
               key={metric}
               style={{
-                fontSize: 13,
-                letterSpacing: "0.14em",
+                fontSize: 11,
+                letterSpacing: "0.2em",
                 textTransform: "uppercase",
-                color: "#8a8883",
+                color: "#a7a59e",
               }}
             >
               {metric}
@@ -181,7 +173,7 @@ export default function AboutPage() {
       <section
         style={{
           background: "#ffffff",
-          padding: "clamp(80px, 10vw, 140px) clamp(24px, 5vw, 80px)",
+          padding: "clamp(56px, 7vw, 96px) clamp(24px, 5vw, 80px)",
         }}
       >
         <div style={{ maxWidth: 1100, margin: "0 auto" }}>
@@ -261,7 +253,7 @@ export default function AboutPage() {
       <section
         style={{
           background: "#f3f2ee",
-          padding: "clamp(80px, 10vw, 140px) clamp(24px, 5vw, 80px)",
+          padding: "clamp(56px, 7vw, 96px) clamp(24px, 5vw, 80px)",
         }}
       >
         <div
@@ -328,12 +320,12 @@ export default function AboutPage() {
       <section
         style={{
           background: "#ffffff",
-          padding: "clamp(80px, 10vw, 140px) clamp(24px, 5vw, 80px)",
+          padding: "clamp(56px, 7vw, 96px) clamp(24px, 5vw, 80px)",
         }}
       >
         <div
           style={{
-            maxWidth: 680,
+            maxWidth: 620,
             margin: "0 auto",
             textAlign: "center",
           }}
@@ -343,7 +335,7 @@ export default function AboutPage() {
               textTransform: "uppercase",
               letterSpacing: "0.32em",
               fontSize: 12,
-              marginBottom: 24,
+              marginBottom: 20,
               color: "#7a776f",
             }}
           >
@@ -352,10 +344,10 @@ export default function AboutPage() {
 
           <h2
             style={{
-              fontSize: "clamp(32px, 4vw, 52px)",
+              fontSize: "clamp(28px, 4vw, 44px)",
               fontWeight: 500,
               letterSpacing: "-0.03em",
-              marginBottom: 24,
+              marginBottom: 20,
             }}
           >
             Where Our Teas Come From
@@ -363,44 +355,27 @@ export default function AboutPage() {
 
           <p
             style={{
-              fontSize: "clamp(16px, 1.8vw, 20px)",
+              fontSize: "clamp(15px, 1.6vw, 18px)",
               lineHeight: 1.75,
               color: "#5f5d58",
-              marginBottom: 48,
+              marginBottom: 32,
             }}
           >
             Each tea in our collection carries the spirit of its origin — from
             the misty cliffs of Wuyi Mountain to the ancient forests of Yunnan.
           </p>
 
-          <div
+          <p
             style={{
-              display: "flex",
-              flexWrap: "wrap",
-              justifyContent: "center",
-              gap: 12,
+              fontSize: 13,
+              letterSpacing: "0.14em",
+              textTransform: "uppercase",
+              color: "#8a8883",
+              marginTop: 24,
             }}
           >
-            {["Yunnan", "Fujian", "Zhejiang", "Guangdong", "Taiwan"].map((region) => (
-              <span
-                key={region}
-                className="region-pill"
-                style={{
-                  padding: "12px 28px",
-                  borderRadius: 999,
-                  border: "1px solid #d8d6cf",
-                  fontSize: 13,
-                  letterSpacing: "0.14em",
-                  textTransform: "uppercase",
-                  color: "#5f5d58",
-                  background: "#f6f5f2",
-                  cursor: "default",
-                }}
-              >
-                {region}
-              </span>
-            ))}
-          </div>
+            Yunnan · Fujian · Zhejiang · Guangdong · Taiwan
+          </p>
         </div>
       </section>
 
