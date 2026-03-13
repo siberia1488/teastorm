@@ -74,6 +74,7 @@ export default function HomePage() {
               display: "grid",
               gridTemplateColumns: "repeat(auto-fit, minmax(260px, 1fr))",
               gap: "clamp(24px, 4vw, 48px)",
+              alignItems: "stretch",
             }}
           >
             {products.slice(0, 4).map((tea) => (
@@ -84,6 +85,8 @@ export default function HomePage() {
                   borderRadius: 24,
                   padding: "clamp(20px, 3vw, 32px)",
                   textAlign: "center",
+                  display: "flex",
+                  flexDirection: "column",
                 }}
               >
                 <div style={{ height: "clamp(200px, 25vw, 280px)", borderRadius: 18, marginBottom: "clamp(18px, 3vw, 28px)", position: "relative", overflow: "hidden", width: "100%" }}>
@@ -108,17 +111,16 @@ export default function HomePage() {
                   {tea.title}
                 </h3>
 
-                {tea.subtitle && (
-                  <p
-                    style={{
-                      fontSize: 14,
-                      color: "#8a8883",
-                      marginBottom: 10,
-                    }}
-                  >
-                    {tea.subtitle}
-                  </p>
-                )}
+                <p
+                  style={{
+                    fontSize: 14,
+                    color: "#8a8883",
+                    marginBottom: 10,
+                    minHeight: "21px",
+                  }}
+                >
+                  {tea.subtitle ?? ""}
+                </p>
 
                 <p
                   style={{
@@ -140,22 +142,24 @@ export default function HomePage() {
                   ) : null
                 })()}
 
-                <Link
-                  href={`/product/${tea.slug}`}
-                  style={{
-                    display: "inline-block",
-                    padding: "12px 28px",
-                    borderRadius: 999,
-                    border: "1px solid #1a1a1a",
-                    color: "#1a1a1a",
-                    textDecoration: "none",
-                    fontSize: 13,
-                    letterSpacing: "0.18em",
-                    textTransform: "uppercase",
-                  }}
-                >
-                  View Tea
-                </Link>
+                <div style={{ marginTop: "auto", paddingTop: "clamp(16px, 2vw, 24px)" }}>
+                  <Link
+                    href={`/product/${tea.slug}`}
+                    style={{
+                      display: "inline-block",
+                      padding: "12px 28px",
+                      borderRadius: 999,
+                      border: "1px solid #1a1a1a",
+                      color: "#1a1a1a",
+                      textDecoration: "none",
+                      fontSize: 13,
+                      letterSpacing: "0.18em",
+                      textTransform: "uppercase",
+                    }}
+                  >
+                    View Tea
+                  </Link>
+                </div>
               </div>
             ))}
           </div>
