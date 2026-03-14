@@ -17,56 +17,106 @@ export default function AboutPage() {
           "radial-gradient(1200px 600px at 50% -100px, #ffffff 0%, #f3f2ee 55%, #ebe9e4 100%)",
       }}
     >
-      {/* Hero */}
+      {/* ── HERO ── */}
       <section
         style={{
-          padding: "clamp(60px, 8vw, 96px) clamp(24px, 5vw, 80px)",
-          maxWidth: 900,
+          padding: "clamp(64px, 8vw, 96px) clamp(24px, 5vw, 80px)",
+          maxWidth: 1200,
           margin: "0 auto",
-          textAlign: "center",
         }}
       >
-        <p
+        <div
           style={{
-            textTransform: "uppercase",
-            letterSpacing: "0.32em",
-            fontSize: 12,
-            marginBottom: 24,
-            color: "#7a776f",
+            display: "grid",
+            gridTemplateColumns: "repeat(auto-fit, minmax(min(100%, 420px), 1fr))",
+            gap: "clamp(40px, 6vw, 80px)",
+            alignItems: "center",
           }}
         >
-          Our Story
-        </p>
+          {/* Left: text */}
+          <div>
+            <p
+              style={{
+                textTransform: "uppercase",
+                letterSpacing: "0.32em",
+                fontSize: 12,
+                marginBottom: 24,
+                color: "#7a776f",
+              }}
+            >
+              Our Story
+            </p>
 
-        <h1
-          style={{
-            fontSize: "clamp(40px, 6vw, 72px)",
-            fontWeight: 500,
-            letterSpacing: "-0.04em",
-            marginBottom: 32,
-            lineHeight: 1.1,
-          }}
-        >
-          Tea, Elevated.
-        </h1>
+            <h1
+              style={{
+                fontSize: "clamp(44px, 6vw, 72px)",
+                fontWeight: 500,
+                letterSpacing: "-0.04em",
+                marginBottom: 24,
+                lineHeight: 1.05,
+              }}
+            >
+              Tea, Elevated.
+            </h1>
 
-        <p
-          style={{
-            fontSize: "clamp(18px, 2vw, 22px)",
-            lineHeight: 1.7,
-            color: "#5f5d58",
-            maxWidth: 680,
-            margin: "0 auto",
-          }}
-        >
-          TeaStorm was born from a simple belief: that exceptional tea can transform
-          everyday moments into something extraordinary. We source rare loose-leaf
-          teas directly from China&apos;s most legendary growing regions, bringing
-          centuries of craft and terroir to your cup.
-        </p>
+            <p
+              style={{
+                fontSize: "clamp(17px, 1.8vw, 20px)",
+                lineHeight: 1.7,
+                color: "#5f5d58",
+                marginBottom: 16,
+                maxWidth: 460,
+              }}
+            >
+              Exceptional tea transforms everyday moments.
+            </p>
+
+            <p
+              style={{
+                fontSize: "clamp(14px, 1.4vw, 16px)",
+                lineHeight: 1.8,
+                color: "#8a8883",
+                maxWidth: 440,
+                marginBottom: 36,
+              }}
+            >
+              We source rare loose-leaf teas directly from legendary Chinese
+              growing regions, bringing centuries of craft and terroir into
+              every cup.
+            </p>
+
+            {/* Trust metrics */}
+            <p
+              style={{
+                fontSize: 13,
+                letterSpacing: "0.18em",
+                textTransform: "uppercase",
+                color: "#6b6b65",
+                marginTop: 28,
+                lineHeight: 2,
+              }}
+            >
+              14 curated teas · 5 legendary regions · direct producer partnerships
+            </p>
+          </div>
+
+          {/* Right: image */}
+          <div className="relative" style={{ justifySelf: "end" }}>
+            <div className="aspect-4/5 w-full max-w-105 overflow-hidden rounded-2xl" style={{ boxShadow: "0 8px 32px rgba(0,0,0,0.12)" }}>
+              <Image
+                src="/images/about/hero.jpeg"
+                alt="Tea farmer harvesting leaves in Fujian mountains"
+                width={420}
+                height={520}
+                priority
+                className="h-full w-full object-cover transition duration-700 hover:scale-[1.02]"
+              />
+            </div>
+          </div>
+        </div>
       </section>
 
-      {/* Fujian Mountains cinematic section */}
+      {/* ── FUJIAN MOUNTAINS CINEMATIC ── */}
       <section style={{ padding: "0 clamp(24px, 5vw, 80px)" }}>
         <div className="max-w-6xl mx-auto mt-24 relative rounded-3xl overflow-hidden">
           <div className="aspect-video w-full rounded-3xl overflow-hidden relative">
@@ -88,10 +138,11 @@ export default function AboutPage() {
         </div>
       </section>
 
-      {/* Values */}
+      {/* ── VALUES ── */}
       <section
         style={{
           background: "#ffffff",
+          borderTop: "1px solid #e8e6e1",
           padding: "clamp(80px, 10vw, 140px) clamp(24px, 5vw, 80px)",
         }}
       >
@@ -184,16 +235,17 @@ export default function AboutPage() {
         </div>
       </section>
 
-      {/* Origins */}
+      {/* ── REGIONS ── */}
       <section
         style={{
           background: "#f3f2ee",
-          padding: "clamp(80px, 10vw, 140px) clamp(24px, 5vw, 80px)",
+          borderTop: "1px solid #e0ddd7",
+          padding: "clamp(56px, 7vw, 96px) clamp(24px, 5vw, 80px)",
         }}
       >
         <div
           style={{
-            maxWidth: 900,
+            maxWidth: 620,
             margin: "0 auto",
             textAlign: "center",
           }}
@@ -203,7 +255,7 @@ export default function AboutPage() {
               textTransform: "uppercase",
               letterSpacing: "0.32em",
               fontSize: 12,
-              marginBottom: 24,
+              marginBottom: 20,
               color: "#7a776f",
             }}
           >
@@ -212,10 +264,10 @@ export default function AboutPage() {
 
           <h2
             style={{
-              fontSize: "clamp(32px, 4vw, 52px)",
+              fontSize: "clamp(28px, 4vw, 44px)",
               fontWeight: 500,
               letterSpacing: "-0.03em",
-              marginBottom: 32,
+              marginBottom: 20,
             }}
           >
             Where Our Teas Come From
@@ -223,47 +275,31 @@ export default function AboutPage() {
 
           <p
             style={{
-              fontSize: "clamp(16px, 1.8vw, 20px)",
+              fontSize: "clamp(15px, 1.6vw, 18px)",
               lineHeight: 1.75,
               color: "#5f5d58",
-              marginBottom: 48,
+              marginBottom: 32,
             }}
           >
-            From the misty peaks of Wuyi Mountain to the ancient forests of Yunnan,
-            each tea in our collection tells the story of its terroir. We partner
-            with gardens that practice sustainable cultivation and honor traditional
-            processing methods passed down through generations.
+            Each tea in our collection carries the spirit of its origin — from
+            the misty cliffs of Wuyi Mountain to the ancient forests of Yunnan.
           </p>
 
-          <div
+          <p
             style={{
-              display: "flex",
-              flexWrap: "wrap",
-              justifyContent: "center",
-              gap: 16,
+              fontSize: 13,
+              letterSpacing: "0.14em",
+              textTransform: "uppercase",
+              color: "#8a8883",
+              marginTop: 24,
             }}
           >
-            {["Yunnan", "Fujian", "Zhejiang", "Guangdong", "Taiwan"].map((region) => (
-              <span
-                key={region}
-                style={{
-                  padding: "12px 28px",
-                  borderRadius: 999,
-                  border: "1px solid #d8d6cf",
-                  fontSize: 14,
-                  letterSpacing: "0.12em",
-                  textTransform: "uppercase",
-                  color: "#5f5d58",
-                }}
-              >
-                {region}
-              </span>
-            ))}
-          </div>
+            Yunnan · Fujian · Zhejiang · Guangdong · Taiwan
+          </p>
         </div>
       </section>
 
-      {/* CTA */}
+      {/* ── CTA ── */}
       <section
         style={{
           background: "#1a1a1a",
@@ -273,7 +309,7 @@ export default function AboutPage() {
       >
         <h2
           style={{
-            fontSize: "clamp(28px, 4vw, 44px)",
+            fontSize: "clamp(28px, 4vw, 52px)",
             fontWeight: 500,
             letterSpacing: "-0.03em",
             marginBottom: 24,
@@ -288,13 +324,12 @@ export default function AboutPage() {
             fontSize: "clamp(16px, 1.8vw, 20px)",
             lineHeight: 1.7,
             color: "#a7a69f",
-            marginBottom: 40,
-            maxWidth: 540,
-            margin: "0 auto 40px",
+            maxWidth: 480,
+            margin: "0 auto 48px",
           }}
         >
-          Browse our curated collection of rare Chinese teas and find your new daily
-          ritual.
+          Browse our curated collection of rare Chinese teas and discover your
+          daily ritual.
         </p>
 
         <Link
