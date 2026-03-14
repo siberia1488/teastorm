@@ -1,4 +1,5 @@
 import Link from "next/link"
+import Image from "next/image"
 import type { Metadata } from "next"
 
 export const metadata: Metadata = {
@@ -19,7 +20,7 @@ export default function AboutPage() {
       {/* Hero */}
       <section
         style={{
-          padding: "clamp(80px, 10vw, 140px) clamp(24px, 5vw, 80px)",
+          padding: "clamp(60px, 8vw, 96px) clamp(24px, 5vw, 80px)",
           maxWidth: 900,
           margin: "0 auto",
           textAlign: "center",
@@ -63,6 +64,28 @@ export default function AboutPage() {
           teas directly from China&apos;s most legendary growing regions, bringing
           centuries of craft and terroir to your cup.
         </p>
+      </section>
+
+      {/* Fujian Mountains cinematic section */}
+      <section style={{ padding: "0 clamp(24px, 5vw, 80px)" }}>
+        <div className="max-w-6xl mx-auto mt-24 relative rounded-3xl overflow-hidden">
+          <div className="aspect-video w-full rounded-3xl overflow-hidden relative">
+            <Image
+              src="/images/about/fujian-tea.jpeg"
+              alt="Tea terraces in Fujian mountains at sunrise"
+              width={1600}
+              height={900}
+              className="w-full h-full object-cover"
+              priority
+            />
+            <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-black/10 to-transparent" />
+            <div className="absolute bottom-12 left-12 max-w-md text-white">
+              <p className="text-3xl font-semibold mb-1">Fujian Mountains</p>
+              <p className="text-lg text-white/80 mb-2">Where our tea begins</p>
+              <p className="text-white/70">Hand-harvested leaves from misty mountain gardens cultivated using centuries-old traditions.</p>
+            </div>
+          </div>
+        </div>
       </section>
 
       {/* Values */}
@@ -129,10 +152,11 @@ export default function AboutPage() {
             ].map((value) => (
               <div
                 key={value.title}
+                className="transition-all duration-300 hover:shadow-xl"
                 style={{
                   background: "#f6f5f2",
                   borderRadius: 28,
-                  padding: "clamp(32px, 4vw, 48px)",
+                  padding: "clamp(40px, 4vw, 56px)",
                 }}
               >
                 <h3
@@ -275,6 +299,7 @@ export default function AboutPage() {
 
         <Link
           href="/shop"
+          className="transition hover:opacity-90"
           style={{
             display: "inline-block",
             padding: "20px 56px",
