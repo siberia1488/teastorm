@@ -1,4 +1,5 @@
 import { notFound, redirect } from "next/navigation";
+import type { OrderStatusLog } from "@prisma/client";
 import {
   getAdminOrderById,
   getAdminOrderStatusLog,
@@ -164,7 +165,7 @@ export default async function AdminOrderDetailsPage({
           </p>
         ) : (
           <ul className="space-y-2 text-sm">
-            {statusLog.map((log) => (
+            {statusLog.map((log: OrderStatusLog) => (
               <li
                 key={log.id}
                 className="flex justify-between border-b pb-1"
