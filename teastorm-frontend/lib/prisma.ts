@@ -21,6 +21,5 @@ export const prisma =
     log: ["error"],
   });
 
-if (process.env.NODE_ENV !== "production") {
-  globalForPrisma.prisma = prisma;
-}
+// Always cache on global to prevent multiple clients across module re-evaluations
+globalForPrisma.prisma = prisma;

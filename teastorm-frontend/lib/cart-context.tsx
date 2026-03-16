@@ -6,6 +6,7 @@ import {
   useState,
   useEffect,
   useRef,
+  useCallback,
   type ReactNode,
   useMemo,
 } from "react"
@@ -82,7 +83,7 @@ export function CartProvider({ children }: { children: ReactNode }) {
     }
   }, [items])
 
-  const addItem = (newItem: CartItem) => {
+  const addItem = useCallback((newItem: CartItem) => {
     setItems((prev) => {
       const existing = prev.find((i) => i.variantId === newItem.variantId)
 
@@ -96,13 +97,13 @@ export function CartProvider({ children }: { children: ReactNode }) {
 
       return [...prev, newItem]
     })
-  }
+  }, [])
 
-  const removeItem = (variantId: string) => {
+  const removeItem = useCallback((variantId: string) => {
     setItems((prev) => prev.filter((i) => i.variantId !== variantId))
-  }
+  }, [])
 
-  const updateQuantity = (variantId: string, qty: number) => {
+  const updateQuantity = useCallback((variantId: string, qty: number) => {
     setItems((prev) =>
       prev
         .map((item) =>
@@ -112,14 +113,14 @@ export function CartProvider({ children }: { children: ReactNode }) {
         )
         .filter((i) => i.quantity > 0)
     )
-  }
+  }, [])
 
-  const clear = () => {
+  const clear = useCallback(() => {
     setItems([])
     if (typeof window !== "undefined") {
       localStorage.removeItem(STORAGE_KEY)
     }
-  }
+  }, [])
 
   const subtotal = useMemo(() => {
     return items.reduce(
