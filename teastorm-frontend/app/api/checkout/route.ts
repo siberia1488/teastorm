@@ -3,6 +3,7 @@ import Stripe from "stripe"
 import { prisma } from "@/lib/prisma"
 import { getServerSession } from "next-auth"
 import { authOptions } from "@/lib/auth"
+import { rateLimit } from "@/lib/rate-limit"
 
 // Validate required env vars at module load
 const STRIPE_SECRET_KEY = process.env.STRIPE_SECRET_KEY
@@ -38,6 +39,15 @@ type CartItem = {
 }
 
 export async function POST(req: Request) {
+  // Rate limit: max 10 checkout attempts per IP per minute
+  const limit = rateLimit(req, { limit: 10, windowMs: 60_000 })
+  if (!limit.allowed) {
+    return NextResponse.json(
+      { error: "Too many requests. Please wait a moment and try again." },
+      { status: 429 }
+    )
+  }
+
   try {
     // Validate env configuration
     if (!stripe || !STRIPE_SECRET_KEY) {

@@ -1,0 +1,33 @@
+# Build output — regenerated inside Docker
+.next/
+out/
+
+# Dependencies — reinstalled inside Docker
+node_modules/
+
+# Git history — not needed in image
+.git/
+.gitignore
+
+# All env files — secrets must be injected at runtime, not baked in
+.env
+.env.*
+!.env.production.example
+
+# Docker files — don't copy into themselves
+Dockerfile
+docker-compose.yml
+.dockerignore
+
+# Dev / editor artifacts
+.DS_Store
+*.log
+.idea/
+.vscode/
+
+# CI
+.github/
+
+# Documentation
+DEPLOYMENT.md
+README.md

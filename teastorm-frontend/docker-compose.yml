@@ -1,0 +1,40 @@
+version: "3.9"
+
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: teastorm_app
+    restart: always
+    # Load production secrets from .env.production (never commit this file)
+    env_file:
+      - .env.production
+    ports:
+      - "3000:3000"
+    healthcheck:
+      test: ["CMD", "wget", "-qO-", "http://localhost:3000/api/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 20s
+
+  # ---------------------------------------------------------------------------
+  # Optional: local PostgreSQL (commented out — Supabase is used in production)
+  # Uncomment only for a fully self-hosted setup where you manage your own DB.
+  # ---------------------------------------------------------------------------
+  # db:
+  #   image: postgres:16-alpine
+  #   container_name: teastorm_db
+  #   restart: always
+  #   environment:
+  #     POSTGRES_DB: teastorm
+  #     POSTGRES_USER: postgres
+  #     POSTGRES_PASSWORD: changeme
+  #   volumes:
+  #     - postgres_data:/var/lib/postgresql/data
+  #   ports:
+  #     - "5432:5432"
+
+# volumes:
+#   postgres_data:
